@@ -1,20 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-item slot="start">
+      <ion-text>
+        <h1>Ingresar</h1>
+      </ion-text>
+    </ion-item>
+
+      <ion-card-content>
+        <form class="form">
+          <ion-item lines="full">
+            <ion-label position="floating">Correo</ion-label>
+            <ion-input [clearInput]="true" type="email" ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating"> Contraseña</ion-label>
+            <ion-input type="password" value="password"></ion-input>
+          </ion-item>
+
+          <ion-row>
+            <ion-col>
+              <ion-button shape="round" class="btn-login" expand="block">Ingresar</ion-button>
+            </ion-col>
+          </ion-row>
+
+        </form>
+
+        <ion-row>
+          <ion-col>
+            <ion-label color="white" >Soy un nuevo usuario.</ion-label>
+          </ion-col>
+          <ion-col class="lbl-registrar">
+            <ion-label color="primary" >Registrarse</ion-label>
+          </ion-col>
+        </ion-row>
+
+      </ion-card-content>
   </div>
 </ion-content>
+

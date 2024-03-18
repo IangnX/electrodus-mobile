@@ -24,3 +24,51 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+
+
+//#3d3852;
+.md body {
+  --ion-background-color: #3d3852;
+  --ion-background-color-rgb: 18, 18, 18;
+
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-border-color: #3d3852;
+
+  --ion-color-primary: #059eb5;
+
+
+  --ion-color-step-50: #3d3852;
+  --ion-color-step-100: #3d3852;
+  --ion-color-step-150: #3d3852;
+  --ion-color-step-200: #3d3852;
+  --ion-color-step-250: #3d3852;
+  --ion-color-step-300: #595959;
+  --ion-color-step-350: #656565;
+  --ion-color-step-400: #717171;
+  --ion-color-step-450: #7d7d7d;
+  --ion-color-step-500: #898989;
+  --ion-color-step-550: #949494;
+  --ion-color-step-600: #a0a0a0;
+  --ion-color-step-650: #acacac;
+  --ion-color-step-700: #b8b8b8;
+  --ion-color-step-750: #c4c4c4;
+  --ion-color-step-800: #d0d0d0;
+  --ion-color-step-850: #dbdbdb;
+  --ion-color-step-900: #e7e7e7;
+  --ion-color-step-950: #f3f3f3;
+
+  --ion-item-background: #3d3852;
+
+  --ion-toolbar-background: #3d3852;
+
+  --ion-tab-bar-background: #3d3852;
+
+  --ion-card-background: #1e1e1e;
+}
+
+ion-item {
+  --transition: none;
+}
