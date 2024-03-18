@@ -3,13 +3,13 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, Ion
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: 'login.page.html',
+  styleUrls: ['login.page.scss'],
   standalone: true,
   imports: [ IonContent, IonCard, IonButton, IonCardContent ,
      IonCardTitle, IonInput, IonItem, IonLabel, IonIcon,IonText,
     IonCol,IonRow, IonCardContent],
 })
-export class HomePage {
+export class LoginPage {
   constructor() {}
 }
