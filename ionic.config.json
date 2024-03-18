@@ -1,0 +1,7 @@
+{
+  "name": "electrodus-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
