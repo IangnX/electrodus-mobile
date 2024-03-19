@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, IonButton, IonFooter, IonCardContent, IonLabel, IonInput, IonItem, IonIcon, IonText, IonCol, IonRow } from '@ionic/angular/standalone';
 
 @Component({
@@ -11,5 +12,11 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardTitle, Ion
     IonCol,IonRow, IonCardContent],
 })
 export class LoginPage {
-  constructor() {}
+  constructor(private router: Router) {}
+
+
+  goToRegistry(){
+    this.router.navigate(['/crear-cuenta'])
+  }
+
 }
