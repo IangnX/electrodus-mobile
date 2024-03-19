@@ -1,22 +1,36 @@
 <ion-content [fullscreen]="true" scrollY="true">
   <div id="container">
-    <ion-item slot="start">
-      <ion-text>
-        <h1>Ingresar</h1>
-      </ion-text>
-    </ion-item>
+    <ion-card-header>
+      <ion-card-title>
+          <ion-text>
+            <h1>Ingresar</h1>
+          </ion-text>
+      </ion-card-title>
+    </ion-card-header>
 
       <ion-card-content>
-        <form class="form">
+        <form class="form" [formGroup]="form" (click)="login()">
           <ion-item lines="full">
             <ion-label position="floating">Correo</ion-label>
-            <ion-input [clearInput]="true" type="email" ></ion-input>
+            <ion-input formControlName="email" type="email" [clearInput]="true" required></ion-input>
           </ion-item>
+          <div *ngIf="validFieldPattern('email')">
+            <ion-label >* Formato de email invalido</ion-label>
+          </div>
+          <span *ngIf="validFieldRequired('email')">
+            <ion-label>* Campo obligatorio</ion-label>
+          </span>
 
           <ion-item>
-            <ion-label position="floating"> Contraseña</ion-label>
-            <ion-input type="password"></ion-input>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" type="password" required></ion-input>
           </ion-item>
+          <span *ngIf="validFieldRequired('password')">
+            <ion-label>* Campo obligatorio</ion-label>
+          </span>
+          <span *ngIf="validFieldMinLength('password')">
+            <ion-label>* El minimo de caracteres es 8</ion-label>
+          </span>
 
           <ion-row>
             <ion-col>
