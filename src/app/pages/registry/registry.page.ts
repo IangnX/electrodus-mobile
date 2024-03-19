@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { IonCard } from '@ionic/angular/standalone';
 import { UserSave } from 'src/app/interfaces/userSave';
 import { AuthService } from 'src/app/services/auth.service';
+import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
+import { ApiError } from 'src/app/interfaces/apiError';
 
 @Component({
   selector: 'app-registry',
@@ -20,7 +22,8 @@ export class RegistryPage {
 
   constructor(private formBuilder: FormBuilder ,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private toastController: ToastController) { }
 
   form = this.formBuilder.group({
     name: ['xiangn',[Validators.required, Validators.minLength(4)]],
@@ -70,7 +73,13 @@ export class RegistryPage {
       return;
     }
     const userSave = this.formToUser()
-    this.authService.saveUser(userSave).subscribe( (resp:any) => console.log(resp))
+    this.authService.saveUser(userSave).subscribe( (resp:ResponseApiMessage) => {
+      this.presentToast(resp.message,5000,'bottom')
+      this.goToLogin()
+    },
+    error => {
+      this.presentToast(error.error.message,5000,'bottom')
+    })
 
   }
 
@@ -82,6 +91,17 @@ export class RegistryPage {
       password: this.form.get('password')?.value || '',
       dni: this.form.get('dni')?.value || ''
     }
+  }
+
+  async presentToast(message:string,duration:number, position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: duration,
+      cssClass: 'custom-toast',
+      position: position,
+    });
+
+    await toast.present();
   }
 
 }

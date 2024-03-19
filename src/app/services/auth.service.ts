@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UserSave } from '../interfaces/userSave';
 import { Observable } from 'rxjs';
+import { ResponseApiMessage } from '../interfaces/responseApiMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  saveUser(user:UserSave):Observable<any>{
-    return this.http.post<any>(this.URLBACK + '/users',user,{headers: this.headers})
+  saveUser(user:UserSave):Observable<ResponseApiMessage>{
+    return this.http.post<ResponseApiMessage>(this.URLBACK + '/users',user,{headers: this.headers})
   }
 }
