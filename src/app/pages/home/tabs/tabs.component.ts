@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { addIcons } from 'ionicons'; // Import this
-import { cameraOutline } from 'ionicons/icons';
+import { settingsOutline, fitnessOutline, homeOutline} from 'ionicons/icons';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 
 
@@ -14,7 +14,7 @@ import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standa
 export class TabsComponent  implements OnInit {
 
   constructor() {
-    addIcons({ cameraOutline });
+    addIcons({ settingsOutline, fitnessOutline, homeOutline });
   }
 
   ngOnInit() {}
