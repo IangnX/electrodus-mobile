@@ -32,7 +32,7 @@ export class RegistryPage {
                            Validators.maxLength(50)
                           ]
                       ],
-    dni: ['', [Validators.required,Validators.minLength(8)], Validators.pattern("^[0-9]+$"),]
+    dni: ['', [Validators.required,Validators.minLength(8)]]
   });
 
 

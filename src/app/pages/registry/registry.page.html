@@ -13,7 +13,9 @@
         <form class="form" [formGroup]="form" (ngSubmit)="registry()">
           <ion-item lines="full">
             <ion-label position="floating">Nombre</ion-label>
-            <ion-input formControlName="name" [clearInput]="true" required></ion-input>
+            <ion-input formControlName="name" [clearInput]="true" required>
+              <ion-icon name="person" slot="start"></ion-icon>
+            </ion-input>
           </ion-item>
           <span *ngIf="validFieldRequired('name')">
             <ion-label>* Campo obligatorio</ion-label>
@@ -35,11 +37,9 @@
 
           <ion-item lines="full">
             <ion-label position="floating">Cedula</ion-label>
-            <ion-input formControlName="dni" [clearInput]="true" required></ion-input>
+            <ion-input formControlName="dni" [clearInput]="true" required min="0" type="number"></ion-input>
           </ion-item>
-          <div *ngIf="validFieldPattern('dni')">
-            <ion-label color="danger" >* Solo se permiten números</ion-label>
-          </div>
+
           <span *ngIf="validFieldRequired('dni')">
             <ion-label>* Campo obligatorio</ion-label>
           </span>
@@ -54,7 +54,9 @@
           <div *ngIf="validFieldPattern('email')">
             <ion-label >* Formato de email invalido</ion-label>
           </div>
-
+          <span *ngIf="validFieldRequired('email')">
+            <ion-label>* Campo obligatorio</ion-label>
+          </span>
 
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
