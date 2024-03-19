@@ -44,7 +44,8 @@ export class LoginPage {
       this.form.markAllAsTouched();
       return;
     }
-
+    this.router.navigate(['/home'])
+    /*
     this.authService.login(this.getUserLogin()).subscribe( (resp:LoginResponse) => {
       console.log(resp);
 
@@ -52,6 +53,7 @@ export class LoginPage {
     error => {
       this.presentToast(error.error.apiMessage,5000,'bottom')
     })
+    */
   }
 
   getUserLogin():UserLogin {
