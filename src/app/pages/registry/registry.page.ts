@@ -4,6 +4,8 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { IonCard } from '@ionic/angular/standalone';
+import { UserSave } from 'src/app/interfaces/userSave';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-registry',
@@ -16,23 +18,25 @@ export class RegistryPage {
 
   EMAIL_REGEXP = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  constructor(private formBuilder: FormBuilder ,private router: Router) { }
+  constructor(private formBuilder: FormBuilder ,
+    private router: Router,
+    private authService: AuthService) { }
 
   form = this.formBuilder.group({
-    name: ['',[Validators.required, Validators.minLength(4)]],
-    lastName: ['',[Validators.required, Validators.minLength(4)]],
-    email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
-    password: ['', [Validators.required,
+    name: ['xiangn',[Validators.required, Validators.minLength(4)]],
+    lastName: ['rodriguez',[Validators.required, Validators.minLength(4)]],
+    email: ['x@gmail.com', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
+    password: ['12345678', [Validators.required,
                     Validators.minLength(8),
                     Validators.maxLength(50),
                    ]
               ],
-    confirmPassword: ['', [Validators.required,
+    confirmPassword: ['12345678', [Validators.required,
                            Validators.minLength(8),
                            Validators.maxLength(50)
                           ]
                       ],
-    dni: ['', [Validators.required,Validators.minLength(8)]]
+    dni: ['12345678', [Validators.required,Validators.minLength(8)]]
   });
 
 
@@ -65,7 +69,19 @@ export class RegistryPage {
       this.form.markAllAsTouched();
       return;
     }
+    const userSave = this.formToUser()
+    this.authService.saveUser(userSave).subscribe( (resp:any) => console.log(resp))
+
   }
 
+  formToUser(): UserSave{
+    return {
+      name: this.form.get('name')?.value || '',
+      lastName: this.form.get('lastName')?.value || '',
+      email: this.form.get('email')?.value || '',
+      password: this.form.get('password')?.value || '',
+      dni: this.form.get('dni')?.value || ''
+    }
+  }
 
 }

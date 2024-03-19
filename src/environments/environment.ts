@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  URLBACK : 'http://192.168.1.200:9191', //CUANDO SE USA EL EXTERNAL AL CORRER EL COMANDO
 };
 
 /*
