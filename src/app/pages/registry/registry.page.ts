@@ -26,20 +26,20 @@ export class RegistryPage {
     private toastController: ToastController) { }
 
   form = this.formBuilder.group({
-    name: ['xiangn',[Validators.required, Validators.minLength(4)]],
-    lastName: ['rodriguez',[Validators.required, Validators.minLength(4)]],
-    email: ['x@gmail.com', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
-    password: ['12345678', [Validators.required,
+    name: ['',[Validators.required, Validators.minLength(4)]],
+    lastName: ['',[Validators.required, Validators.minLength(4)]],
+    email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
+    password: ['', [Validators.required,
                     Validators.minLength(8),
                     Validators.maxLength(50),
                    ]
               ],
-    confirmPassword: ['12345678', [Validators.required,
+    confirmPassword: ['', [Validators.required,
                            Validators.minLength(8),
                            Validators.maxLength(50)
                           ]
                       ],
-    dni: ['12345678', [Validators.required,Validators.minLength(8)]]
+    dni: ['', [Validators.required,Validators.minLength(8)]]
   });
 
 

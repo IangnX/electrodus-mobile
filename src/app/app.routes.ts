@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { TabsComponent } from './pages/home/tabs/tabs.component';
+import { SessionGuard } from './guards/session.guard';
 
 export const routes: Routes = [
   {
     path: 'home',
     component: TabsComponent,
-    loadChildren: () => import('./pages/home/home.routes').then( m => m.homeRoutes)
+    loadChildren: () => import('./pages/home/home.routes').then( m => m.homeRoutes),
+    canActivate: [SessionGuard]
   },
   {
     path: 'login',
