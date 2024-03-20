@@ -17,6 +17,11 @@ export const routes: Routes = [
     path: 'crear-cuenta',
     loadComponent: () => import('./pages/registry/registry.page').then( m => m.RegistryPage)
   },
+  //TODO:ESTO DEBO CAMBIARLO A UNA RUTA HIJA
+  {
+    path: 'user-profile',
+    loadComponent: () => import('./pages/home/config/user-profile/user-profile.page').then(m => m.UserProfilePage)
+  },
   {
     path: '**',
     redirectTo: 'home',

@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { IonChip } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { exitOutline, chevronForwardOutline} from 'ionicons/icons';
+import { Router } from '@angular/router';
+import { UserProfilePage } from './user-profile/user-profile.page';
 
 
 
@@ -16,12 +18,18 @@ import { exitOutline, chevronForwardOutline} from 'ionicons/icons';
   imports: [IonicModule, CommonModule, FormsModule, IonChip]
 })
 export class ConfigPage implements OnInit {
+  component = UserProfilePage
 
-  constructor() {
+  constructor(private router: Router) {
     addIcons({ exitOutline, chevronForwardOutline });
   }
 
   ngOnInit() {
+  }
+
+  goToUserProfile() {
+    console.log("asda");
+    this.router.navigate(['user-profile']);
   }
 
 }
