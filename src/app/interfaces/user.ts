@@ -10,6 +10,7 @@ export interface User {
   gender: string,
   email: string,
   dni: string,
+  birthday: string,
   authorities: authorities[]
 }
 
