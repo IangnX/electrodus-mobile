@@ -3,5 +3,10 @@ export interface UserSave {
   lastName: string,
   email: string,
   password: string,
-  dni: string
+  dni: string,
+  birthday: string,
+  phoneNumber: string,
+  state:string,
+  city:string,
+  gender:string,
 }
