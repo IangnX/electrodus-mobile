@@ -7,7 +7,8 @@ import { IonCard } from '@ionic/angular/standalone';
 import { UserSave } from 'src/app/interfaces/userSave';
 import { AuthService } from 'src/app/services/auth.service';
 import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
-import { ApiError } from 'src/app/interfaces/apiError';
+import { addIcons } from 'ionicons'; // Import this
+import { calendarOutline, callOutline, earthOutline, homeOutline, keyOutline, mailOutline, personCircleOutline, personOutline, transgenderOutline} from 'ionicons/icons';
 
 @Component({
   selector: 'app-registry',
@@ -23,7 +24,10 @@ export class RegistryPage {
   constructor(private formBuilder: FormBuilder ,
     private router: Router,
     private authService: AuthService,
-    private toastController: ToastController) { }
+    private toastController: ToastController) {
+      addIcons({ personOutline, personCircleOutline, mailOutline, keyOutline, calendarOutline,
+      transgenderOutline, earthOutline, homeOutline, callOutline });
+    }
 
   form = this.formBuilder.group({
     name: ['',[Validators.required, Validators.minLength(4)]],
