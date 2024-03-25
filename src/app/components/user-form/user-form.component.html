@@ -2,6 +2,30 @@
 <ion-card >
   <ion-card-content>
       <form class="form" [formGroup]="form" (ngSubmit)="registry()">
+
+        <ion-item lines="full">
+          <ion-label  [position]="isRegistry ? 'floating': 'fixed'"><ion-icon name="person-circle-outline"></ion-icon> Cedula</ion-label>
+          <ion-input [readonly]="isRegistry ? false : true" formControlName="dni" [clearInput]="true" required min="0" type="number" [placeholder]="isRegistry ? '' : '24160257'"></ion-input>
+        </ion-item>
+
+        <span *ngIf="validFieldRequired('dni')">
+          <ion-label>* Campo obligatorio</ion-label>
+        </span>
+        <span *ngIf="validFieldMinLength('dni')">
+          <ion-label>* El minimo de caracteres es 8</ion-label>
+        </span>
+
+        <ion-item lines="full">
+          <ion-label [position]="isRegistry ? 'floating': 'fixed'"><ion-icon name="mail-outline"></ion-icon> Correo</ion-label>
+          <ion-input [readonly]="isRegistry ? false : true"  formControlName="email" type="email" [clearInput]="true" [placeholder]="isRegistry ? '' : 'xiangn@gmail.com' "></ion-input>
+        </ion-item>
+        <div *ngIf="validFieldPattern('email')">
+          <ion-label >* Formato de email invalido</ion-label>
+        </div>
+        <span *ngIf="validFieldRequired('email')">
+          <ion-label>* Campo obligatorio</ion-label>
+        </span>
+
         <ion-item lines="full">
           <ion-label position="floating"><ion-icon name="person-outline"></ion-icon> Nombre</ion-label>
           <ion-input formControlName="name" [clearInput]="true" required> </ion-input>
@@ -24,30 +48,7 @@
           <ion-label>* El minimo de caracteres es 4</ion-label>
         </span>
 
-        <ion-item lines="full">
-          <ion-label position="floating"><ion-icon name="person-circle-outline"></ion-icon> Cedula</ion-label>
-          <ion-input formControlName="dni" [clearInput]="true" required min="0" type="number"></ion-input>
-        </ion-item>
-
-        <span *ngIf="validFieldRequired('dni')">
-          <ion-label>* Campo obligatorio</ion-label>
-        </span>
-        <span *ngIf="validFieldMinLength('dni')">
-          <ion-label>* El minimo de caracteres es 8</ion-label>
-        </span>
-
-        <ion-item lines="full">
-          <ion-label position="floating"><ion-icon name="mail-outline"></ion-icon> Correo</ion-label>
-          <ion-input formControlName="email" type="email" [clearInput]="true" required></ion-input>
-        </ion-item>
-        <div *ngIf="validFieldPattern('email')">
-          <ion-label >* Formato de email invalido</ion-label>
-        </div>
-        <span *ngIf="validFieldRequired('email')">
-          <ion-label>* Campo obligatorio</ion-label>
-        </span>
-
-        <ion-item>
+        <ion-item *ngIf="isRegistry">
           <ion-label position="floating"><ion-icon name="key-outline"></ion-icon> Contraseña</ion-label>
           <ion-input formControlName="password" type="password" required></ion-input>
         </ion-item>
@@ -61,7 +62,7 @@
           <ion-label>* Contraseñas no coinciden</ion-label>
         </span>
 
-        <ion-item>
+        <ion-item *ngIf="isRegistry">
           <ion-label position="floating"><ion-icon name="key-outline"></ion-icon> Confirmar Contraseña</ion-label>
           <ion-input formControlName="confirmPassword" type="password" ></ion-input>
         </ion-item>
@@ -98,7 +99,7 @@
 
         <ion-item lines="full">
           <ion-icon name="transgender-outline"></ion-icon>
-          <ion-select label="Genero" (ionChange)="setGender($event)">
+          <ion-select label="Genero" (ionChange)="setGender($event)" [selectedText]="form.get('gender')?.value">
             <ion-select-option value="Masculino">Masculino</ion-select-option>
             <ion-select-option value="Femenino">Femenino</ion-select-option>
             <ion-select-option value="Otro">Otro</ion-select-option>
@@ -110,7 +111,7 @@
 
         <ion-item lines="full">
           <ion-icon name="earth-outline"></ion-icon>
-          <ion-select label="Estado" (ionChange)="changeState($event)">
+          <ion-select label="Estado" (ionChange)="changeState($event)" [selectedText]="form.get('state')?.value">
             <ion-select-option *ngFor="let state of states" [value]="state.state_name">{{ state.state_name}}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -120,7 +121,7 @@
 
         <ion-item lines="full">
           <ion-icon name="home-outline"></ion-icon>
-          <ion-select label="Ciudad" (ionChange)="changeCity($event)">
+          <ion-select label="Ciudad" (ionChange)="changeCity($event)"  [selectedText]="form.get('city')?.value" >
             <ion-select-option *ngFor="let city of cities" [value]="city.city_name">{{ city.city_name}}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -138,7 +139,13 @@
 
         <ion-row>
           <ion-col>
-            <ion-button type="submit" shape="round" class="btn-login" expand="block">Registrarse</ion-button>
+            <ion-button type="submit" shape="round" class="btn-login" expand="block" *ngIf="isRegistry">Registrarse</ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="update()" shape="round" class="btn-login" expand="block" *ngIf="!isRegistry">Actualizar</ion-button>
           </ion-col>
         </ion-row>
       </form>

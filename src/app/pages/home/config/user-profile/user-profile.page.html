@@ -19,78 +19,16 @@
   </ion-grid>
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col size="6">
+      <ion-col size="5">
         <ion-text>{{user.name}} {{user.lastName}}</ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>
 
 
-  <form class="form" [formGroup]="form" (ngSubmit)="update()">
-
-    <ion-item lines="full">
-      <ion-label position="floating">Cedula</ion-label>
-      <ion-input [disabled]="disabledField" formControlName="dni" [clearInput]="true" required min="0" type="number"></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input [disabled]="true" formControlName="email" type="email" [clearInput]="true" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input  [clearInput]="true" formControlName="name" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input  [clearInput]="true" formControlName="lastName" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Telefono</ion-label>
-      <ion-input min="0" type="number" [clearInput]="true" formControlName="phoneNumber" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-
-      <ion-label class="lbl-birthday" position="floating">Fecha de nacimiento</ion-label>
-
-      <ion-datetime-button displayFormat="MMM DD, YYYY"  class="datetime" datetime="datetime" presentation="date" ></ion-datetime-button>
-
-    </ion-item>
-
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime [value]="date" (ionChange)="doSomething($event)"  [showDefaultButtons]="true" id="datetime"></ion-datetime>
-      </ng-template>
-    </ion-modal>
-
-    <ion-item lines="full">
-      <ion-select label="Genero" [placeholder]="user.gender" (ionChange)="handleChange($event)">
-        <ion-select-option value="Masculino">Masculino</ion-select-option>
-        <ion-select-option value="Femenino">Femenino</ion-select-option>
-        <ion-select-option value="Otro">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Ciudad</ion-label>
-      <ion-input  [clearInput]="true" formControlName="city" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Estado</ion-label>
-      <ion-input  [clearInput]="true" formControlName="state" required></ion-input>
-    </ion-item>
-
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" shape="round" class="btn-login" expand="block">Actualizar</ion-button>
-      </ion-col>
-    </ion-row>
-  </form>
+  <app-user-form [isRegistry]="false"
+                  (userChanged)="update($event)"
+  ></app-user-form>
 
 
 </ion-content>

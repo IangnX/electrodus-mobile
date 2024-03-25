@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { SelectChangeEventDetail } from '@ionic/angular/standalone';
 import { UserSave } from 'src/app/interfaces/userSave';
 import { addIcons } from 'ionicons'; // Import this
@@ -9,6 +9,7 @@ import { calendarOutline, callOutline, earthOutline, homeOutline, keyOutline, ma
 import { StatesService } from 'src/app/services/states.service';
 import { Cities, States } from 'src/app/interfaces/address';
 import { DatetimeChangeEventDetail, IonDatetimeCustomEvent, IonSelectCustomEvent } from '@ionic/core';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -19,46 +20,74 @@ import { DatetimeChangeEventDetail, IonDatetimeCustomEvent, IonSelectCustomEvent
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, UserFormComponent]
 })
 export class UserFormComponent  implements OnInit {
+
+  form!: FormGroup;
   states : States[] = []
   cities: Cities[] = []
   citiesSelected = ""
   EMAIL_REGEXP = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   birthDay = ""
   @Output() userChanged: EventEmitter<UserSave> = new EventEmitter<UserSave>();
+  @Input() isRegistry = true;
+  user: any
+
 
   constructor(private formBuilder: FormBuilder ,
-    private statesService: StatesService) {
+    private statesService: StatesService,
+    private cookieService: CookieService) {
     addIcons({ personOutline, personCircleOutline, mailOutline, keyOutline, calendarOutline,
       transgenderOutline, earthOutline, homeOutline, callOutline });
   }
 
   ngOnInit(): void {
     this.statesService.getStates().subscribe((states:States[]) => this.states = states);
+    if (this.isRegistry) {
+      this.buildForm()
+    }else {
+      this.user = JSON.parse(this.cookieService.get('user'));
+      console.log(this.user);
+      this.loadForm()
+    }
   }
 
-  form = this.formBuilder.group({
-    name: ['',[Validators.required, Validators.minLength(4)]],
-    lastName: ['',[Validators.required, Validators.minLength(4)]],
-    email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
-    password: ['', [Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(50),
-                   ]
-              ],
-    confirmPassword: ['', [Validators.required,
-                           Validators.minLength(8),
-                           Validators.maxLength(50)
-                          ]
-                      ],
-    dni: ['', [Validators.required,Validators.minLength(8)],],
-    birthday: ['',[Validators.required]],
-    phoneNumber: ['',[Validators.required]],
-    gender: ['',[Validators.required]],
-    state: ['',[Validators.required]],
-    city: ['',[Validators.required]],
-  });
+  buildForm() {
+    this.form = this.formBuilder.group({
+      name: ['',[Validators.required, Validators.minLength(4)]],
+      lastName: ['',[Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEXP)]],
+      password: ['', [Validators.required,
+                      Validators.minLength(8),
+                      Validators.maxLength(50),
+                     ]
+                ],
+      confirmPassword: ['', [Validators.required,
+                             Validators.minLength(8),
+                             Validators.maxLength(50)
+                            ]
+                        ],
+      dni: ['', [Validators.required,Validators.minLength(8)],],
+      birthday: ['',[Validators.required]],
+      phoneNumber: ['',[Validators.required]],
+      gender: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      city: ['',[Validators.required]],
+    });
+  }
 
 
+  loadForm() {
+    this.form = this.formBuilder.group({
+      name: [this.user.name,[Validators.required, Validators.minLength(4)]],
+      lastName: [this.user.lastName,[Validators.required, Validators.minLength(4)]],
+      email: [this.user.email,],
+      dni: [this.user.dni],
+      phoneNumber: [this.user.phoneNumber, [Validators.required]],
+      birthday: [this.user.birthday,[Validators.required]],
+      gender: [this.user.gender,[Validators.required]],
+      city: [this.user.city,[Validators.required]],
+      state: [this.user.state,[Validators.required]]
+    });
+  }
 
   validFieldRequired(field :string): boolean{
     return this.form.get(field)?.errors?.['required'] && this.form.get(field)?.touched
@@ -74,7 +103,7 @@ export class UserFormComponent  implements OnInit {
   }
 
   validFieldPassword(): boolean{
-    return  this.form.controls.confirmPassword.touched && this.form.value.password != this.form.value.confirmPassword
+    return (this.form.get('confirmPassword')?.touched ?? false)  && this.form.value.password != this.form.value.confirmPassword
              && !this.validFieldMinLength('confirmPassword') && !this.validFieldRequired('confirmPassword')
               && this.form.get('password')?.value !== ''
   }
@@ -93,13 +122,13 @@ export class UserFormComponent  implements OnInit {
       name: this.form.get('name')?.value || '',
       lastName: this.form.get('lastName')?.value || '',
       email: this.form.get('email')?.value || '',
-      password: this.form.get('password')?.value || '',
       dni: this.form.get('dni')?.value || '',
       birthday: this.form.get('birthday')?.value || '',
       phoneNumber: this.form.get('phoneNumber')?.value || '',
       state: this.form.get('state')?.value || '',
       city: this.form.get('city')?.value || '',
       gender: this.form.get('gender')?.value || '',
+      password: this.form.get('password')?.value || '',
     }
   }
 
@@ -120,6 +149,15 @@ export class UserFormComponent  implements OnInit {
 
   changeCity($event: IonSelectCustomEvent<SelectChangeEventDetail<any>>) {
     this.form.get('city')?.setValue($event.detail.value)
+  }
+
+  update() {
+    console.log(this.form);
+    if(this.form.invalid){
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.userChanged.emit(this.formToUser())
   }
 
 }
