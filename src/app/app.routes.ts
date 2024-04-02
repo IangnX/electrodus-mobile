@@ -20,7 +20,8 @@ export const routes: Routes = [
   //TODO:ESTO DEBO CAMBIARLO A UNA RUTA HIJA
   {
     path: 'user-profile',
-    loadComponent: () => import('./pages/home/config/user-profile/user-profile.page').then(m => m.UserProfilePage)
+    loadComponent: () => import('./pages/home/config/user-profile/user-profile.page').then(m => m.UserProfilePage),
+    canActivate: [SessionGuard]
   },
   {
     path: '**',
