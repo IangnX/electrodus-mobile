@@ -71,11 +71,13 @@ export class LoginPage {
 
   validFieldRequired(field :string): boolean{
     return this.form.get(field)?.errors?.['required'] && this.form.get(field)?.touched
+
   }
 
   validFieldMinLength(field :string): boolean{
-    return (this.form.get(field)?.errors?.['minlength']?.actualLength != this.form.get(field)?.errors?.['minlength']?.requiredLength
-    && this.form.get(field)?.touched) || false;
+    return this.form.get(field)?.touched &&
+        (this.form.get(field)?.errors?.['minlength']?.actualLength != this.form.get(field)?.errors?.['minlength']?.requiredLength)
+        || false
   }
 
   async presentToast(message:string,duration:number, position: 'top' | 'middle' | 'bottom') {
