@@ -11,17 +11,31 @@
   <ion-content>
     <ion-card>
       <ion-card-content>
-        <ion-item>
-            <ion-select label="Seleccione el equipo"  placeholder="Seleccione el equipo a reparar" okText="Aceptar" cancelText="Cancelar">
-              <ion-select-option *ngFor="let equipment of equipments" [value]="equipment.id">{{ equipment.type}} {{equipment.brand}} {{equipment.model}}</ion-select-option>
-            </ion-select>
-        </ion-item>
+        <ion-searchbar placeholder="Buscar equipo"
+                      [debounce]="1000"
+                      (ionInput)="searchEquipment($event)"
+                      show-clear-button="always"
+                      [(ngModel)]="equipmentSelectedName">
+        </ion-searchbar>
+        <ion-list *ngIf="searchedEquipment && term !== ''">
+          <ion-item  *ngFor="let equipment of equipments">
+            <ion-thumbnail slot="start" >
+              <img  [src]="equipment.image" />
+            </ion-thumbnail>
+            <ion-label (click)="setEquipment(equipment)"> {{ equipment.type}} {{equipment.brand}} {{equipment.model}}</ion-label>
+          </ion-item>
+        </ion-list>
       </ion-card-content>
     </ion-card>
   </ion-content>
 </div>
 
 <!--
+  <ion-select label="Seleccione el equipo"  placeholder="Seleccione el equipo a reparar" okText="Aceptar" cancelText="Cancelar">
+              <ion-select-option *ngFor="let equipment of equipments" [value]="equipment.id">
+                {{ equipment.type}} {{equipment.brand}} {{equipment.model}}
+              </ion-select-option>
+  </ion-select>
   <ion-list>
       <ion-item>
         <ion-checkbox (ionChange)="checkboxChanged($event)">

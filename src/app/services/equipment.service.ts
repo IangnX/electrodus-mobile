@@ -22,4 +22,8 @@ export class EquipmentService {
   public getEquipments(): Observable<Equipment[]>{
     return this.http.get<Equipment[]>(`${this.URLBACK}/equipment/all`)
   }
+
+  public getEquipmentsByTerm(term:string,pages:number,limit:number): Observable<Equipment[]>{
+    return this.http.get<Equipment[]>(`${this.URLBACK}/equipment?p=${pages}&limit=${limit}&term=${term}`)
+  }
 }
