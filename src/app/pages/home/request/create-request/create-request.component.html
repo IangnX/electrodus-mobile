@@ -1,0 +1,35 @@
+<div class="ion-page">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title color="primary">Crear Solicitud</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="modal.dismiss()">Cancelar</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+            <ion-select label="Seleccione el equipo"  placeholder="Seleccione el equipo a reparar" okText="Aceptar" cancelText="Cancelar">
+              <ion-select-option *ngFor="let equipment of equipments" [value]="equipment.id">{{ equipment.type}} {{equipment.brand}} {{equipment.model}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</div>
+
+<!--
+  <ion-list>
+      <ion-item>
+        <ion-checkbox (ionChange)="checkboxChanged($event)">
+          Override Dismiss<br />
+          <ion-note class="ion-text-wrap"
+            >Toggle the checkbox to allow immediately dismissing the modal without a prompt.</ion-note
+          >
+        </ion-checkbox>
+      </ion-item>
+    </ion-list>
+-->
