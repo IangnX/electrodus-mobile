@@ -67,6 +67,10 @@
   --ion-tab-bar-background: #27273A;
 
   --ion-card-background: #3d3852;
+
+  ion-textarea.custom.md .textarea-bottom .counter {
+    color: var(--ion-color-primary);
+  }
 }
 
 ion-item {

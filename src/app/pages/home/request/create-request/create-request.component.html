@@ -11,39 +11,68 @@
   <ion-content>
     <ion-card>
       <ion-card-content>
-        <ion-searchbar placeholder="Buscar equipo"
-                      [debounce]="1000"
-                      (ionInput)="searchEquipment($event)"
-                      show-clear-button="always"
-                      [(ngModel)]="equipmentSelectedName">
-        </ion-searchbar>
-        <ion-list *ngIf="searchedEquipment && term !== ''">
-          <ion-item  *ngFor="let equipment of equipments">
-            <ion-thumbnail slot="start" >
-              <img  [src]="equipment.image" />
-            </ion-thumbnail>
-            <ion-label (click)="setEquipment(equipment)"> {{ equipment.type}} {{equipment.brand}} {{equipment.model}}</ion-label>
-          </ion-item>
-        </ion-list>
+        <form >
+          <ion-list>
+            <ion-searchbar placeholder="Buscar equipo"
+                        [debounce]="1000"
+                        (ionInput)="searchEquipment($event)"
+                        show-clear-button="always"
+                        [(ngModel)]="equipmentSelectedName">
+          </ion-searchbar>
+          </ion-list>
+
+          <ion-list style="z-index: 1000;" *ngIf="searchedEquipment && term !== ''">
+            <ion-item  *ngFor="let equipment of equipments">
+              <ion-thumbnail slot="start" >
+                <img  [src]="equipment.image" />
+              </ion-thumbnail>
+              <ion-label (click)="setEquipment(equipment)"> {{ equipment.type}} {{equipment.brand}} {{equipment.model}}</ion-label>
+            </ion-item>
+          </ion-list>
+
+          <ion-list >
+            <ion-item >
+              <ion-textarea
+                label="Describa la falla que presenta su equipo"
+                labelPlacement="floating"
+                [counter]="true"
+                maxlength="200"
+                [autoGrow]="true"
+                class="custom"
+              >
+              </ion-textarea>
+            </ion-item>
+          </ion-list>
+
+          <ion-list>
+            <ion-item>
+              <ion-toggle [enableOnOffLabels]="isReparationInAddress" (click)="changePlaceRepair()">
+                <ion-label>¿Reparación a domicilio?</ion-label>
+              </ion-toggle>
+            </ion-item>
+          </ion-list>
+
+          <ion-list *ngIf="isReparationInAddress">
+            <ion-item >
+              <ion-textarea
+                label="Ingrese la dirección de la reparación"
+                labelPlacement="floating"
+                [counter]="true"
+                maxlength="200"
+                [autoGrow]="true"
+                class="custom"
+              >
+              </ion-textarea>
+            </ion-item>
+          </ion-list>
+
+          <ion-row>
+            <ion-col>
+              <ion-button type="submit" shape="round" class="btn-login" expand="block">Enviar Solicitud</ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
       </ion-card-content>
     </ion-card>
   </ion-content>
 </div>
-
-<!--
-  <ion-select label="Seleccione el equipo"  placeholder="Seleccione el equipo a reparar" okText="Aceptar" cancelText="Cancelar">
-              <ion-select-option *ngFor="let equipment of equipments" [value]="equipment.id">
-                {{ equipment.type}} {{equipment.brand}} {{equipment.model}}
-              </ion-select-option>
-  </ion-select>
-  <ion-list>
-      <ion-item>
-        <ion-checkbox (ionChange)="checkboxChanged($event)">
-          Override Dismiss<br />
-          <ion-note class="ion-text-wrap"
-            >Toggle the checkbox to allow immediately dismissing the modal without a prompt.</ion-note
-          >
-        </ion-checkbox>
-      </ion-item>
-    </ion-list>
--->

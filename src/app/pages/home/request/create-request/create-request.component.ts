@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { CheckboxCustomEvent, IonModal, IonicModule } from '@ionic/angular';
-import { IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonHeader, IonItem, IonLabel, IonList, IonSearchbar, IonSelect, IonSelectOption, IonThumbnail, IonTitle, IonToolbar, SearchbarInputEventDetail } from '@ionic/angular/standalone';
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCol, IonContent, IonHeader, IonItem, IonLabel, IonList, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTextarea, IonThumbnail, IonTitle, IonToggle, IonToolbar, SearchbarInputEventDetail } from '@ionic/angular/standalone';
 import { IonSearchbarCustomEvent } from '@ionic/core';
 import { Equipment } from 'src/app/interfaces/equipment';
 import { EquipmentService } from 'src/app/services/equipment.service';
@@ -14,9 +14,10 @@ import { EquipmentService } from 'src/app/services/equipment.service';
   standalone: true,
   imports: [CommonModule,FormsModule ,IonContent,IonItem,IonHeader, IonToolbar, IonTitle,
     IonButtons,IonButton,IonCard,IonCardContent, IonSearchbar,IonList,IonLabel,
-  IonThumbnail]
+  IonThumbnail,IonTextarea,IonToggle, IonRow, IonCol]
 })
 export class CreateRequestComponent  implements OnInit {
+
   @Input() modal!: IonModal;
 
   @Output() dismissChange = new EventEmitter<boolean>();
@@ -25,7 +26,7 @@ export class CreateRequestComponent  implements OnInit {
   searchedEquipment = false
   term: string = ""
   equipmentSelectedName : string = ""
-
+  isReparationInAddress = false
 
 
   constructor(private equipmentService: EquipmentService,
@@ -64,5 +65,10 @@ export class CreateRequestComponent  implements OnInit {
     this.equipmentSelectedName = equipmentSelected.type + " " + equipmentSelected.brand + " " + equipmentSelected.model
     this.form.get('idEquipmentPreliminary')?.setValue(equipmentSelected.id)
   }
+
+  changePlaceRepair() {
+    this.isReparationInAddress = !this.isReparationInAddress
+  }
+
 
 }
