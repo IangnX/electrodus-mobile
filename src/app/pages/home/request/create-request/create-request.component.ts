@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CheckboxCustomEvent, IonModal, IonicModule } from '@ionic/angular';
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCol, IonContent, IonHeader, IonItem, IonLabel, IonList, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTextarea, IonThumbnail, IonTitle, IonToggle, IonToolbar, SearchbarInputEventDetail } from '@ionic/angular/standalone';
 import { IonSearchbarCustomEvent } from '@ionic/core';
@@ -12,11 +12,12 @@ import { EquipmentService } from 'src/app/services/equipment.service';
   templateUrl: './create-request.component.html',
   styleUrls: ['./create-request.component.scss'],
   standalone: true,
-  imports: [CommonModule,FormsModule ,IonContent,IonItem,IonHeader, IonToolbar, IonTitle,
+  imports: [CommonModule,ReactiveFormsModule,FormsModule ,IonContent,IonItem,IonHeader, IonToolbar, IonTitle,
     IonButtons,IonButton,IonCard,IonCardContent, IonSearchbar,IonList,IonLabel,
   IonThumbnail,IonTextarea,IonToggle, IonRow, IonCol]
 })
 export class CreateRequestComponent  implements OnInit {
+
 
   @Input() modal!: IonModal;
 
@@ -25,20 +26,22 @@ export class CreateRequestComponent  implements OnInit {
   equipments: Equipment[] = []
   searchedEquipment = false
   term: string = ""
-  equipmentSelectedName : string = ""
   isReparationInAddress = false
-
+  idEquipmentIsNull = false;
 
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.buildForm()
+  }
 
   buildForm() {
     this.form = this.formBuilder.group({
       idEquipmentPreliminary: ['',[Validators.required]],
       description: ['',[Validators.required]],
-      address: ['',[Validators.required]],
+      equipmentSelectedName: ['',Validators.required],
+      address: ['',],
     });
   }
 
@@ -56,19 +59,38 @@ export class CreateRequestComponent  implements OnInit {
       this.equipmentService.getEquipmentsByTerm(this.term,0,5).subscribe((data:any) => {
         this.equipments = data.content
       })
+    }else{
+      this.form.get('equipmentSelectedName')?.setValue("")
     }
   }
 
   setEquipment(equipmentSelected: Equipment) {
     this.term = ""
     this.searchedEquipment = false
-    this.equipmentSelectedName = equipmentSelected.type + " " + equipmentSelected.brand + " " + equipmentSelected.model
+    this.form.get('equipmentSelectedName')?.setValue(equipmentSelected.type + " " + equipmentSelected.brand + " " + equipmentSelected.model)
     this.form.get('idEquipmentPreliminary')?.setValue(equipmentSelected.id)
   }
 
   changePlaceRepair() {
     this.isReparationInAddress = !this.isReparationInAddress
+    if (this.isReparationInAddress) {
+      this.form.get('address')?.setValidators([Validators.required]);
+      this.form.get('address')?.updateValueAndValidity();
+    }else{
+      this.form.get('address')?.clearValidators(); // 6. Clear All Validators
+      this.form.get('address')?.updateValueAndValidity();
+    }
   }
 
+  create() {
+    if(this.form.invalid || this.idEquipmentIsNull){
+      this.form.markAllAsTouched();
+      return;
+    }
+  }
+
+  validFieldRequired(field :string): boolean{
+    return this.form.get(field)?.errors?.['required'] && this.form.get(field)?.touched
+  }
 
 }

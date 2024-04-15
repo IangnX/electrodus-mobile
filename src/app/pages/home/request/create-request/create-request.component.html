@@ -11,16 +11,19 @@
   <ion-content>
     <ion-card>
       <ion-card-content>
-        <form >
+        <form [formGroup]="form">
           <ion-list>
             <ion-searchbar placeholder="Buscar equipo"
                         [debounce]="1000"
                         (ionInput)="searchEquipment($event)"
                         show-clear-button="always"
-                        [(ngModel)]="equipmentSelectedName">
+                        formControlName="equipmentSelectedName"
+                        >
           </ion-searchbar>
           </ion-list>
-
+          <span *ngIf="validFieldRequired('equipmentSelectedName')">
+            <ion-label style="color: red;">* Campo obligatorio</ion-label>
+          </span>
           <ion-list style="z-index: 1000;" *ngIf="searchedEquipment && term !== ''">
             <ion-item  *ngFor="let equipment of equipments">
               <ion-thumbnail slot="start" >
@@ -39,10 +42,14 @@
                 maxlength="200"
                 [autoGrow]="true"
                 class="custom"
+                formControlName="description"
               >
               </ion-textarea>
             </ion-item>
           </ion-list>
+          <span *ngIf="validFieldRequired('description')">
+            <ion-label style="color: red;">* Campo obligatorio</ion-label>
+          </span>
 
           <ion-list>
             <ion-item>
@@ -61,14 +68,18 @@
                 maxlength="200"
                 [autoGrow]="true"
                 class="custom"
+                formControlName="address"
               >
               </ion-textarea>
             </ion-item>
           </ion-list>
+          <span *ngIf="validFieldRequired('address')">
+            <ion-label style="color: red;">* Campo obligatorio</ion-label>
+          </span>
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" shape="round" class="btn-login" expand="block">Enviar Solicitud</ion-button>
+              <ion-button type="submit" shape="round" class="btn-login" expand="block" (click)="create()">Enviar Solicitud</ion-button>
             </ion-col>
           </ion-row>
         </form>
