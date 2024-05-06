@@ -92,7 +92,8 @@ export class CreateRequestComponent  implements OnInit {
     }
     this.requestService.createRequest(this.generateRequestForm()).subscribe((data:any) => {
       console.log(data);
-
+      this.dismissChange.emit(true);
+      this.modal.dismiss(null, 'confirm');
     })
   }
 
