@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Equipment } from '../interfaces/equipment';
@@ -13,11 +12,10 @@ export class EquipmentService {
   private URLBACK : string =  environment.URLBACK;
 
   headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.coockieService.get('token')}` ,
+    'Authorization': `Bearer ${localStorage.getItem('token')}` ,
   });
 
-  constructor(private http: HttpClient,
-    private coockieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
   public getEquipments(): Observable<Equipment[]>{
     return this.http.get<Equipment[]>(`${this.URLBACK}/equipment/all`)

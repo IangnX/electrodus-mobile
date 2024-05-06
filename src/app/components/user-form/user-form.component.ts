@@ -9,7 +9,6 @@ import { calendarOutline, callOutline, earthOutline, homeOutline, keyOutline, ma
 import { StatesService } from 'src/app/services/states.service';
 import { Cities, States } from 'src/app/interfaces/address';
 import { DatetimeChangeEventDetail, IonDatetimeCustomEvent, IonSelectCustomEvent } from '@ionic/core';
-import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -33,8 +32,7 @@ export class UserFormComponent  implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder ,
-    private statesService: StatesService,
-    private cookieService: CookieService) {
+    private statesService: StatesService) {
     addIcons({ personOutline, personCircleOutline, mailOutline, keyOutline, calendarOutline,
       transgenderOutline, earthOutline, homeOutline, callOutline });
   }
@@ -43,10 +41,15 @@ export class UserFormComponent  implements OnInit {
     this.statesService.getStates().subscribe((states:States[]) => this.states = states);
     if (this.isRegistry) {
       this.buildForm()
-    }else {
-      this.user = JSON.parse(this.cookieService.get('user'));
-      console.log(this.user);
-      this.loadForm()
+    } else {
+      const userString = localStorage.getItem('user');
+      if (userString) {
+        this.user = JSON.parse(userString);
+        console.log(this.user);
+        this.loadForm();
+      } else {
+        console.error('No user found in localStorage');
+      }
     }
   }
 
