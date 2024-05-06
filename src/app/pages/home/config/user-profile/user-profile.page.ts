@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TabsComponent } from '../../tabs/tabs.component';
-import { CookieService } from 'ngx-cookie-service';
 import { User } from 'src/app/interfaces/user';
 import { IonDatetime, IonDatetimeButton, IonModal, SelectChangeEventDetail } from '@ionic/angular/standalone';
 import { DatetimeChangeEventDetail, IonDatetimeCustomEvent, IonSelectCustomEvent } from '@ionic/core';
@@ -26,13 +25,12 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 export class UserProfilePage implements OnInit {
   image: any;
   user: any
-  constructor(private cookieService: CookieService,
-    private userService: UserService,
+  constructor(private userService: UserService,
     private router: Router,
     private toastService: ToastService) { }
 
   ngOnInit() {
-    this.user = JSON.parse(this.cookieService.get('user'));
+    this.user = localStorage.getItem('user');
     console.log(this.user);
 
   }
@@ -47,7 +45,7 @@ export class UserProfilePage implements OnInit {
       this.user.phoneNumber = user.phoneNumber
       this.user.gender = user.gender
       this.user.birthday = user.birthday
-      this.cookieService.set('user', JSON.stringify(this.user));
+      localStorage.setItem('user',JSON.stringify(this.user))
       this.toastService.presentToast(resp.message,3000,'bottom')
       this.router.navigate(['/home/configuration'])
     })
@@ -68,7 +66,7 @@ export class UserProfilePage implements OnInit {
       this.userService.updateImageProfile(formData).subscribe((resp: ResponseApiMessage) => {
         console.log(resp);
         this.user.urlImage = resp.data
-        this.cookieService.set('user', JSON.stringify(this.user));
+        localStorage.setItem('user',JSON.stringify(this.user))
         this.toastService.presentToast(resp.message,3000,'bottom')
 
       },

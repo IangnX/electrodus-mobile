@@ -5,7 +5,9 @@ import { CheckboxCustomEvent, IonModal, IonicModule } from '@ionic/angular';
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCol, IonContent, IonHeader, IonItem, IonLabel, IonList, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTextarea, IonThumbnail, IonTitle, IonToggle, IonToolbar, SearchbarInputEventDetail } from '@ionic/angular/standalone';
 import { IonSearchbarCustomEvent } from '@ionic/core';
 import { Equipment } from 'src/app/interfaces/equipment';
+import { RequestFormSave } from 'src/app/interfaces/requestFormSave';
 import { EquipmentService } from 'src/app/services/equipment.service';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-create-request',
@@ -30,7 +32,8 @@ export class CreateRequestComponent  implements OnInit {
   idEquipmentIsNull = false;
 
   constructor(private equipmentService: EquipmentService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private requestService: RequestService) { }
 
   ngOnInit() {
     this.buildForm()
@@ -87,10 +90,22 @@ export class CreateRequestComponent  implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
+    this.requestService.createRequest(this.generateRequestForm()).subscribe((data:any) => {
+      console.log(data);
+
+    })
   }
 
   validFieldRequired(field :string): boolean{
     return this.form.get(field)?.errors?.['required'] && this.form.get(field)?.touched
+  }
+
+  generateRequestForm(): RequestFormSave {
+    return {
+      idEquipmentPreliminary: this.form.value.idEquipmentPreliminary,
+      description: this.form.value.description,
+      address: this.form.value.address === "" ? 'En el local' : this.form.value.address,
+    }
   }
 
 }
