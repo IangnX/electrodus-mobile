@@ -34,17 +34,17 @@ export class RequestPage implements OnInit {
     this.canDismissOverride = false;
   }
 
-  canDismiss = async () => {
+  canDismiss = async (value:any) => {
     if (this.canDismissOverride) {
       // Checks for the override flag to return early if we can dismiss the overlay immediately
       return true;
     }
 
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure?',
+      header: '¿Seguro que desea salir?',
       buttons: [
         {
-          text: 'Yes',
+          text: 'Si',
           role: 'confirm',
         },
         {
