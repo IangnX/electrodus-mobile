@@ -6,6 +6,7 @@ import { IonButton, IonButtons, IonCard, IonCardContent, IonCol, IonContent, Ion
 import { IonSearchbarCustomEvent } from '@ionic/core';
 import { Equipment } from 'src/app/interfaces/equipment';
 import { RequestFormSave } from 'src/app/interfaces/requestFormSave';
+import { RequestResponse } from 'src/app/interfaces/requestSaved';
 import { EquipmentService } from 'src/app/services/equipment.service';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -24,6 +25,7 @@ export class CreateRequestComponent  implements OnInit {
   @Input() modal!: IonModal;
 
   @Output() dismissChange = new EventEmitter<boolean>();
+  @Output() requestChange = new EventEmitter<RequestResponse>()
   form!: FormGroup;
   equipments: Equipment[] = []
   searchedEquipment = false
@@ -90,8 +92,8 @@ export class CreateRequestComponent  implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    this.requestService.createRequest(this.generateRequestForm()).subscribe((data:any) => {
-      console.log(data);
+    this.requestService.createRequest(this.generateRequestForm()).subscribe((request:RequestResponse) => {
+      this.requestChange.emit(request)
       this.dismissChange.emit(true);
       this.modal.dismiss(null, 'confirm');
     })

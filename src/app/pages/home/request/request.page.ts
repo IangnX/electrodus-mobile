@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular/standalone';
 import { CreateRequestComponent } from './create-request/create-request.component';
+import { RequestResponse } from 'src/app/interfaces/requestSaved';
 
 @Component({
   selector: 'app-request',
@@ -60,5 +61,10 @@ export class RequestPage implements OnInit {
 
     return role === 'confirm';
   };
+
+  updateRequestList(request: RequestResponse) {
+    console.log(request);
+
+  }
 
 }

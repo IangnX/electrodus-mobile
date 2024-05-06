@@ -94,7 +94,10 @@
         (willPresent)="onWillPresent()"
       >
         <ng-template>
-          <app-create-request [modal]="modal" (dismissChange)="onDismissChange($event)"></app-create-request>
+          <app-create-request [modal]="modal"
+                              (dismissChange)="onDismissChange($event)"
+                              (requestChange)="updateRequestList($event)">
+          </app-create-request>
         </ng-template>
       </ion-modal>
       </ion-col>
