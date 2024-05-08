@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular/standalone';
 import { CreateRequestComponent } from './create-request/create-request.component';
-import { RequestResponse } from 'src/app/interfaces/requestSaved';
+import { addIcons } from 'ionicons'; // Import this
+import { eyeOutline, heart, trashBinOutline } from 'ionicons/icons';
+import { RequestPreview } from 'src/app/interfaces/requestPreview';
+
 
 @Component({
   selector: 'app-request',
@@ -19,7 +22,9 @@ export class RequestPage implements OnInit {
 
   private canDismissOverride = false;
 
-  constructor(private actionSheetCtrl: ActionSheetController) { }
+  constructor(private actionSheetCtrl: ActionSheetController) {
+    addIcons({ trashBinOutline, eyeOutline})
+   }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
@@ -62,7 +67,7 @@ export class RequestPage implements OnInit {
     return role === 'confirm';
   };
 
-  updateRequestList(request: RequestResponse) {
+  updateRequestList(request: RequestPreview) {
     console.log(request);
 
   }
