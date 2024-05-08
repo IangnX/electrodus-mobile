@@ -10,6 +10,7 @@ import { RequestPreview } from 'src/app/interfaces/requestPreview';
 import { RequestResponse } from 'src/app/interfaces/requetResponse';
 import { EquipmentService } from 'src/app/services/equipment.service';
 import { RequestService } from 'src/app/services/request.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-create-request',
@@ -36,7 +37,8 @@ export class CreateRequestComponent  implements OnInit {
 
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
-    private requestService: RequestService) { }
+    private requestService: RequestService,
+    private toastService: ToastService) { }
 
   ngOnInit() {
     this.buildForm()
@@ -97,6 +99,7 @@ export class CreateRequestComponent  implements OnInit {
       this.requestChange.emit(true)
       this.dismissChange.emit(true);
       this.modal.dismiss(null, 'confirm');
+      this.toastService.presentToast('Solicitud creada exitosamente!',5000,'bottom')
     })
   }
 
