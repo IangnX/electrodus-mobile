@@ -7,6 +7,8 @@ import { CreateRequestComponent } from './create-request/create-request.componen
 import { addIcons } from 'ionicons'; // Import this
 import { eyeOutline, heart, trashBinOutline } from 'ionicons/icons';
 import { RequestPreview } from 'src/app/interfaces/requestPreview';
+import { RequestService } from 'src/app/services/request.service';
+import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUtil';
 
 
 @Component({
@@ -18,16 +20,20 @@ import { RequestPreview } from 'src/app/interfaces/requestPreview';
 })
 export class RequestPage implements OnInit {
 
+
   presentingElement: Element | null = null;
 
+  requestPreviewList: RequestPreview[] = []
   private canDismissOverride = false;
 
-  constructor(private actionSheetCtrl: ActionSheetController) {
+  constructor(private actionSheetCtrl: ActionSheetController,
+    private requestService: RequestService) {
     addIcons({ trashBinOutline, eyeOutline})
    }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
+    this.getRequestList();
   }
 
   onDismissChange(canDismiss: boolean) {
@@ -67,9 +73,23 @@ export class RequestPage implements OnInit {
     return role === 'confirm';
   };
 
-  updateRequestList(request: RequestPreview) {
-    console.log(request);
+  updateRequestList(request: boolean) {
+    this.getRequestList()
+  }
 
+  getRequestList(): void {
+    this.requestService.getMyRequest().subscribe((requestPreview:any)=> {
+      console.log(requestPreview)
+      this.requestPreviewList = requestPreview.content
+    })
+  }
+
+  getStatus(status: string): string {
+    return getRequestStatus(status)?.toString() ?? 'Error'
+  }
+
+  getStatusColor(status:string): string{
+    return getRequestStatusColor(status)?.toString() ?? 'danger'
   }
 
 }
