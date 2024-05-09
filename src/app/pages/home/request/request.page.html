@@ -6,6 +6,10 @@
 
 
 <ion-content [fullscreen]="true">
+   <!--REFRESHER-->
+   <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card>
     <ion-card-content>
       <ion-list>

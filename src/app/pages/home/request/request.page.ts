@@ -23,6 +23,7 @@ import { RequestPreviewPage } from 'src/app/interfaces/RequestPreviewPage';
 export class RequestPage implements OnInit {
 
 
+
   enableInfiniteScroll = true
   presentingElement: Element | null = null;
 
@@ -100,6 +101,12 @@ export class RequestPage implements OnInit {
 
   getStatusColor(status:string): string{
     return getRequestStatusColor(status)?.toString() ?? 'danger'
+  }
+
+  reload(event: IonRefresherCustomEvent<RefresherEventDetail>) {
+    this.getRequestList(event,true);
+    this.enableInfiniteScroll = true;
+    this.requestPreviewList = [];
   }
 
 
