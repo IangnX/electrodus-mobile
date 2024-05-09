@@ -5,6 +5,7 @@ import { RequestFormSave } from '../interfaces/requestFormSave';
 import { Observable } from 'rxjs';
 import { RequestResponse } from '../interfaces/requetResponse';
 import { RequestPreview } from '../interfaces/requestPreview';
+import { RequestPreviewPage } from '../interfaces/RequestPreviewPage';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { RequestPreview } from '../interfaces/requestPreview';
 export class RequestService {
 
   private URLBACK : string =  environment.URLBACK;
+  page:number=-1;
 
   headers = new HttpHeaders({
     'Authorization': `Bearer ${localStorage.getItem('token')}` ,
@@ -22,8 +24,12 @@ export class RequestService {
     return this.http.post<RequestResponse>(this.URLBACK + '/request/save', request, {headers: this.headers});
   }
 
-  getMyRequest(): Observable<RequestPreview> {
-    return this.http.get<RequestPreview>(this.URLBACK + '/request?p=0&limit=10',{headers: this.headers})
+  getMyRequest(pull:boolean = false): Observable<RequestPreviewPage> {
+    if(pull){
+      this.page = -1
+    }
+    this.page ++;
+    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${this.page}&limit=10'`,{headers: this.headers})
   }
 
 }

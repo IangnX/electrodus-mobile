@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ActionSheetController } from '@ionic/angular/standalone';
+import { ActionSheetController, IonInfiniteScroll, IonInfiniteScrollContent, RefresherEventDetail } from '@ionic/angular/standalone';
 import { CreateRequestComponent } from './create-request/create-request.component';
 import { addIcons } from 'ionicons'; // Import this
 import { eyeOutline, heart, trashBinOutline } from 'ionicons/icons';
 import { RequestPreview } from 'src/app/interfaces/requestPreview';
 import { RequestService } from 'src/app/services/request.service';
 import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUtil';
+import { IonRefresherCustomEvent } from '@ionic/core';
+import { RequestPreviewPage } from 'src/app/interfaces/RequestPreviewPage';
 
 
 @Component({
@@ -21,6 +23,7 @@ import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUt
 export class RequestPage implements OnInit {
 
 
+  enableInfiniteScroll = true
   presentingElement: Element | null = null;
 
   requestPreviewList: RequestPreview[] = []
@@ -29,7 +32,7 @@ export class RequestPage implements OnInit {
   constructor(private actionSheetCtrl: ActionSheetController,
     private requestService: RequestService) {
     addIcons({ trashBinOutline, eyeOutline})
-   }
+  }
 
   ngOnInit() {
     this.presentingElement = document.querySelector('.ion-page');
@@ -77,10 +80,17 @@ export class RequestPage implements OnInit {
     this.getRequestList()
   }
 
-  getRequestList(): void {
-    this.requestService.getMyRequest().subscribe((requestPreview:any)=> {
-      console.log(requestPreview)
-      this.requestPreviewList = requestPreview.content
+  getRequestList(event?: any,pull:boolean  = false): void {
+    this.requestService.getMyRequest(pull).subscribe((RequestPreviewPage:RequestPreviewPage)=> {
+      console.log(RequestPreviewPage)
+
+      this.requestPreviewList.push( ...RequestPreviewPage.content )
+      if(event){
+        event.target.complete();
+        if(RequestPreviewPage.content.length === 0 ){
+          this.enableInfiniteScroll = false;
+        }
+      }
     })
   }
 
@@ -91,5 +101,6 @@ export class RequestPage implements OnInit {
   getStatusColor(status:string): string{
     return getRequestStatusColor(status)?.toString() ?? 'danger'
   }
+
 
 }

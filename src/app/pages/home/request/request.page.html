@@ -4,6 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content>
@@ -38,7 +39,13 @@
     </ion-card-content>
   </ion-card>
 
-
+  <!--INFINITE SCROLL-->
+  <ion-infinite-scroll [disabled]="!enableInfiniteScroll"
+                       threshold="150px"
+                       (ionInfinite)="getRequestList($event)">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
 <ion-footer class="ion-no-border">
