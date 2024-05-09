@@ -33,6 +33,13 @@
     </ion-item>
   </ion-list>
 
+  <ion-alert *ngIf="error"
+    header="Error"
+    [message]="'Ocurrio un error al obtener las solicitudes'"
+    isOpen="true"
+    [buttons]="['Ok']"
+  />
+
   <ion-card *ngIf="!isLoading && requestPreviewList.length > 0">
     <ion-card-content>
       <ion-list>
