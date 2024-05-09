@@ -104,8 +104,6 @@ export class RequestPage implements OnInit {
       })
     )
     .subscribe((RequestPreviewPage:RequestPreviewPage)=> {
-      console.log(RequestPreviewPage)
-
       this.requestPreviewList.push( ...RequestPreviewPage.content )
       if(event){
         event.target.complete();
