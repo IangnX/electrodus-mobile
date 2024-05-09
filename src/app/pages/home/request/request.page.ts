@@ -89,7 +89,7 @@ export class RequestPage implements OnInit {
     this.error = null;
 
     // Only show loading indicator on initial load
-    if (!event) {
+    if (!event || pull) {
       this.isLoading = true;
     }
 
