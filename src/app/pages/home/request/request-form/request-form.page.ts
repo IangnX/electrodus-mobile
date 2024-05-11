@@ -31,7 +31,7 @@ export class RequestFormPage implements OnInit {
   idRequest: number = 0;
   routeSub!: Subscription;
   showModalCancel = false;
-
+  viewMode = false;
   alertButtons = [
     {
       text: 'No',
@@ -47,6 +47,8 @@ export class RequestFormPage implements OnInit {
       handler: () => {
         console.log('Continuar');
         this.showModalCancel = false
+        this.idRequest = 0
+        this.form.reset()
         this.router.navigate(['/request']);
       },
     },
@@ -66,8 +68,11 @@ export class RequestFormPage implements OnInit {
         this.idRequest = params['id']
     })
 
-    if(this.idRequest !== 0){
+    if(this.idRequest && this.idRequest !== 0){
+      this.viewMode = true
       this.getRequestById()
+    }else{
+      this.viewMode = false
     }
   }
   getRequestById() {
@@ -148,7 +153,7 @@ export class RequestFormPage implements OnInit {
     return {
       idEquipmentPreliminary: this.form.value.idEquipmentPreliminary,
       description: this.form.value.description,
-      address: this.form.value.address === "" ? 'En el local' : this.form.value.address,
+      address: !this.form.value.address || this.form.value.address === ""  ? 'En el local' : this.form.value.address,
     }
   }
 

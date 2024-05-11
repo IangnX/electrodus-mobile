@@ -13,13 +13,15 @@
       <ion-card-content>
         <form [formGroup]="form">
           <ion-list>
-            <ion-searchbar placeholder="Busca tu equipo: lavadora, cocina, nevera..."
+            <ion-searchbar *ngIf="!viewMode"
+                        placeholder="Busca tu equipo: lavadora, cocina, nevera..."
                         [debounce]="1000"
                         (ionInput)="searchEquipment($event)"
                         show-clear-button="always"
                         formControlName="equipmentSelectedName"
                         >
           </ion-searchbar>
+          <ion-searchbar *ngIf="viewMode" [disabled]="viewMode" [placeholder]="form.get('equipmentSelectedName')?.value"></ion-searchbar>
           </ion-list>
           <span *ngIf="validFieldRequired('equipmentSelectedName')">
             <ion-label style="color: red;">* Campo obligatorio</ion-label>
@@ -36,13 +38,14 @@
           <ion-list >
             <ion-item >
               <ion-textarea
-                label="Describa la falla que presenta su equipo"
+                label="Descripción la falla que presenta el equipo"
                 labelPlacement="floating"
                 [counter]="true"
                 maxlength="200"
                 [autoGrow]="true"
                 class="custom"
                 formControlName="description"
+                [readonly]="viewMode"
               >
               </ion-textarea>
             </ion-item>
@@ -53,23 +56,24 @@
 
           <ion-list>
             <ion-item>
-              <ion-toggle [enableOnOffLabels]="isReparationInAddress" [checked]="isReparationInAddress" (click)="changePlaceRepair()">
+              <ion-toggle [disabled]="viewMode" [enableOnOffLabels]="isReparationInAddress" [checked]="isReparationInAddress" (click)="changePlaceRepair()">
                 <ion-label>¿Reparación a domicilio?</ion-label>
               </ion-toggle>
             </ion-item>
           </ion-list>
 
-          <ion-list *ngIf="isReparationInAddress">
+          <ion-list *ngIf="isReparationInAddress" >
             <ion-item >
               <ion-textarea
-                label="Ingrese la dirección de la reparación"
+                label="Dirección de la reparación"
                 labelPlacement="floating"
                 [counter]="true"
                 maxlength="200"
                 [autoGrow]="true"
                 class="custom"
                 formControlName="address"
-              >
+                [readonly]="viewMode"
+                >
               </ion-textarea>
             </ion-item>
           </ion-list>
