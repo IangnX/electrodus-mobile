@@ -57,13 +57,34 @@ export class RequestFormPage implements OnInit {
     private requestService: RequestService,
     private toastService: ToastService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+      this.buildForm()
+    }
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params: Params) => {
         this.idRequest = params['id']
     })
-    this.buildForm()
+
+    if(this.idRequest !== 0){
+      this.getRequestById()
+    }
+  }
+  getRequestById() {
+    this.requestService.getRequestById(this.idRequest)
+      .subscribe((request:RequestResponse)=> {
+        console.log(this.form);
+        console.log(request);
+        this.form.setValue({
+          idEquipmentPreliminary: request.idEquipmentPreliminary,
+          description: request.description,
+          equipmentSelectedName: request.equipmentName,
+          address: request.address
+        })
+        if (request.address && request.address !== "") {
+          this.isReparationInAddress = true
+        }
+      })
   }
 
 
@@ -120,7 +141,7 @@ export class RequestFormPage implements OnInit {
   }
 
   validFieldRequired(field :string): boolean{
-    return this.form.get(field)?.errors?.['required'] && this.form.get(field)?.touched
+    return this.form?.get(field)?.errors?.['required'] && this.form.get(field)?.touched
   }
 
   generateRequestForm(): RequestFormSave {

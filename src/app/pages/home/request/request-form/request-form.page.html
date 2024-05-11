@@ -53,7 +53,7 @@
 
           <ion-list>
             <ion-item>
-              <ion-toggle [enableOnOffLabels]="isReparationInAddress" (click)="changePlaceRepair()">
+              <ion-toggle [enableOnOffLabels]="isReparationInAddress" [checked]="isReparationInAddress" (click)="changePlaceRepair()">
                 <ion-label>¿Reparación a domicilio?</ion-label>
               </ion-toggle>
             </ion-item>

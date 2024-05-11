@@ -9,5 +9,6 @@ export interface RequestResponse {
   created_at: string,
   revision_date: string,
   approval_date: string,
-  culmination_date: string
+  culmination_date: string,
+  equipmentName: string
 }
