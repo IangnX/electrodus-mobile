@@ -12,6 +12,7 @@ import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUt
 import { IonRefresherCustomEvent } from '@ionic/core';
 import { RequestPreviewPage } from 'src/app/interfaces/RequestPreviewPage';
 import { catchError, finalize } from 'rxjs';
+import { RequestPreviewComponent } from 'src/app/components/request-preview/request-preview.component';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { catchError, finalize } from 'rxjs';
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CreateRequestComponent]
+  imports: [IonicModule, CommonModule, FormsModule, CreateRequestComponent,RequestPreviewComponent]
 })
 export class RequestPage implements OnInit {
 

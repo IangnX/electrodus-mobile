@@ -1,0 +1,27 @@
+<ion-item [button]="true" >
+  <ion-thumbnail slot="start">
+    <img alt="Silhouette of mountains" [src]="requestPreview.image" />
+  </ion-thumbnail>
+  <ion-grid>
+    <ion-chip [color]="getStatusColor(requestPreview.status)">{{getStatus(requestPreview.status)}}</ion-chip>
+    <ion-col>
+      <ion-card-header>
+        <ion-card-title class="ion-text-capitalize">{{requestPreview.equipment}}</ion-card-title>
+        <ion-card-subtitle>{{requestPreview.createdDate}}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-col>
+    <!--<ion-col  >
+      <ion-col>
+        <ion-button  shape="round"  size="small">
+          <ion-icon name="eye-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" shape="round">
+          <ion-icon name="trash-bin-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-col>
+  -->
+  </ion-grid>
+</ion-item>
