@@ -66,23 +66,8 @@
   <ion-grid>
     <ion-row>
       <ion-col class="ion-text-center">
-        <ion-button id="open-modal" shape="round" class="btn-login" >Crear Solicitud</ion-button>
-        <ion-modal
-        #modal
-        trigger="open-modal"
-        [canDismiss]="canDismiss"
-        [presentingElement]="presentingElement"
-        (willPresent)="onWillPresent()"
-      >
-        <ng-template>
-          <app-create-request [modal]="modal"
-                              (dismissChange)="onDismissChange($event)"
-                              (requestChange)="updateRequestList($event)">
-          </app-create-request>
-        </ng-template>
-      </ion-modal>
+        <ion-button id="open-modal" shape="round" class="btn-login" [routerLink]="['/request-form']" >Crear Solicitud</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-footer>

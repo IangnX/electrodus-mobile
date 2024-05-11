@@ -3,13 +3,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { RequestPreview } from 'src/app/interfaces/requestPreview';
 import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUtil';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-request-preview',
   templateUrl: './request-preview.component.html',
   styleUrls: ['./request-preview.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule,]
+  imports: [IonicModule, CommonModule,RouterModule]
 })
 export class RequestPreviewComponent  implements OnInit {
 

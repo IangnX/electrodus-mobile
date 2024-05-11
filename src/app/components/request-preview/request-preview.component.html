@@ -10,9 +10,9 @@
         <ion-card-subtitle>{{requestPreview.createdDate}}</ion-card-subtitle>
       </ion-card-header>
     </ion-col>
-    <!--<ion-col  >
+   <ion-col>
       <ion-col>
-        <ion-button  shape="round"  size="small">
+        <ion-button [routerLink]="['/request-form',requestPreview.requestId]" shape="round"  size="small">
           <ion-icon name="eye-outline"></ion-icon>
         </ion-button>
       </ion-col>
@@ -22,6 +22,6 @@
         </ion-button>
       </ion-col>
     </ion-col>
-  -->
+
   </ion-grid>
 </ion-item>
