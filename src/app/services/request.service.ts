@@ -29,7 +29,7 @@ export class RequestService {
       this.page = -1
     }
     this.page ++;
-    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${this.page}&limit=10'`,{headers: this.headers})
+    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${this.page}&limit=10s`,{headers: this.headers})
   }
 
 }

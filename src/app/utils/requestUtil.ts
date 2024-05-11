@@ -2,6 +2,8 @@ import { RequestStatus, RequestStatusColor } from "../enums/requestStatus";
 
 export function  getRequestStatus(estatusString: string): RequestStatus | undefined {
   const estatusMap: { [key: string]: RequestStatus } = {
+    "PENDING": RequestStatus.PENDING,
+    "CANCELLED": RequestStatus.CANCELLED,
     "IN_PROCESS": RequestStatus.IN_PROCESS,
     "ACCEPTED": RequestStatus.ACCEPTED,
     "REJECTED": RequestStatus.REJECTED,
@@ -15,6 +17,8 @@ export function  getRequestStatus(estatusString: string): RequestStatus | undefi
 
 export function  getRequestStatusColor(estatusString: string): RequestStatusColor | undefined {
   const estatusMap: { [key: string]: RequestStatusColor } = {
+    "PENDING": RequestStatusColor.PENDING,
+    "CANCELLED": RequestStatusColor.CANCELLED,
     "IN_PROCESS": RequestStatusColor.IN_PROCESS,
     "ACCEPTED": RequestStatusColor.ACCEPTED,
     "REJECTED": RequestStatusColor.REJECTED,

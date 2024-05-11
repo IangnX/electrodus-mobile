@@ -35,7 +35,7 @@
 
   <ion-alert *ngIf="error"
     header="Error"
-    [message]="'Ocurrio un error al obtener las solicitudes'"
+    [message]="error"
     isOpen="true"
     [buttons]="['Ok']"
   />
@@ -44,7 +44,7 @@
     <ion-card>
       <ion-card-content>
         <ion-list>
-          <ion-item >
+          <ion-item [button]="true" >
             <ion-thumbnail slot="start">
               <img alt="Silhouette of mountains" [src]="requestPreview.image" />
             </ion-thumbnail>
@@ -56,9 +56,10 @@
                   <ion-card-subtitle>{{requestPreview.createdDate}}</ion-card-subtitle>
                 </ion-card-header>
               </ion-col>
-              <ion-col class="action-buttons ">
+              <!--
+                <ion-col  >
                 <ion-col>
-                  <ion-button shape="round"  size="small">
+                  <ion-button  shape="round"  size="small">
                     <ion-icon name="eye-outline"></ion-icon>
                   </ion-button>
                 </ion-col>
@@ -68,6 +69,7 @@
                   </ion-button>
                 </ion-col>
               </ion-col>
+            -->
             </ion-grid>
           </ion-item>
         </ion-list>
@@ -90,7 +92,7 @@
 <ion-footer class="ion-no-border">
   <ion-grid>
     <ion-row>
-      <ion-col class="ion-align-self-end">
+      <ion-col class="ion-text-center">
         <ion-button id="open-modal" shape="round" class="btn-login" >Crear Solicitud</ion-button>
         <ion-modal
         #modal

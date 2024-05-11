@@ -99,7 +99,7 @@ export class RequestPage implements OnInit {
         this.isLoading = false;
       }),
       catchError((err: any) => {
-        this.error = err.error.status_message;
+        this.error = err.error.message;
         return [];
       })
     )
