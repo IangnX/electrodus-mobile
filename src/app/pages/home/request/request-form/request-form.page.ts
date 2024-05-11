@@ -9,6 +9,8 @@ import { ToastService } from 'src/app/services/toast.service';
 import { RequestService } from 'src/app/services/request.service';
 import { EquipmentService } from 'src/app/services/equipment.service';
 import { RequestResponse } from 'src/app/interfaces/requetResponse';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-request-form',
@@ -20,25 +22,50 @@ import { RequestResponse } from 'src/app/interfaces/requetResponse';
 export class RequestFormPage implements OnInit {
 
 
-  @Input() modal!: IonModal;
-
-  @Output() dismissChange = new EventEmitter<boolean>();
-  @Output() requestChange = new EventEmitter<boolean>()
   form!: FormGroup;
   equipments: Equipment[] = []
   searchedEquipment = false
   term: string = ""
   isReparationInAddress = false
   idEquipmentIsNull = false;
+  idRequest: number = 0;
+  routeSub!: Subscription;
+  showModalCancel = false;
+
+  alertButtons = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Cancelar');
+        this.showModalCancel = false
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Continuar');
+        this.showModalCancel = false
+        this.router.navigate(['/request']);
+      },
+    },
+  ];
 
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private requestService: RequestService,
-    private toastService: ToastService) { }
+    private toastService: ToastService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.routeSub = this.route.params.subscribe((params: Params) => {
+        this.idRequest = params['id']
+    })
     this.buildForm()
   }
+
 
   buildForm() {
     this.form = this.formBuilder.group({
@@ -49,12 +76,6 @@ export class RequestFormPage implements OnInit {
     });
   }
 
-  checkboxChanged(event: any) {
-    const ev = event as CheckboxCustomEvent;
-    const checked = ev.detail.checked;
-
-    this.dismissChange.emit(checked);
-  }
 
   searchEquipment(event: IonSearchbarCustomEvent<SearchbarInputEventDetail>) {
     this.term =event.detail.value as string
@@ -92,10 +113,9 @@ export class RequestFormPage implements OnInit {
       return;
     }
     this.requestService.createRequest(this.generateRequestForm()).subscribe((request:RequestResponse) => {
-      this.requestChange.emit(true)
-      this.dismissChange.emit(true);
-      this.modal.dismiss(null, 'confirm');
+      this.router.navigate(['/request']);
       this.toastService.presentToast('Solicitud creada exitosamente!',5000,'bottom')
+      this.form.reset()
     })
   }
 
@@ -110,4 +130,20 @@ export class RequestFormPage implements OnInit {
       address: this.form.value.address === "" ? 'En el local' : this.form.value.address,
     }
   }
+
+  setResult(ev:any) {
+    if(ev.detail.role === "confirm"){
+      const currentUrl = this.router.url;
+      this.router.navigate(['/request']);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub.unsubscribe();
+  }
+
+  cancelar() {
+    this.showModalCancel = true
+  }
+
 }

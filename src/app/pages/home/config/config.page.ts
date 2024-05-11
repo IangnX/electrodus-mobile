@@ -28,7 +28,6 @@ export class ConfigPage implements OnInit {
   }
 
   goToUserProfile() {
-    console.log("asda");
     this.router.navigate(['user-profile']);
   }
 

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { ConfigPage } from './config/config.page';
-import { CreateRequestComponent } from './request/create-request/create-request.component';
 
 export const homeRoutes: Routes = [
   {

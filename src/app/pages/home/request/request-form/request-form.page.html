@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-title color="primary">Crear Solicitud</ion-title>
       <ion-buttons slot="end">
-        <ion-button (click)="modal.dismiss()">Cancelar</ion-button>
+        <ion-button (click)="cancelar()" >Cancelar</ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -78,7 +78,7 @@
           </span>
 
           <ion-row>
-            <ion-col>
+            <ion-col [hidden]="idRequest">
               <ion-button type="submit" shape="round" class="btn-login" expand="block" (click)="create()">Enviar Solicitud</ion-button>
             </ion-col>
           </ion-row>
@@ -87,3 +87,11 @@
     </ion-card>
   </ion-content>
 </div>
+
+<ion-alert
+  *ngIf="showModalCancel"
+  isOpen="true"
+  header="Confirmación"
+  [message]="'¿Seguro que desea cancelar la creación de la Solicitud?'"
+  [buttons]="alertButtons"
+></ion-alert>

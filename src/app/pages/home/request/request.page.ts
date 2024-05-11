@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ActionSheetController, IonInfiniteScroll, IonInfiniteScrollContent, RefresherEventDetail } from '@ionic/angular/standalone';
-import { CreateRequestComponent } from './create-request/create-request.component';
+import { RefresherEventDetail } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; // Import this
 import { eyeOutline, heart, trashBinOutline } from 'ionicons/icons';
 import { RequestPreview } from 'src/app/interfaces/requestPreview';
@@ -13,7 +12,7 @@ import { IonRefresherCustomEvent } from '@ionic/core';
 import { RequestPreviewPage } from 'src/app/interfaces/RequestPreviewPage';
 import { catchError, finalize } from 'rxjs';
 import { RequestPreviewComponent } from 'src/app/components/request-preview/request-preview.component';
-import { RouterModule } from '@angular/router';
+import { Navigation, Router, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -21,7 +20,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CreateRequestComponent,RequestPreviewComponent,RouterModule]
+  imports: [IonicModule, CommonModule, FormsModule,RequestPreviewComponent,RouterModule]
 })
 export class RequestPage implements OnInit {
 
@@ -29,6 +28,7 @@ export class RequestPage implements OnInit {
   requestPreviewList: RequestPreview[] = []
   isLoading = true;
   error = null;
+  currentPage: number =0
 
   constructor(private requestService: RequestService) {
     addIcons({ trashBinOutline, eyeOutline})
@@ -37,7 +37,6 @@ export class RequestPage implements OnInit {
   ngOnInit() {
     this.getRequestList();
   }
-
 
   updateRequestList(request: boolean) {
     this.getRequestList()
@@ -50,9 +49,10 @@ export class RequestPage implements OnInit {
     // Only show loading indicator on initial load
     if (!event || pull) {
       this.isLoading = true;
+      this.currentPage = 0
     }
 
-    this.requestService.getMyRequest(pull)
+    this.requestService.getMyRequest(this.currentPage,pull)
     .pipe(
       finalize(() => {
         this.isLoading = false;
@@ -62,11 +62,14 @@ export class RequestPage implements OnInit {
         return [];
       })
     )
-    .subscribe((RequestPreviewPage:RequestPreviewPage)=> {
-      this.requestPreviewList.push( ...RequestPreviewPage.content )
+    .subscribe((requestPreviewPage:RequestPreviewPage)=> {
+      this.requestPreviewList.push( ...requestPreviewPage.content )
+      if (!requestPreviewPage.last) {
+        this.currentPage++
+      }
       if(event){
         event.target.complete();
-        if(RequestPreviewPage.content.length === 0 ){
+        if(requestPreviewPage.content.length === 0 ){
           this.enableInfiniteScroll = false;
         }
       }

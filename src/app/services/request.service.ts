@@ -24,12 +24,8 @@ export class RequestService {
     return this.http.post<RequestResponse>(this.URLBACK + '/request/save', request, {headers: this.headers});
   }
 
-  getMyRequest(pull:boolean = false): Observable<RequestPreviewPage> {
-    if(pull){
-      this.page = -1
-    }
-    this.page ++;
-    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${this.page}&limit=10s`,{headers: this.headers})
+  getMyRequest(pageNumber: number,pull:boolean = false): Observable<RequestPreviewPage> {
+    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${pageNumber}&limit=10`,{headers: this.headers})
   }
 
 }
