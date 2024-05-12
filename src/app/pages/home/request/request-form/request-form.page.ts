@@ -32,6 +32,8 @@ export class RequestFormPage implements OnInit {
   routeSub!: Subscription;
   showModalCancel = false;
   viewMode = false;
+  isAlertOpen= false
+  requestStatus = "";
   alertButtons = [
     {
       text: 'No',
@@ -50,6 +52,26 @@ export class RequestFormPage implements OnInit {
         this.idRequest = 0
         this.form.reset()
         this.router.navigate(['/request']);
+      },
+    },
+  ];
+
+  alertButtonsCancel = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Cancelar');
+        this.isAlertOpen = false
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Continuar');
+        this.isAlertOpen = false
+        this.cancelRequest()
       },
     },
   ];
@@ -78,8 +100,8 @@ export class RequestFormPage implements OnInit {
   getRequestById() {
     this.requestService.getRequestById(this.idRequest)
       .subscribe((request:RequestResponse)=> {
-        console.log(this.form);
         console.log(request);
+        this.requestStatus = request.status
         this.form.setValue({
           idEquipmentPreliminary: request.idEquipmentPreliminary,
           description: request.description,
@@ -170,6 +192,19 @@ export class RequestFormPage implements OnInit {
 
   cancelar() {
     this.showModalCancel = true
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isAlertOpen = isOpen;
+  }
+
+  cancelRequest() {
+    this.requestService.cancelRequestById(this.idRequest).subscribe((resp:boolean)=> {
+      console.log(resp);
+      this.router.navigate(['/request']);
+      this.idRequest = 0
+      this.toastService.presentToast('La solicitud ha sido cancelada!',5000,'bottom')
+    })
   }
 
 }

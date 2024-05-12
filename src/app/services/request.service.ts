@@ -28,8 +28,12 @@ export class RequestService {
     return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request?p=${pageNumber}&limit=10`,{headers: this.headers})
   }
 
-  getRequestById(requestId:number){
+  getRequestById(requestId:number) : Observable<RequestResponse>{
     return this.http.get<RequestResponse>(`${this.URLBACK}/request/${requestId}`,{headers: this.headers})
+  }
+
+  cancelRequestById(requestId:number): Observable<boolean>{
+    return this.http.delete<boolean>(`${this.URLBACK}/request/${requestId}`,{headers: this.headers})
   }
 
 }

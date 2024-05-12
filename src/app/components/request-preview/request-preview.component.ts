@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { RequestPreview } from 'src/app/interfaces/requestPreview';
 import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUtil';
 import { RouterModule } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { chevronForward } from 'ionicons/icons';
 
 @Component({
   selector: 'app-request-preview',
@@ -16,7 +18,9 @@ export class RequestPreviewComponent  implements OnInit {
 
   @Input()requestPreview!: RequestPreview
 
-  constructor() { }
+  constructor() {
+    addIcons({ chevronForward})
+   }
 
   ngOnInit() {}
 
