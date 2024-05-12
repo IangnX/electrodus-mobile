@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { RequestResponse } from '../interfaces/requetResponse';
 import { RequestPreview } from '../interfaces/requestPreview';
 import { RequestPreviewPage } from '../interfaces/RequestPreviewPage';
+import { TOKEN } from '../const/localStorageConst';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class RequestService {
   page:number=-1;
 
   headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem('token')}` ,
+    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
   });
   constructor(private http: HttpClient) { }
 

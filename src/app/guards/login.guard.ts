@@ -4,13 +4,13 @@ import { TOKEN } from "../const/localStorageConst"
 
 
 
-export const SessionGuard = (): boolean => {
+export const LoginGuard = (): boolean => {
   const router = inject(Router)
 
   try{
     const token = localStorage.getItem(TOKEN)
-    if(!token){
-      router.navigate(['/login'])
+    if(token){
+      router.navigate(['/home'])
     }
     return true
   }catch(e){

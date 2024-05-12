@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { addIcons } from 'ionicons'; // Import this
 import { settingsOutline, fitnessOutline, homeOutline, walletOutline} from 'ionicons/icons';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
+import { AUTHORITIES } from 'src/app/const/localStorageConst';
 import { Authorities } from 'src/app/interfaces/authorities';
 
 
@@ -21,7 +22,7 @@ export class TabsComponent  implements OnInit {
   authorities: Authorities[] = []
 
   ngOnInit() {
-    const storedAuthorities = localStorage.getItem('authorities');
+    const storedAuthorities = localStorage.getItem(AUTHORITIES);
     this.authorities = storedAuthorities ? JSON.parse(storedAuthorities) : [];
   }
 

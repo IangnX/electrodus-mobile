@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { TabsComponent } from './pages/home/tabs/tabs.component';
 import { SessionGuard } from './guards/session.guard';
 import { LoginGuard } from './guards/login.guard';
-import { CreateRequestComponent } from './pages/home/request/create-request/create-request.component';
 
 export const routes: Routes = [
   {
@@ -28,11 +27,13 @@ export const routes: Routes = [
   },
   {
     path: 'request-form/:id',
-    loadComponent: () => import('./pages/home/request/request-form/request-form.page').then(m => m.RequestFormPage)
+    loadComponent: () => import('./pages/home/request/request-form/request-form.page').then(m => m.RequestFormPage),
+    canActivate: [SessionGuard]
   },
   {
     path: 'request-form',
-    loadComponent: () => import('./pages/home/request/request-form/request-form.page').then(m => m.RequestFormPage)
+    loadComponent: () => import('./pages/home/request/request-form/request-form.page').then(m => m.RequestFormPage),
+    canActivate: [SessionGuard]
   },
   {
     path: '**',

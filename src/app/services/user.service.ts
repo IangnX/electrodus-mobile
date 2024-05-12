@@ -5,6 +5,7 @@ import { ResponseApiMessage } from '../interfaces/responseApiMessage';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
 import { UserUpdate } from '../interfaces/userUpdate';
+import { TOKEN } from '../const/localStorageConst';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
   private URLBACK : string =  environment.URLBACK;
 
   headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem('token')}` ,
+    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
   });
 
   constructor(private http: HttpClient) { }

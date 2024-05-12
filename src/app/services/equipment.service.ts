@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Equipment } from '../interfaces/equipment';
+import { TOKEN } from '../const/localStorageConst';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class EquipmentService {
   private URLBACK : string =  environment.URLBACK;
 
   headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem('token')}` ,
+    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
   });
 
   constructor(private http: HttpClient) { }

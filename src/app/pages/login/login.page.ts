@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, IonCard, IonCardTitle, IonButton, IonCardContent, IonLabel, IonInput, IonItem, IonIcon, IonText, IonCol, IonRow, IonCardHeader, ToastController } from '@ionic/angular/standalone';
+import { AUTHORITIES, TOKEN, USER } from 'src/app/const/localStorageConst';
 import { LoginResponse } from 'src/app/interfaces/loginResponse';
 import { UserLogin } from 'src/app/interfaces/userLogin';
 import { AuthService } from 'src/app/services/auth.service';
@@ -46,9 +47,9 @@ export class LoginPage {
     }
 
     this.authService.login(this.getUserLogin()).subscribe( (resp:LoginResponse) => {
-      localStorage.setItem('token',resp.jwt)
-      localStorage.setItem('user', JSON.stringify(resp.user))
-      localStorage.setItem('authorities',JSON.stringify(resp.user.authorities))
+      localStorage.setItem(TOKEN,resp.jwt)
+      localStorage.setItem(USER, JSON.stringify(resp.user))
+      localStorage.setItem(AUTHORITIES,JSON.stringify(resp.user.authorities))
       this.router.navigate(['/home'])
     },
     error => {

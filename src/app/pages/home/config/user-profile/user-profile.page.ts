@@ -14,6 +14,7 @@ import { UserFormComponent } from 'src/app/components/user-form/user-form.compon
 import { ToastService } from 'src/app/services/toast.service';
 import { Capacitor } from '@capacitor/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { USER } from 'src/app/const/localStorageConst';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,7 +31,7 @@ export class UserProfilePage implements OnInit {
     private toastService: ToastService) { }
 
   ngOnInit() {
-    this.user = localStorage.getItem('user');
+    this.user = localStorage.getItem(USER);
     console.log(this.user);
 
   }
@@ -45,7 +46,7 @@ export class UserProfilePage implements OnInit {
       this.user.phoneNumber = user.phoneNumber
       this.user.gender = user.gender
       this.user.birthday = user.birthday
-      localStorage.setItem('user',JSON.stringify(this.user))
+      localStorage.setItem(USER,JSON.stringify(this.user))
       this.toastService.presentToast(resp.message,3000,'bottom')
       this.router.navigate(['/home/configuration'])
     })
@@ -66,7 +67,7 @@ export class UserProfilePage implements OnInit {
       this.userService.updateImageProfile(formData).subscribe((resp: ResponseApiMessage) => {
         console.log(resp);
         this.user.urlImage = resp.data
-        localStorage.setItem('user',JSON.stringify(this.user))
+        localStorage.setItem(USER,JSON.stringify(this.user))
         this.toastService.presentToast(resp.message,3000,'bottom')
 
       },

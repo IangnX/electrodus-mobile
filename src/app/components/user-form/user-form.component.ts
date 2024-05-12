@@ -9,6 +9,7 @@ import { calendarOutline, callOutline, earthOutline, homeOutline, keyOutline, ma
 import { StatesService } from 'src/app/services/states.service';
 import { Cities, States } from 'src/app/interfaces/address';
 import { DatetimeChangeEventDetail, IonDatetimeCustomEvent, IonSelectCustomEvent } from '@ionic/core';
+import { USER } from 'src/app/const/localStorageConst';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class UserFormComponent  implements OnInit {
     if (this.isRegistry) {
       this.buildForm()
     } else {
-      const userString = localStorage.getItem('user');
+      const userString = localStorage.getItem(USER);
       if (userString) {
         this.user = JSON.parse(userString);
         console.log(this.user);
