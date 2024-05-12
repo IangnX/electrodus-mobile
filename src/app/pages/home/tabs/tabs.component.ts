@@ -27,10 +27,6 @@ export class TabsComponent  implements OnInit {
   }
 
   isGranted(authority: string):boolean{
-    const permit = this.authorities.find((auth:Authorities)=> auth.authority === authority) !== undefined;
-    console.log(permit);
-
-    return permit
+    return  this.authorities.find((auth:Authorities)=> auth.authority === authority) !== undefined;
   }
-
 }
