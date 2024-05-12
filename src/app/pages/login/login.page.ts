@@ -48,6 +48,7 @@ export class LoginPage {
     this.authService.login(this.getUserLogin()).subscribe( (resp:LoginResponse) => {
       localStorage.setItem('token',resp.jwt)
       localStorage.setItem('user', JSON.stringify(resp.user))
+      localStorage.setItem('authorities',JSON.stringify(resp.user.authorities))
       this.router.navigate(['/home'])
     },
     error => {

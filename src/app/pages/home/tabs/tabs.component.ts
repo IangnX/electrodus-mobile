@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { addIcons } from 'ionicons'; // Import this
 import { settingsOutline, fitnessOutline, homeOutline, walletOutline} from 'ionicons/icons';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
+import { Authorities } from 'src/app/interfaces/authorities';
 
 
 @Component({
@@ -17,6 +18,18 @@ export class TabsComponent  implements OnInit {
     addIcons({ settingsOutline, walletOutline, homeOutline });
   }
 
-  ngOnInit() {}
+  authorities: Authorities[] = []
+
+  ngOnInit() {
+    const storedAuthorities = localStorage.getItem('authorities');
+    this.authorities = storedAuthorities ? JSON.parse(storedAuthorities) : [];
+  }
+
+  isGranted(authority: string):boolean{
+    const permit = this.authorities.find((auth:Authorities)=> auth.authority === authority) !== undefined;
+    console.log(permit);
+
+    return permit
+  }
 
 }
