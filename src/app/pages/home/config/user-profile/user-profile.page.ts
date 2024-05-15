@@ -25,13 +25,14 @@ import { USER } from 'src/app/const/localStorageConst';
 })
 export class UserProfilePage implements OnInit {
   image: any;
-  user: any
+  user!: User
   constructor(private userService: UserService,
     private router: Router,
     private toastService: ToastService) { }
 
   ngOnInit() {
-    this.user = localStorage.getItem(USER);
+    const userJson = localStorage.getItem(USER);
+    this.user = userJson ? JSON.parse(userJson) : null;
     console.log(this.user);
 
   }
@@ -66,7 +67,7 @@ export class UserProfilePage implements OnInit {
       formData.append('file', blob);
       this.userService.updateImageProfile(formData).subscribe((resp: ResponseApiMessage) => {
         console.log(resp);
-        this.user.urlImage = resp.data
+        this.user.urlImage = String(resp.data);
         localStorage.setItem(USER,JSON.stringify(this.user))
         this.toastService.presentToast(resp.message,3000,'bottom')
 
