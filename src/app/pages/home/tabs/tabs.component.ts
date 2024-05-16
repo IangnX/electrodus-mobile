@@ -4,6 +4,7 @@ import { settingsOutline, fitnessOutline, homeOutline, walletOutline} from 'ioni
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { AUTHORITIES } from 'src/app/const/localStorageConst';
 import { Authorities } from 'src/app/interfaces/authorities';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Authorities } from 'src/app/interfaces/authorities';
 })
 export class TabsComponent  implements OnInit {
 
-  constructor() {
+  constructor(private notificationService: NotificationsService) {
     addIcons({ settingsOutline, walletOutline, homeOutline });
   }
 
@@ -24,6 +25,7 @@ export class TabsComponent  implements OnInit {
   ngOnInit() {
     const storedAuthorities = localStorage.getItem(AUTHORITIES);
     this.authorities = storedAuthorities ? JSON.parse(storedAuthorities) : [];
+    this.notificationService.initListeners()
   }
 
   isGranted(authority: string):boolean{

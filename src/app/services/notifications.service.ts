@@ -1,43 +1,89 @@
 import { Injectable } from '@angular/core';
 import {CancelOptions, Channel, LocalNotifications, ScheduleOptions} from '@capacitor/local-notifications'
-
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
+import { NotificationPush } from '../interfaces/notificationPush';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TOKEN } from '../const/localStorageConst';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
 
-  constructor() { }
+  private URLBACK : string =  environment.URLBACK;
 
-  async displayNotification() {
-    this.createChannel()
-     let options: ScheduleOptions = {
+  headers = new HttpHeaders({
+    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+  });
+
+  constructor(private http: HttpClient) { }
+
+  initListeners(){
+    PushNotifications.requestPermissions().then((result:any) => {
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    //Obtener token del usuario
+    PushNotifications.addListener('registration',
+    (token: Token) => {
+      localStorage.setItem('firebase-token',token.value)
+      this.saveToken(token.value).subscribe(resp => console.log(resp)
+      )
+    }
+  );
+
+  // Some issue with our setup and push will not work
+  PushNotifications.addListener('registrationError',
+    (error: any) => {
+      alert('Error on registration: ' + JSON.stringify(error));
+    }
+  );
+
+  // Show us the notification payload if the app is open on our device
+  PushNotifications.addListener('pushNotificationReceived',
+    (notification: PushNotificationSchema) => {
+
+      const notificationPush = JSON.parse(JSON.stringify(notification)) as NotificationPush;
+      let options: ScheduleOptions = {
         notifications:[
           {
-            id:111,
-            title: "TEST LOCAL NOTIFICATIONS",
-            body: "primera prueba desde ionic",
-            largeBody: "xDDDDDDDDDDDD",
-            summaryText: "SUMMARY TEXT",
-            channelId: "channel1"
-          },
-          {
-            id:222,
-            title: "Notificacion electrodus",
-            body: "Nueva notificación",
-            largeBody: "Nueva solicitud de presupuesto",
-            summaryText: "Responda esclavo",
-            channelId: "channel2"
+            id: 222,
+            title: notificationPush.data.notificationType,
+            body: notificationPush.data.body,
+            largeBody: notificationPush.data.largeBody,
           }
         ]
      }
+     this.displayNotification(options)
+    }
+  );
 
-     try{
+  // Method called when tapping on a notification
+  PushNotifications.addListener('pushNotificationActionPerformed',
+    (notification: ActionPerformed) => {
+      alert('Push action performed: ' + JSON.stringify(notification));
+    }
+  );
+  }
+
+  async displayNotification(options:ScheduleOptions) {
+    try{
       await LocalNotifications.schedule(options)
      }catch(ex){
       alert(JSON.stringify(ex))
      }
-
     }
 
     async cancelNotification(){
@@ -78,5 +124,12 @@ export class NotificationsService {
       }catch(ex){
         alert(ex)
       }
+    }
+
+    saveToken(token: string): Observable<boolean> {
+      const tokenDTO = {
+        "token": token
+      }
+      return this.http.post<boolean>(this.URLBACK + '/notifications/save-token-notification', tokenDTO, {headers: this.headers});
     }
 }
