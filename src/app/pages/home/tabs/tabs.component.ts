@@ -20,7 +20,7 @@ export class TabsComponent  implements OnInit {
     addIcons({ settingsOutline, walletOutline, homeOutline, notificationsOutline });
   }
 
-  authorities: Authorities[] = []
+  authorities: String[] = []
 
   ngOnInit() {
     const storedAuthorities = localStorage.getItem(AUTHORITIES);
@@ -28,7 +28,8 @@ export class TabsComponent  implements OnInit {
     this.notificationService.initListeners()
   }
 
-  isGranted(authority: string):boolean{
-    return  this.authorities.find((auth:Authorities)=> auth.authority === authority) !== undefined;
+  isGranted(authorities: string[]):boolean{
+    const value = this.authorities.some((auth: String) => authorities.includes(auth.toString()));
+    return value;
   }
 }

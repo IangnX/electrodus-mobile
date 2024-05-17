@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  URLBACK : 'http://192.168.1.203:9191', //CUANDO SE USA EL EXTERNAL AL CORRER EL COMANDO http://172.21.128.1
+  URLBACK: 'http://localhost:9191',
+   //URLBACK: 'http://192.168.1.202:9191',
+  //URLBACK : 'https://electrodus-production.up.railway.app', //CUANDO SE USA EL EXTERNAL AL CORRER EL COMANDO http://172.21.128.1
 };
 
 /*
