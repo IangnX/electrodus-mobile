@@ -12,6 +12,10 @@ export const homeRoutes: Routes = [
     loadComponent: () => import('./request/request.page').then(m => m.RequestPage)
   },
   {
+    path: 'notifications',
+    loadComponent: () => import('./notifications/notifications.page').then(m => m.NotificationsPage)
+  },
+  {
     path: '**',
     redirectTo: 'request',
     pathMatch: 'full',

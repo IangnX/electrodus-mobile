@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { addIcons } from 'ionicons'; // Import this
-import { settingsOutline, fitnessOutline, homeOutline, walletOutline} from 'ionicons/icons';
+import { settingsOutline, fitnessOutline, homeOutline, walletOutline, notificationsOutline} from 'ionicons/icons';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { AUTHORITIES } from 'src/app/const/localStorageConst';
 import { Authorities } from 'src/app/interfaces/authorities';
@@ -17,7 +17,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 export class TabsComponent  implements OnInit {
 
   constructor(private notificationService: NotificationsService) {
-    addIcons({ settingsOutline, walletOutline, homeOutline });
+    addIcons({ settingsOutline, walletOutline, homeOutline, notificationsOutline });
   }
 
   authorities: Authorities[] = []

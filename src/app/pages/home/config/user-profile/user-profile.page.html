@@ -12,8 +12,7 @@
     <ion-row class="ion-justify-content-center" (click)="loadImage()">
       <ion-col size="3">
         <ion-avatar  class="ion-text-center">
-          <img type="file"  alt="Silhouette of a person's head" [src]="user.urlImage ?? 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-        </ion-avatar>
+          <img type="file" alt="Silhouette of a person's head" [src]="user.urlImage ? user.urlImage : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />        </ion-avatar>
       </ion-col>
     </ion-row>
   </ion-grid>

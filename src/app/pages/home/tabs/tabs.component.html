@@ -1,12 +1,12 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="Inicio">
-      <ion-icon name="home-outline"></ion-icon>
-      Home
-    </ion-tab-button>
     <ion-tab-button [hidden]="!isGranted('LISTA_DE_SOLICITUDES')" tab="request">
       <ion-icon name="wallet-outline"></ion-icon>
       Solicitudes
+    </ion-tab-button>
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications-outline"></ion-icon>
+      Notificaciones
     </ion-tab-button>
     <ion-tab-button tab="configuration">
       <ion-icon name="settings-outline"></ion-icon>
