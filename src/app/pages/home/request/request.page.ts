@@ -50,9 +50,11 @@ export class RequestPage implements OnInit {
     if (!event || pull) {
       this.isLoading = true;
       this.currentPage = 0
+    }else{
+      this.currentPage ++
     }
 
-    this.requestService.getMyRequest(this.currentPage,pull)
+    this.requestService.getMyRequest(this.currentPage)
     .pipe(
       finalize(() => {
         this.isLoading = false;
