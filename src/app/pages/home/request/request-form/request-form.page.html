@@ -94,14 +94,10 @@
       <ion-card-content>
         <ion-list>
           @for (serviceToRequest of servicesInRequest; track serviceToRequest.id) {
-          <ion-item>
-            <ion-badge slot="start">$ {{serviceToRequest.cost}}</ion-badge>
-            <ion-label>{{serviceToRequest.name}}</ion-label>
-            <ion-button size="small" color="danger" (click)="removeService(serviceToRequest.id)">
-              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-item>
-        }
+            <app-charge-service-form [servicePreview]="serviceToRequest"
+                                     (serviceRemoveEmit)="removeService($event)">
+            </app-charge-service-form>
+          }
         </ion-list>
       </ion-card-content>
       <div class="ion-text-end">

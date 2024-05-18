@@ -24,7 +24,7 @@ import { ServicePreview } from 'src/app/interfaces/servicePreview';
   templateUrl: './request-form.page.html',
   styleUrls: ['./request-form.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent]
 })
 export class RequestFormPage implements OnInit {
 
@@ -277,6 +277,7 @@ export class RequestFormPage implements OnInit {
 
   openModalServices() {
     this.isOpenModalServices = true
+
   }
 
   removeService(idService: number) {

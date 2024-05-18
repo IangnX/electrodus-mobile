@@ -1,0 +1,7 @@
+<ion-item>
+  <ion-badge slot="start">$ {{servicePreview.cost}}</ion-badge>
+  <ion-label>{{servicePreview.name}}</ion-label>
+  <ion-button size="small" color="danger" (click)="removeService(servicePreview.id)">
+    <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+  </ion-button>
+</ion-item>
