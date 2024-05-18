@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { TOKEN } from '../const/localStorageConst';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ServicePreview } from '../interfaces/servicePreview';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServicesService {
+
+  private URLBACK : string =  environment.URLBACK;
+
+  headers = new HttpHeaders({
+    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+  });
+  constructor(private http: HttpClient) { }
+
+  getDefaultServices(categoryId:number): Observable<ServicePreview[]>{
+    return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${10}`)
+  }
+}

@@ -93,18 +93,69 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list>
+          @for (serviceToRequest of servicesToRequest; track serviceToRequest.id) {
           <ion-item>
-            <ion-badge slot="start">$ 11</ion-badge>
-            <ion-label>Reemplazo de elemento calefactor de horno en cocina eléctrica</ion-label>
-            <ion-button size="small" color="danger">
+            <ion-badge slot="start">$ {{serviceToRequest.cost}}</ion-badge>
+            <ion-label>{{serviceToRequest.name}}</ion-label>
+            <ion-button size="small" color="danger" (click)="removeService(serviceToRequest.id)">
               <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
             </ion-button>
           </ion-item>
+        }
         </ion-list>
       </ion-card-content>
       <div class="ion-text-end">
-        <ion-button  fill="clear">Agregar servicio</ion-button>
+        <ion-button  fill="clear" (click)="openModalServices()" >Agregar servicio</ion-button>
       </div>
+
+      <ion-modal #modal [isOpen]="isOpenModalServices" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+        <ng-template>
+          <ion-content>
+            <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
+            <ion-list>
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                  <h2>Connor Smith</h2>
+                  <p>Sales Rep</p>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-img src="https://i.pravatar.cc/300?u=a"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                  <h2>Daniel Smith</h2>
+                  <p>Product Designer</p>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-img src="https://i.pravatar.cc/300?u=d"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                  <h2>Greg Smith</h2>
+                  <p>Director of Operations</p>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-img src="https://i.pravatar.cc/300?u=e"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                  <h2>Zoey Smith</h2>
+                  <p>CEO</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-button (click)="addServices()">
+              confirmar
+            </ion-button>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
     </ion-card>
   </ion-content>
 

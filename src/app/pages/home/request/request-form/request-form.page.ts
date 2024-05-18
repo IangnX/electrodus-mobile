@@ -16,6 +16,8 @@ import { ModalController } from '@ionic/angular/standalone';
 import { ChargeServiceFormComponent } from 'src/app/components/charge-service-form/charge-service-form.component';
 import { addIcons } from 'ionicons';
 import { removeCircleOutline, star } from 'ionicons/icons';
+import { ServicesService } from 'src/app/services/services.service';
+import { ServicePreview } from 'src/app/interfaces/servicePreview';
 
 @Component({
   selector: 'app-request-form',
@@ -27,6 +29,9 @@ import { removeCircleOutline, star } from 'ionicons/icons';
 export class RequestFormPage implements OnInit {
 
 
+  requestCategoryId = 0;
+  isOpenModalServices = false
+  presentingElement: Element | null = null;
   form!: FormGroup;
   equipments: Equipment[] = []
   searchedEquipment = false
@@ -42,6 +47,7 @@ export class RequestFormPage implements OnInit {
   newStatusRequest = "";
   bottonRedTitle = "ERROR TEXT"
   isBudgedActive = false;
+  servicesToRequest : ServicePreview[] = []
   alertButtons = [
     {
       text: 'No',
@@ -84,14 +90,13 @@ export class RequestFormPage implements OnInit {
     },
   ];
 
-
-
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private requestService: RequestService,
     private toastService: ToastService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private servicesService: ServicesService) {
       addIcons({ removeCircleOutline })
       this.buildForm()
     }
@@ -107,12 +112,14 @@ export class RequestFormPage implements OnInit {
     }else{
       this.viewMode = false
     }
+    this.presentingElement = document.querySelector('.ion-page');
   }
   getRequestById() {
     this.requestService.getRequestById(this.idRequest)
       .subscribe((request:RequestResponse)=> {
         console.log(request);
         this.requestStatus = request.status
+        this.requestCategoryId = request.equipmentIdCategory
         this.setTextButtonRed()
         this.form.setValue({
           idEquipmentPreliminary: request.idEquipmentPreliminary,
@@ -258,5 +265,21 @@ export class RequestFormPage implements OnInit {
 
   createBudget(){
     this.isBudgedActive = true
+    this.servicesService.getDefaultServices(this.requestCategoryId).subscribe((defaultServices:ServicePreview[]) =>{
+      this.servicesToRequest = defaultServices
+      console.log(defaultServices);
+    })
+  }
+
+  addServices() {
+    this.isOpenModalServices = false
+  }
+
+  openModalServices() {
+    this.isOpenModalServices = true
+  }
+
+  removeService(idService: number) {
+   this.servicesToRequest = this.servicesToRequest.filter((service:ServicePreview)=> service.id !== idService)
   }
 }

@@ -11,4 +11,5 @@ export interface RequestResponse {
   approval_date: string,
   culmination_date: string,
   equipmentName: string
+  equipmentIdCategory: number
 }
