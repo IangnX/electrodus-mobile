@@ -93,7 +93,7 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          @for (serviceToRequest of servicesToRequest; track serviceToRequest.id) {
+          @for (serviceToRequest of servicesInRequest; track serviceToRequest.id) {
           <ion-item>
             <ion-badge slot="start">$ {{serviceToRequest.cost}}</ion-badge>
             <ion-label>{{serviceToRequest.name}}</ion-label>

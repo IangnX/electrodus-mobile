@@ -47,7 +47,7 @@ export class RequestFormPage implements OnInit {
   newStatusRequest = "";
   bottonRedTitle = "ERROR TEXT"
   isBudgedActive = false;
-  servicesToRequest : ServicePreview[] = []
+  servicesInRequest : ServicePreview[] = []
   alertButtons = [
     {
       text: 'No',
@@ -266,7 +266,7 @@ export class RequestFormPage implements OnInit {
   createBudget(){
     this.isBudgedActive = true
     this.servicesService.getDefaultServices(this.requestCategoryId).subscribe((defaultServices:ServicePreview[]) =>{
-      this.servicesToRequest = defaultServices
+      this.servicesInRequest = defaultServices
       console.log(defaultServices);
     })
   }
@@ -280,6 +280,6 @@ export class RequestFormPage implements OnInit {
   }
 
   removeService(idService: number) {
-   this.servicesToRequest = this.servicesToRequest.filter((service:ServicePreview)=> service.id !== idService)
+   this.servicesInRequest = this.servicesInRequest.filter((service:ServicePreview)=> service.id !== idService)
   }
 }
