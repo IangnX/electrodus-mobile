@@ -91,11 +91,35 @@
   <ion-footer class="ion-no-border">
     <ion-grid>
       <ion-row>
-        <ion-col  [hidden]="idRequest"  class="ion-text-center">
-          <ion-button type="submit" id="open-modal" shape="round" class="btn-login" (click)="create()" >Enviar Solicitud</ion-button>
-        </ion-col>
-        <ion-col  [hidden]="!idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED'"  class="ion-text-center">
-          <ion-button type="submit" id="open-modal" shape="round" color="danger" class="btn-login" (click)="setOpen(true)"> {{bottonRedTitle}}</ion-button>
+        <ion-col class="ion-text-center">
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       (click)="create()"
+                       [ngClass]="{'hidden-button': idRequest}">
+                       Enviar Solicitud
+          </ion-button>
+
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       (click)="create()"
+                       [ngClass]="{'hidden-button': !idRequest}">
+                       Aprobar Solicitud
+          </ion-button>
+
+          <ion-button  type="submit"
+                       id="open-modal"
+                       shape="round"
+                       color="danger"
+                       class="btn-login"
+                       (click)="setOpen(true)"
+                       [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED'}"
+                       >
+                       {{bottonRedTitle}}
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
