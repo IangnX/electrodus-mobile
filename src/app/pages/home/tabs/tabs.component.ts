@@ -5,6 +5,7 @@ import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standa
 import { AUTHORITIES } from 'src/app/const/localStorageConst';
 import { Authorities } from 'src/app/interfaces/authorities';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { isGranted } from 'src/app/utils/securityUtils';
 
 
 @Component({
@@ -28,8 +29,7 @@ export class TabsComponent  implements OnInit {
     this.notificationService.initListeners()
   }
 
-  isGranted(authorities: string[]):boolean{
-    const value = this.authorities.some((auth: String) => authorities.includes(auth.toString()));
-    return value;
+  isGranted(authorities: string[]): boolean{
+    return isGranted(authorities)
   }
 }

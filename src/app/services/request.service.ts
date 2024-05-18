@@ -33,8 +33,8 @@ export class RequestService {
     return this.http.get<RequestResponse>(`${this.URLBACK}/request/${requestId}`,{headers: this.headers})
   }
 
-  cancelRequestById(requestId:number): Observable<boolean>{
-    return this.http.delete<boolean>(`${this.URLBACK}/request/${requestId}`,{headers: this.headers})
+  updateRequestStatus(requestId:number,status:string): Observable<boolean>{
+    return this.http.put<boolean>(`${this.URLBACK}/request/${requestId}/${status}`,null,{headers: this.headers})
   }
 
 }

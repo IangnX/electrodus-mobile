@@ -11,6 +11,7 @@ import { EquipmentService } from 'src/app/services/equipment.service';
 import { RequestResponse } from 'src/app/interfaces/requetResponse';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { isGranted } from 'src/app/utils/securityUtils';
 
 @Component({
   selector: 'app-request-form',
@@ -34,6 +35,8 @@ export class RequestFormPage implements OnInit {
   viewMode = false;
   isAlertOpen= false
   requestStatus = "";
+  newStatusRequest = "";
+  bottonRedTitle = "ERROR TEXT"
   alertButtons = [
     {
       text: 'No',
@@ -76,6 +79,7 @@ export class RequestFormPage implements OnInit {
     },
   ];
 
+
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private requestService: RequestService,
@@ -102,6 +106,7 @@ export class RequestFormPage implements OnInit {
       .subscribe((request:RequestResponse)=> {
         console.log(request);
         this.requestStatus = request.status
+        this.setTextButtonRed()
         this.form.setValue({
           idEquipmentPreliminary: request.idEquipmentPreliminary,
           description: request.description,
@@ -199,7 +204,7 @@ export class RequestFormPage implements OnInit {
   }
 
   cancelRequest() {
-    this.requestService.cancelRequestById(this.idRequest).subscribe((resp:boolean)=> {
+    this.requestService.updateRequestStatus(this.idRequest,this.newStatusRequest).subscribe((resp:boolean)=> {
       console.log(resp);
       this.router.navigate(['/request']);
       this.idRequest = 0
@@ -207,4 +212,40 @@ export class RequestFormPage implements OnInit {
     })
   }
 
+  isGranted(authorities: string[]): boolean{
+    return isGranted(authorities)
+  }
+
+  setTextButtonRed(): void {
+    if(this.requestStatus === 'PENDING'){
+      if (isGranted(['CANCELAR_SOLICITUD'])) {
+        this.bottonRedTitle =  "Cancelar la solicitud"
+        this.newStatusRequest = 'CANCELLED'
+        return
+      }else if (isGranted(['RECHAZAR_SOLICITUD'])) {
+        this.bottonRedTitle =  "Rechazar la solicitud"
+        this.newStatusRequest = 'REJECTED'
+        return
+      }
+    }
+
+    if(this.requestStatus === 'ACCEPTED' || this.requestStatus === 'REVIEWED'){
+      if (isGranted(['RECHAZAR_SOLICITUD'])) {
+        this.bottonRedTitle =  "Rechazar la solicitud"
+        this.newStatusRequest = 'REJECTED'
+        return
+      }else if (isGranted(['ABORTAR_SOLICITUD'])) {
+        this.bottonRedTitle =  "Abortar la solicitud"
+        this.newStatusRequest = 'ABORTED'
+        return
+      }
+    }
+
+    if(this.requestStatus === 'RECHECKED'){
+      this.bottonRedTitle =  "Abortar la solicitud"
+      this.newStatusRequest = 'ABORTED'
+      return
+    }
+    this.bottonRedTitle =  "RENDERING ERROR"
+  }
 }
