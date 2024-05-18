@@ -12,6 +12,10 @@ import { RequestResponse } from 'src/app/interfaces/requetResponse';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { isGranted } from 'src/app/utils/securityUtils';
+import { ModalController } from '@ionic/angular/standalone';
+import { ChargeServiceFormComponent } from 'src/app/components/charge-service-form/charge-service-form.component';
+import { addIcons } from 'ionicons';
+import { removeCircleOutline, star } from 'ionicons/icons';
 
 @Component({
   selector: 'app-request-form',
@@ -37,6 +41,7 @@ export class RequestFormPage implements OnInit {
   requestStatus = "";
   newStatusRequest = "";
   bottonRedTitle = "ERROR TEXT"
+  isBudgedActive = false;
   alertButtons = [
     {
       text: 'No',
@@ -80,12 +85,14 @@ export class RequestFormPage implements OnInit {
   ];
 
 
+
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private requestService: RequestService,
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute) {
+      addIcons({ removeCircleOutline })
       this.buildForm()
     }
 
@@ -247,5 +254,9 @@ export class RequestFormPage implements OnInit {
       return
     }
     this.bottonRedTitle =  "RENDERING ERROR"
+  }
+
+  createBudget(){
+    this.isBudgedActive = true
   }
 }

@@ -86,7 +86,29 @@
         </form>
       </ion-card-content>
     </ion-card>
+
+    <ion-card *ngIf="isBudgedActive">
+      <ion-card-header>
+        <ion-card-title>Servicios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-badge slot="start">$ 11</ion-badge>
+            <ion-label>Reemplazo de elemento calefactor de horno en cocina eléctrica</ion-label>
+            <ion-button size="small" color="danger">
+              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+      <div class="ion-text-end">
+        <ion-button  fill="clear">Agregar servicio</ion-button>
+      </div>
+    </ion-card>
   </ion-content>
+
+
 
   <ion-footer class="ion-no-border">
     <ion-grid>
@@ -117,9 +139,18 @@
                        id="open-modal"
                        shape="round"
                        class="btn-login"
-                       (click)="openModal()"
-                       [ngClass]="{'hidden-button': !idRequest}">
+                       color="secondary"
+                       (click)="createBudget()"
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive}">
                        Crear presupuesto
+          </ion-button>
+
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING' }">
+                       Aprobar solicitud
           </ion-button>
         </ion-col>
 
