@@ -91,7 +91,19 @@
   <ion-footer class="ion-no-border">
     <ion-grid>
       <ion-row>
-        <ion-col class="ion-text-center">
+        <ion-col size="6">
+          <ion-button  type="submit"
+                    id="open-modal"
+                    shape="round"
+                    color="danger"
+                    class="btn-login"
+                    (click)="setOpen(true)"
+                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED'}"
+                    >
+                    {{bottonRedTitle}}
+          </ion-button>
+        </ion-col>
+        <ion-col size="6">
           <ion-button type="submit"
                        id="open-modal"
                        shape="round"
@@ -105,22 +117,12 @@
                        id="open-modal"
                        shape="round"
                        class="btn-login"
-                       (click)="create()"
+                       (click)="openModal()"
                        [ngClass]="{'hidden-button': !idRequest}">
-                       Aprobar Solicitud
-          </ion-button>
-
-          <ion-button  type="submit"
-                       id="open-modal"
-                       shape="round"
-                       color="danger"
-                       class="btn-login"
-                       (click)="setOpen(true)"
-                       [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED'}"
-                       >
-                       {{bottonRedTitle}}
+                       Crear presupuesto
           </ion-button>
         </ion-col>
+
       </ion-row>
     </ion-grid>
   </ion-footer>
