@@ -19,6 +19,8 @@ import { removeCircleOutline, star } from 'ionicons/icons';
 import { ServicesService } from 'src/app/services/services.service';
 import { ServicePreview, ServicePreviewPage } from 'src/app/interfaces/servicePreview';
 import { ListsServicesModalComponent } from 'src/app/components/list-services-modal/list-services-modal.component';
+import { PromotionService } from 'src/app/services/promotion.service';
+import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionResponsePage';
 
 @Component({
   selector: 'app-request-form',
@@ -49,6 +51,7 @@ export class RequestFormPage implements OnInit {
   bottonRedTitle = "ERROR TEXT"
   isBudgedActive = false;
   servicesInRequest : ServicePreview[] = []
+  promotions: Promotion[] = []
   alertButtons = [
     {
       text: 'No',
@@ -98,7 +101,8 @@ export class RequestFormPage implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute,
-    private servicesService: ServicesService) {
+    private servicesService: ServicesService,
+    private promotionService: PromotionService) {
       addIcons({ removeCircleOutline })
       this.buildForm()
     }
@@ -270,12 +274,17 @@ export class RequestFormPage implements OnInit {
     this.servicesService.getDefaultServices(this.requestCategoryId).subscribe((defaultServices:ServicePreview[]) =>{
       this.servicesInRequest = defaultServices
       console.log(defaultServices);
+      const idServicesDefault = defaultServices.map(service=> service.id)
+      this.getPromotionsByService(idServicesDefault)
     })
   }
 
   addServices(servicesToAdd: ServicePreview[]) {
     this.isOpenModalServices = false
     this.servicesInRequest = [...this.servicesInRequest,...servicesToAdd]
+    const idServicesDefault = this.servicesInRequest.map(service=> service.id)
+    this.getPromotionsByService(idServicesDefault)
+
   }
 
   openModalServices() {
@@ -289,6 +298,15 @@ export class RequestFormPage implements OnInit {
 
   removeService(idService: number) {
    this.servicesInRequest = this.servicesInRequest.filter((service:ServicePreview)=> service.id !== idService)
+   this.promotions = this.promotions.filter((promotion:Promotion) => promotion.serviceId !== idService)
   }
+
+  getPromotionsByService(serviceIds:number[]){
+    this.promotionService.getPromotionsByService(serviceIds).subscribe((promotionResponsePage:PromotionResponsePage)=>{
+      this.promotions = promotionResponsePage.content
+    })
+  }
+
+
 
 }

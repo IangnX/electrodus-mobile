@@ -26,7 +26,7 @@ export class RequestService {
   }
 
   getMyRequest(pageNumber: number): Observable<RequestPreviewPage> {
-    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request/allRequest?p=${pageNumber}&limit=10`,{headers: this.headers})
+    return this.http.get<RequestPreviewPage>(`${this.URLBACK}/request/all-request?p=${pageNumber}&limit=10`,{headers: this.headers})
   }
 
   getRequestById(requestId:number) : Observable<RequestResponse>{

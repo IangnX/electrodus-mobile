@@ -126,6 +126,23 @@
         </ng-template>
       </ion-modal>
     </ion-card>
+
+    <ion-card *ngIf="isBudgedActive && promotions.length > 0">
+      <ion-card-header>
+        <ion-card-title>Promociones disponibles</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list> <!-- PROMOCIONES DE LOS SERVICIOS SELECCIONADOS-->
+          @for (promotion of promotions; track promotion.id) {
+            <ion-item >
+              <ion-badge slot="start" color="success" >{{promotion.discount}}%</ion-badge>
+              <ion-label>{{promotion.description}}</ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
   </ion-content>
 
 
