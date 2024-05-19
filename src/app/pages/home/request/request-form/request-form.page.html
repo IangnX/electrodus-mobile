@@ -158,8 +158,6 @@
     </ion-list>
   </ion-content>
 
-
-
   <ion-footer class="ion-no-border">
     <ion-grid>
       <ion-row>
@@ -199,6 +197,7 @@
                        id="open-modal"
                        shape="round"
                        class="btn-login"
+                       (click)="aproveBudget()"
                        [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING' }">
                        Aprobar solicitud
           </ion-button>

@@ -31,7 +31,6 @@ import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionRe
 })
 export class RequestFormPage implements OnInit {
 
-
   requestCategoryId = 0;
   isOpenModalServices = false
   presentingElement: Element | null = null;
@@ -190,7 +189,7 @@ export class RequestFormPage implements OnInit {
     }
     this.requestService.createRequest(this.generateRequestForm()).subscribe((request:RequestResponse) => {
       this.router.navigate(['/request']);
-      this.toastService.presentToast('Solicitud creada exitosamente!',5000,'bottom')
+      this.toastService.presentToast('Solicitud creada exitosamente!',5000,'bottom','success')
       this.form.reset()
     })
   }
@@ -325,5 +324,11 @@ export class RequestFormPage implements OnInit {
         }
       })
     })
+  }
+
+  aproveBudget() {
+    if (this.servicesInRequest.length === 0) {
+      this.toastService.presentToast('Por favor agregue al menos 1 servicio',5000,'bottom','warning')
+    }
   }
 }

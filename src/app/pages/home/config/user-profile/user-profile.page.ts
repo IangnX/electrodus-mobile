@@ -48,7 +48,7 @@ export class UserProfilePage implements OnInit {
       this.user.gender = user.gender
       this.user.birthday = user.birthday
       localStorage.setItem(USER,JSON.stringify(this.user))
-      this.toastService.presentToast(resp.message,3000,'bottom')
+      this.toastService.presentToast(resp.message,3000,'bottom','success')
       this.router.navigate(['/home/configuration'])
     })
   }
@@ -69,11 +69,11 @@ export class UserProfilePage implements OnInit {
         console.log(resp);
         this.user.urlImage = String(resp.data);
         localStorage.setItem(USER,JSON.stringify(this.user))
-        this.toastService.presentToast(resp.message,3000,'bottom')
+        this.toastService.presentToast(resp.message,3000,'bottom','success')
 
       },
       (error) => {
-        this.toastService.presentToast('Error al subir la imagen',3000,'bottom')
+        this.toastService.presentToast('Error al subir la imagen',3000,'bottom','danger')
       })
     } catch (error) {
       console.log(error);

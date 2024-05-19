@@ -29,14 +29,14 @@ export class RegistryPage  {
 
   registryUser(user: UserSave) {
     this.authService.saveUser(user).subscribe( (resp:ResponseApiMessage) => {
-      this.toastService.presentToast(resp.message,5000,'bottom')
+      this.toastService.presentToast(resp.message,5000,'bottom','success')
       this.goToLogin()
     },
     error => {
       if (error.error.messages?.length > 0) {
         console.log(error.error.messages);
 
-        this.toastService.presentToast(error.error.message,5000,'bottom')
+        this.toastService.presentToast(error.error.message,5000,'bottom','danger')
 
       }else{
         this.toastService.presentToast(error.error.message,5000,'bottom')
