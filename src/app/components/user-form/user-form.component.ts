@@ -138,9 +138,11 @@ export class UserFormComponent  implements OnInit {
 
 
 
-  changeState(state: IonSelectCustomEvent<SelectChangeEventDetail<any>>) {
-    this.form.get('state')?.setValue(state.detail.value)
-    this.statesService.getCities(state.detail.value).subscribe((cities:Cities[]) => { this.cities = cities})
+  changeState(event: IonSelectCustomEvent<SelectChangeEventDetail<any>>) {
+    const state = this.states.find((state:States)=> state.id === event.detail.value)
+    this.form.get('state')?.setValue(state?.stateName)
+    this.form.get('city')?.setValue('')
+    this.statesService.getCities(event.detail.value).subscribe((cities:Cities[]) => { this.cities = cities})
   }
 
   setBirthday(birthday: IonDatetimeCustomEvent<DatetimeChangeEventDetail>) {

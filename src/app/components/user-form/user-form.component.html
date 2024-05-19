@@ -112,7 +112,7 @@
         <ion-item lines="full">
           <ion-icon name="earth-outline"></ion-icon>
           <ion-select label="Estado" (ionChange)="changeState($event)" [selectedText]="form.get('state')?.value">
-            <ion-select-option *ngFor="let state of states" [value]="state.state_name">{{ state.state_name}}</ion-select-option>
+            <ion-select-option *ngFor="let state of states" [value]="state.id">{{ state.stateName}}</ion-select-option>
           </ion-select>
         </ion-item>
         <span *ngIf="validFieldRequired('state')">
@@ -122,7 +122,7 @@
         <ion-item lines="full">
           <ion-icon name="home-outline"></ion-icon>
           <ion-select label="Ciudad" (ionChange)="changeCity($event)"  [selectedText]="form.get('city')?.value" >
-            <ion-select-option *ngFor="let city of cities" [value]="city.city_name">{{ city.city_name}}</ion-select-option>
+            <ion-select-option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName}}</ion-select-option>
           </ion-select>
         </ion-item>
         <span *ngIf="validFieldRequired('city')">

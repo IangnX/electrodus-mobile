@@ -1,7 +1,8 @@
 export interface States {
-  state_name : string
+  id:number
+  stateName : string
 }
 
 export interface Cities {
-  city_name : string
+  cityName : string
 }
