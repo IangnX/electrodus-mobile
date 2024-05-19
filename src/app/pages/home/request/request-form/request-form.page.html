@@ -117,10 +117,10 @@
           <ion-content>
             <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
             <ion-list> <!-- SERVICIOS PARA AGREGAR A LA SOLICITUD-->
-              <app-list-promotions-modal [requestCategoryId]="requestCategoryId"
+              <app-list-services-modal [requestCategoryId]="requestCategoryId"
                                           [servicesChecked]="servicesInRequest"
                                           (servicesSelectedCompleted)="addServices($event)"
-              ></app-list-promotions-modal>
+              ></app-list-services-modal>
             </ion-list>
           </ion-content>
         </ng-template>

@@ -7,13 +7,13 @@ import { ServicesService } from 'src/app/services/services.service';
 import { ChargeServiceFormComponent } from '../charge-service-form/charge-service-form.component';
 
 @Component({
-  selector: 'app-list-promotions-modal',
-  templateUrl: './list-promotions-modal.component.html',
-  styleUrls: ['./list-promotions-modal.component.scss'],
+  selector: 'app-list-services-modal',
+  templateUrl: './list-services-modal.component.html',
+  styleUrls: ['./list-services-modal.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule,ChargeServiceFormComponent]
 })
-export class ListPromotionsModalComponent  implements OnInit {
+export class ListsServicesModalComponent  implements OnInit {
 
 
   @Input() servicesChecked: ServicePreview[] = []

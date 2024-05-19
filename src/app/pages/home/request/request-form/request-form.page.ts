@@ -18,14 +18,14 @@ import { addIcons } from 'ionicons';
 import { removeCircleOutline, star } from 'ionicons/icons';
 import { ServicesService } from 'src/app/services/services.service';
 import { ServicePreview, ServicePreviewPage } from 'src/app/interfaces/servicePreview';
-import { ListPromotionsModalComponent } from 'src/app/components/list-promotions-modal/list-promotions-modal.component';
+import { ListsServicesModalComponent } from 'src/app/components/list-services-modal/list-services-modal.component';
 
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.page.html',
   styleUrls: ['./request-form.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,ListPromotionsModalComponent]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,ListsServicesModalComponent]
 })
 export class RequestFormPage implements OnInit {
 
