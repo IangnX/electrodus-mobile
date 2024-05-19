@@ -26,21 +26,17 @@ export class ChargeServiceFormComponent  implements OnInit {
   servicesToAdd: ServicePreview[] = []
   constructor() { }
 
-  ngOnInit() {
-    this.temporalServices = [...this.servicesChecked]
-  }
+  ngOnInit() {}
 
   removeService(idService:number){
     this.serviceRemoveEmit.emit(idService)
   }
 
   onServiceChange(service:ServicePreview, event: CheckboxCustomEvent) {
-    if (event.detail.checked) {
-       this.temporalServices.push(service)
-    }else{
-      this.temporalServices = this.temporalServices.filter((serviceChecked:ServicePreview)=> serviceChecked.id !== service.id)
-    }
-    console.log(this.temporalServices);
+    this.servicesSelectedChange.emit({
+      checked: event.detail.checked,
+      service: service
+    })
   }
 
   isChecked(service:ServicePreview):boolean{

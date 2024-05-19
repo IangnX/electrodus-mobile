@@ -1,0 +1,15 @@
+@for (serviceToInclude of servicesToIncludeInRequest; track serviceToInclude.id) {
+  <app-charge-service-form [servicePreview]="serviceToInclude"
+                            [servicesChecked]="servicesChecked"
+                            [isAddService]="true"
+                            (servicesSelectedChange)="updateServicesList($event)"
+                           >
+  </app-charge-service-form>
+}
+<ion-col>
+  <div class="ion-text-center">
+    <ion-button (click)="addServices()">
+      confirmar
+    </ion-button>
+  </div>
+</ion-col>
