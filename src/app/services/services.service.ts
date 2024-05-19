@@ -18,10 +18,10 @@ export class ServicesService {
   constructor(private http: HttpClient) { }
 
   getDefaultServices(categoryId:number): Observable<ServicePreview[]>{
-    return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${10}`)
+    return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${100}`)
   }
 
   getServicesByCriteria(categoryId:number, term?:string):Observable<ServicePreviewPage>{
-    return this.http.get<ServicePreviewPage>(`${this.URLBACK}/service/all?p=${0}&limit=${10}&categoryId=${categoryId}&term=${term}`)
+    return this.http.get<ServicePreviewPage>(`${this.URLBACK}/service/all?p=${0}&limit=${100}&categoryId=${categoryId}&term=${term}`)
   }
 }

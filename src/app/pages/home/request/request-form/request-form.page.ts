@@ -52,6 +52,9 @@ export class RequestFormPage implements OnInit {
   isBudgedActive = false;
   servicesInRequest : ServicePreview[] = []
   promotions: Promotion[] = []
+  totalToPay = 0
+  discount = 0
+  subTotal = 0
   alertButtons = [
     {
       text: 'No',
@@ -273,6 +276,7 @@ export class RequestFormPage implements OnInit {
     this.isBudgedActive = true
     this.servicesService.getDefaultServices(this.requestCategoryId).subscribe((defaultServices:ServicePreview[]) =>{
       this.servicesInRequest = defaultServices
+      this.subTotal = defaultServices.reduce((sum, service) => sum + Number(service.cost), 0);
       console.log(defaultServices);
       const idServicesDefault = defaultServices.map(service=> service.id)
       this.getPromotionsByService(idServicesDefault)
@@ -282,6 +286,7 @@ export class RequestFormPage implements OnInit {
   addServices(servicesToAdd: ServicePreview[]) {
     this.isOpenModalServices = false
     this.servicesInRequest = [...this.servicesInRequest,...servicesToAdd]
+    this.subTotal = this.servicesInRequest.reduce((sum, service) => sum + Number(service.cost), 0);
     const idServicesDefault = this.servicesInRequest.map(service=> service.id)
     this.getPromotionsByService(idServicesDefault)
 
@@ -297,6 +302,14 @@ export class RequestFormPage implements OnInit {
   }
 
   removeService(idService: number) {
+   const serviceToRemove = this.servicesInRequest.find((service:ServicePreview)=> service.id == idService)
+   const promotionToRemove = this.promotions.find((promotion:Promotion) => promotion.serviceId == idService)
+   if (serviceToRemove) {
+    this.subTotal -= serviceToRemove.cost
+    if (promotionToRemove) {
+      this.discount -= serviceToRemove.cost * (promotionToRemove.discount /100)
+    }
+   }
    this.servicesInRequest = this.servicesInRequest.filter((service:ServicePreview)=> service.id !== idService)
    this.promotions = this.promotions.filter((promotion:Promotion) => promotion.serviceId !== idService)
   }
@@ -304,9 +317,13 @@ export class RequestFormPage implements OnInit {
   getPromotionsByService(serviceIds:number[]){
     this.promotionService.getPromotionsByService(serviceIds).subscribe((promotionResponsePage:PromotionResponsePage)=>{
       this.promotions = promotionResponsePage.content
+      this.discount = 0
+      this.promotions.forEach((promotion:Promotion)=>{
+        const service = this.servicesInRequest.find((service:ServicePreview)=> service.id === promotion.serviceId)
+        if (service) {
+          this.discount += service.cost * (promotion.discount / 100)
+        }
+      })
     })
   }
-
-
-
 }
