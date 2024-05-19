@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { TOKEN } from '../const/localStorageConst';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ServicePreview } from '../interfaces/servicePreview';
+import { ServicePreview, ServicePreviewPage } from '../interfaces/servicePreview';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,9 @@ export class ServicesService {
 
   getDefaultServices(categoryId:number): Observable<ServicePreview[]>{
     return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${10}`)
+  }
+
+  getServicesByCriteria(categoryId:number, term?:string):Observable<ServicePreviewPage>{
+    return this.http.get<ServicePreviewPage>(`${this.URLBACK}/service/all?p=${0}&limit=${10}&categoryId=${categoryId}&term=${term}`)
   }
 }

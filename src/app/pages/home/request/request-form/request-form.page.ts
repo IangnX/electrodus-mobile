@@ -17,7 +17,7 @@ import { ChargeServiceFormComponent } from 'src/app/components/charge-service-fo
 import { addIcons } from 'ionicons';
 import { removeCircleOutline, star } from 'ionicons/icons';
 import { ServicesService } from 'src/app/services/services.service';
-import { ServicePreview } from 'src/app/interfaces/servicePreview';
+import { ServicePreview, ServicePreviewPage } from 'src/app/interfaces/servicePreview';
 
 @Component({
   selector: 'app-request-form',
@@ -48,6 +48,8 @@ export class RequestFormPage implements OnInit {
   bottonRedTitle = "ERROR TEXT"
   isBudgedActive = false;
   servicesInRequest : ServicePreview[] = []
+  servicesToIncludeInRequest : ServicePreview[] = []
+  temporalServiceList : ServicePreview[] = []
   alertButtons = [
     {
       text: 'No',
@@ -89,6 +91,7 @@ export class RequestFormPage implements OnInit {
       },
     },
   ];
+
 
   constructor(private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
@@ -273,14 +276,32 @@ export class RequestFormPage implements OnInit {
 
   addServices() {
     this.isOpenModalServices = false
+    this.servicesInRequest = [...this.temporalServiceList]
   }
 
   openModalServices() {
     this.isOpenModalServices = true
+    this.servicesService.getServicesByCriteria(this.requestCategoryId, "").subscribe((servicesPage:ServicePreviewPage)=>{
+      this.servicesToIncludeInRequest = servicesPage.content;
+    })
+  }
 
+  closeModalServices(){
+    this.isOpenModalServices = false
+    this.temporalServiceList = []
   }
 
   removeService(idService: number) {
    this.servicesInRequest = this.servicesInRequest.filter((service:ServicePreview)=> service.id !== idService)
   }
+
+  updateServicesList(event: any) {
+    if (event.checked) {
+      this.temporalServiceList = [...this.temporalServiceList, event.service]
+    }else{
+      this.temporalServiceList = [...this.temporalServiceList.filter((serviceTemp:ServicePreview) => serviceTemp !== event.service)]
+    }
+  }
+
+
 }
