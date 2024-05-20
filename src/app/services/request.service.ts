@@ -7,6 +7,7 @@ import { RequestResponse } from '../interfaces/requetResponse';
 import { RequestPreview } from '../interfaces/requestPreview';
 import { RequestPreviewPage } from '../interfaces/RequestPreviewPage';
 import { TOKEN } from '../const/localStorageConst';
+import { ResponseApiMessage } from '../interfaces/responseApiMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,10 @@ export class RequestService {
 
   updateRequestStatus(requestId:number,status:string): Observable<boolean>{
     return this.http.put<boolean>(`${this.URLBACK}/request/${requestId}/${status}`,null,{headers: this.headers})
+  }
+
+  createBudget(budget: any): Observable<ResponseApiMessage> {
+    return this.http.post<ResponseApiMessage>(this.URLBACK + '/request/save/budget', budget, {headers: this.headers});
   }
 
 }

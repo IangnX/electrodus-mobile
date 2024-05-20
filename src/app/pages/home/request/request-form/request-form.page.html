@@ -224,3 +224,10 @@
   [message]="'¿Seguro que desea cancelar la Solicitud?'"
   [buttons]="alertButtonsCancel"
 ></ion-alert>
+
+<ion-alert
+  [isOpen]="isAlertConfirmBudget"
+  header="Guardar presupuesto"
+  [message]="'Se guardaran los cambios y se enviara al cliente ¿Desea continuar?'"
+  [buttons]="buttonsConfirmSaveBudget"
+></ion-alert>

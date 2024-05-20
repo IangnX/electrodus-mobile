@@ -21,6 +21,7 @@ import { ServicePreview, ServicePreviewPage } from 'src/app/interfaces/servicePr
 import { ListsServicesModalComponent } from 'src/app/components/list-services-modal/list-services-modal.component';
 import { PromotionService } from 'src/app/services/promotion.service';
 import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionResponsePage';
+import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
 
 @Component({
   selector: 'app-request-form',
@@ -30,6 +31,7 @@ import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionRe
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,ListsServicesModalComponent]
 })
 export class RequestFormPage implements OnInit {
+
 
   requestCategoryId = 0;
   isOpenModalServices = false
@@ -54,6 +56,7 @@ export class RequestFormPage implements OnInit {
   totalToPay = 0
   discount = 0
   subTotal = 0
+  isAlertConfirmBudget = false
   alertButtons = [
     {
       text: 'No',
@@ -92,6 +95,26 @@ export class RequestFormPage implements OnInit {
         console.log('Continuar');
         this.isAlertOpen = false
         this.cancelRequest()
+      },
+    },
+  ];
+
+  buttonsConfirmSaveBudget = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        this.isAlertConfirmBudget = false
+        console.log('Cancelar');
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        console.log('Continuar');
+        this.isAlertConfirmBudget = false
+        this.saveBudget()
       },
     },
   ];
@@ -330,5 +353,21 @@ export class RequestFormPage implements OnInit {
     if (this.servicesInRequest.length === 0) {
       this.toastService.presentToast('Por favor agregue al menos 1 servicio',5000,'bottom','warning')
     }
+
+    this.isAlertConfirmBudget = true
+  }
+
+  saveBudget() {
+    const budget = {
+      requestId :this.idRequest,
+      services: this.servicesInRequest,
+      promotions: this.promotions
+    }
+    console.log("PRESUPUESTO GUARDADO");
+    console.log(budget);
+    this.requestService.createBudget(budget).subscribe( (response:ResponseApiMessage) => {
+      this.toastService.presentToast(response.message,5000,'bottom','success')
+      this.router.navigate(['/request']);
+    })
   }
 }
