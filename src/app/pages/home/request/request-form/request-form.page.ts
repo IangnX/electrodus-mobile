@@ -22,13 +22,15 @@ import { ListsServicesModalComponent } from 'src/app/components/list-services-mo
 import { PromotionService } from 'src/app/services/promotion.service';
 import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionResponsePage';
 import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
+import { EquipmentCardImageComponent } from 'src/app/components/equipment-card-image/equipment-card-image.component';
 
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.page.html',
   styleUrls: ['./request-form.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,ListsServicesModalComponent]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,
+    ListsServicesModalComponent, EquipmentCardImageComponent]
 })
 export class RequestFormPage implements OnInit {
 
@@ -57,6 +59,7 @@ export class RequestFormPage implements OnInit {
   discount = 0
   subTotal = 0
   isAlertConfirmBudget = false
+  request!: RequestResponse;
   alertButtons = [
     {
       text: 'No',
@@ -149,6 +152,7 @@ export class RequestFormPage implements OnInit {
     this.requestService.getRequestById(this.idRequest)
       .subscribe((request:RequestResponse)=> {
         console.log(request);
+        this.request = request
         this.requestStatus = request.status
         this.requestCategoryId = request.equipmentIdCategory
         this.setTextButtonRed()
@@ -156,7 +160,8 @@ export class RequestFormPage implements OnInit {
           idEquipmentPreliminary: request.idEquipmentPreliminary,
           description: request.description,
           equipmentSelectedName: request.equipmentName,
-          address: request.address
+          address: request.address,
+          equipmentImage: request.equipmentImagen
         })
         if (request.address && request.address !== "") {
           this.isReparationInAddress = true
@@ -171,6 +176,7 @@ export class RequestFormPage implements OnInit {
       description: ['',[Validators.required]],
       equipmentSelectedName: ['',Validators.required],
       address: ['',],
+      equipmentImage:['']
     });
   }
 
