@@ -10,7 +10,7 @@ import { RequestService } from 'src/app/services/request.service';
 import { getRequestStatus, getRequestStatusColor } from 'src/app/utils/requestUtil';
 import { IonRefresherCustomEvent } from '@ionic/core';
 import { RequestPreviewPage } from 'src/app/interfaces/RequestPreviewPage';
-import { catchError, finalize } from 'rxjs';
+import { Subscription, catchError, finalize } from 'rxjs';
 import { RequestPreviewComponent } from 'src/app/components/request-preview/request-preview.component';
 import { Navigation, Router, RouterModule } from '@angular/router';
 
@@ -29,6 +29,9 @@ export class RequestPage implements OnInit {
   isLoading = true;
   error = null;
   currentPage: number =0
+  private requestChangeRef: Subscription = new Subscription()
+  isCommingNewRequest = false
+
 
   constructor(private requestService: RequestService) {
     addIcons({ trashBinOutline, eyeOutline})
@@ -36,6 +39,12 @@ export class RequestPage implements OnInit {
 
   ngOnInit() {
     this.getRequestList();
+    this.requestChangeRef = this.requestService.requestChanged$.subscribe(() => {
+      setTimeout(() => {
+        this.isCommingNewRequest = true
+        this.getRequestList();
+      }, 1000);
+    })
   }
 
   updateRequestList(request: boolean) {
@@ -65,7 +74,12 @@ export class RequestPage implements OnInit {
       })
     )
     .subscribe((requestPreviewPage:RequestPreviewPage)=> {
-      this.requestPreviewList.push( ...requestPreviewPage.content )
+      if (this.isCommingNewRequest) {
+        this.requestPreviewList = [...requestPreviewPage.content]
+        this.isCommingNewRequest = false
+      }else{
+        this.requestPreviewList.push( ...requestPreviewPage.content )
+      }
       if (!requestPreviewPage.last) {
         this.currentPage++
       }

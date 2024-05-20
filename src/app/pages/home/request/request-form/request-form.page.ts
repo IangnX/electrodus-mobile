@@ -358,6 +358,7 @@ export class RequestFormPage implements OnInit {
   aproveBudget() {
     if (this.servicesInRequest.length === 0) {
       this.toastService.presentToast('Por favor agregue al menos 1 servicio',5000,'bottom','warning')
+      return
     }
 
     this.isAlertConfirmBudget = true

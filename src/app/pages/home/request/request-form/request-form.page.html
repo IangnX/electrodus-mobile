@@ -193,7 +193,7 @@
                        class="btn-login"
                        color="secondary"
                        (click)="createBudget()"
-                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive}">
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || !isGranted(['CREAR_PRESUPUESTO'])}">
                        Crear presupuesto
           </ion-button>
 
@@ -202,7 +202,7 @@
                        shape="round"
                        class="btn-login"
                        (click)="aproveBudget()"
-                       [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING' }">
+                       [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING'  }">
                        Aprobar solicitud
           </ion-button>
         </ion-col>
