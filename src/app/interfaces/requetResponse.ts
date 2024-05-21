@@ -1,3 +1,6 @@
+import { Promotion } from "./promotionResponsePage"
+import { ServicePreview } from "./servicePreview"
+
 export interface RequestResponse {
   id: number,
   address: string,
@@ -12,4 +15,6 @@ export interface RequestResponse {
   culmination_date: string,
   equipmentName: string
   equipmentIdCategory: number
+  promotions:Promotion[]
+  services:ServicePreview[]
 }

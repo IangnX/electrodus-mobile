@@ -75,9 +75,7 @@ export class RequestFormPage implements OnInit {
       handler: () => {
         console.log('Continuar');
         this.showModalCancel = false
-        this.idRequest = 0
-        this.form.reset()
-        this.router.navigate(['/request']);
+        this.resetPage();
       },
     },
   ];
@@ -166,6 +164,10 @@ export class RequestFormPage implements OnInit {
         if (request.address && request.address !== "") {
           this.isReparationInAddress = true
         }
+        this.servicesInRequest = request.services
+        this.promotions = request.promotions
+        this.isBudgedActive = request.status === 'ACCEPTED'
+
       })
   }
 
@@ -217,9 +219,9 @@ export class RequestFormPage implements OnInit {
       return;
     }
     this.requestService.createRequest(this.generateRequestForm()).subscribe((request:RequestResponse) => {
-      this.router.navigate(['/request']);
+      this.resetPage()
       this.toastService.presentToast('Solicitud creada exitosamente!',5000,'bottom','success')
-      this.form.reset()
+
     })
   }
 
@@ -238,7 +240,7 @@ export class RequestFormPage implements OnInit {
   setResult(ev:any) {
     if(ev.detail.role === "confirm"){
       const currentUrl = this.router.url;
-      this.router.navigate(['/request']);
+      this.resetPage()
     }
   }
 
@@ -257,8 +259,7 @@ export class RequestFormPage implements OnInit {
   cancelRequest() {
     this.requestService.updateRequestStatus(this.idRequest,this.newStatusRequest).subscribe((resp:boolean)=> {
       console.log(resp);
-      this.router.navigate(['/request']);
-      this.idRequest = 0
+      this.resetPage()
       this.toastService.presentToast('La solicitud ha sido cancelada!',5000,'bottom')
     })
   }
@@ -374,7 +375,19 @@ export class RequestFormPage implements OnInit {
     console.log(budget);
     this.requestService.createBudget(budget).subscribe( (response:ResponseApiMessage) => {
       this.toastService.presentToast(response.message,5000,'bottom','success')
-      this.router.navigate(['/request']);
+      this.resetPage()
     })
+  }
+
+  resetPage(){
+    this.idRequest = 0
+    this.form.reset()
+    this.isBudgedActive = false
+    this.servicesInRequest = []
+    this.promotions = []
+    this.subTotal = 0
+    this.discount = 0
+    this.form.reset()
+    this.router.navigate(['/request']);
   }
 }

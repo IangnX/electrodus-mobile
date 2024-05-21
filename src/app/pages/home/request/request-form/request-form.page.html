@@ -14,7 +14,10 @@
       <ion-card-content>
         <form [formGroup]="form">
           <ion-list>
-
+            <app-equipment-card-image *ngIf="viewMode"
+                                      [image]="form.get('equipmentImage')?.value"
+                                      [name]="form.get('equipmentSelectedName')?.value"
+            ></app-equipment-card-image>
 
             <ion-searchbar *ngIf="!viewMode"
                           placeholder="Busca tu equipo: lavadora, cocina, nevera..."
@@ -101,7 +104,7 @@
           }
         </ion-list>
       </ion-card-content>
-      <div class="ion-text-end">
+      <div class="ion-text-end" [ngClass]="{'hidden-button': requestStatus === 'ACCEPTED'}" >
         <ion-button  fill="clear" (click)="openModalServices()" >Agregar servicio</ion-button>
       </div>
 
@@ -143,7 +146,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-list [inset]="true" *ngIf="servicesInRequest.length > 0">
+    <ion-list [inset]="true" *ngIf="isBudgedActive && servicesInRequest.length > 0">
       <ion-item>
         <ion-label>Sub total</ion-label>
         <ion-badge slot="end" color="success" >$ {{subTotal}}</ion-badge>
@@ -169,7 +172,7 @@
                     color="danger"
                     class="btn-login"
                     (click)="setOpen(true)"
-                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED'}"
+                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED' || requestStatus === 'ACCEPTED'}"
                     >
                     {{bottonRedTitle}}
           </ion-button>
@@ -190,7 +193,7 @@
                        class="btn-login"
                        color="secondary"
                        (click)="createBudget()"
-                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || !isGranted(['CREAR_PRESUPUESTO'])}">
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || requestStatus === 'ACCEPTED' || !isGranted(['CREAR_PRESUPUESTO'])}">
                        Crear presupuesto
           </ion-button>
 
