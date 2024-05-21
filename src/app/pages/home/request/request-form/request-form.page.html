@@ -14,10 +14,7 @@
       <ion-card-content>
         <form [formGroup]="form">
           <ion-list>
-            <app-equipment-card-image *ngIf="viewMode"
-                                      [image]="form.get('equipmentImage')?.value"
-                                      [name]="form.get('equipmentSelectedName')?.value"
-            ></app-equipment-card-image>
+
 
             <ion-searchbar *ngIf="!viewMode"
                           placeholder="Busca tu equipo: lavadora, cocina, nevera..."
