@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title >Configuraciónes</ion-title>
     <ion-buttons [collapse]="true" slot="end">
-      <ion-button >
+      <ion-button (click)="confirmLogoutModal()">
         <ion-icon  name="exit-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -39,3 +39,11 @@
 
   </ion-list>
 </ion-content>
+
+<ion-alert
+  *ngIf="showLogoutModal"
+  isOpen="true"
+  header="Cerrar sesion"
+  [message]="'¿Seguro que desea cerrar sesion?'"
+  [buttons]="logoutButtons"
+></ion-alert>

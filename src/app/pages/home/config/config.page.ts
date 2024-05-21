@@ -18,7 +18,29 @@ import { UserProfilePage } from './user-profile/user-profile.page';
   imports: [IonicModule, CommonModule, FormsModule, IonChip]
 })
 export class ConfigPage implements OnInit {
+
+  showLogoutModal = false
   component = UserProfilePage
+
+  logoutButtons = [
+    {
+      text: 'No',
+      role: 'cancel',
+      handler: () => {
+        console.log('Cancelar');
+        this.showLogoutModal = false
+      },
+    },
+    {
+      text: 'Si',
+      role: 'confirm',
+      handler: () => {
+        localStorage.clear()
+        this.showLogoutModal = false
+        this.router.navigate(['/login']);
+      },
+    },
+  ];
 
   constructor(private router: Router) {
     addIcons({ exitOutline, chevronForwardOutline });
@@ -29,6 +51,15 @@ export class ConfigPage implements OnInit {
 
   goToUserProfile() {
     this.router.navigate(['user-profile']);
+  }
+
+  confirmLogoutModal(){
+    this.showLogoutModal = true
+  }
+
+  logout() {
+    console.log("logout");
+
   }
 
 }
