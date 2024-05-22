@@ -15,6 +15,5 @@ export interface RequestResponse {
   culmination_date: string,
   equipmentName: string
   equipmentIdCategory: number
-  promotions:Promotion[]
   services:ServicePreview[]
 }

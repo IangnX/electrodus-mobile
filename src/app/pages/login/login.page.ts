@@ -51,6 +51,7 @@ export class LoginPage {
       localStorage.setItem(USER, JSON.stringify(resp.user))
       const listaDeStrings: string[] = resp.user.authorities.map((authority) => authority.authority);
       localStorage.setItem(AUTHORITIES,JSON.stringify(listaDeStrings))
+      this.form.reset()
       this.router.navigate(['/home'])
     },
     error => {

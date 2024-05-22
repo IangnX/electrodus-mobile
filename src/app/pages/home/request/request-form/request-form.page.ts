@@ -165,9 +165,14 @@ export class RequestFormPage implements OnInit {
           this.isReparationInAddress = true
         }
         this.servicesInRequest = request.services
-        this.promotions = request.promotions
         this.isBudgedActive = request.status === 'ACCEPTED'
-
+        this.servicesInRequest.forEach((service:ServicePreview)=> {
+          service.promotions.forEach((promotion:Promotion)=> {
+            this.discount += service.cost * (promotion.discount / 100)
+          })
+          this.subTotal += service.cost
+          this.promotions = [...this.promotions,...service.promotions]
+        })
       })
   }
 

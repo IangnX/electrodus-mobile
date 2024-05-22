@@ -99,6 +99,7 @@
         <ion-list> <!-- SERVICIOS EN LA SOLICITUD-->
           @for (serviceToRequest of servicesInRequest; track serviceToRequest.id) {
             <app-charge-service-form [servicePreview]="serviceToRequest"
+                                     [showButton]="false"
                                      (serviceRemoveEmit)="removeService($event)">
             </app-charge-service-form>
           }

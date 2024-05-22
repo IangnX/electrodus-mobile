@@ -1,3 +1,4 @@
+import { Promotion } from "./promotionResponsePage";
 
 export interface ServicePreviewPage {
   content:          ServicePreview[];
@@ -36,5 +37,6 @@ export interface ServicePreview {
   name: string;
   description: string;
   durationWarranty: number;
-  isDefault: boolean
+  isDefault: boolean;
+  promotions:Promotion[]
 }

@@ -119,6 +119,7 @@ export class UserFormComponent  implements OnInit {
       return;
     }
     this.userChanged.emit(this.formToUser())
+    this.form.reset()
   }
 
   formToUser(): UserSave{

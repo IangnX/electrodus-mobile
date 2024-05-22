@@ -22,6 +22,7 @@ export class ChargeServiceFormComponent  implements OnInit {
   @Input() isAddService = false;
   @Output() servicesSelectedChange:  EventEmitter<any> = new EventEmitter<any>();
   @Input() servicesChecked: ServicePreview[] = []
+  @Input() showButton = true
   temporalServices: ServicePreview[] = []
   servicesToAdd: ServicePreview[] = []
   constructor() { }
