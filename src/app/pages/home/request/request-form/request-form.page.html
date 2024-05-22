@@ -177,6 +177,17 @@
                     >
                     {{bottonRedTitle}}
           </ion-button>
+
+          <ion-button  type="submit"
+                    id="open-modal"
+                    shape="round"
+                    color="danger"
+                    class="btn-login"
+                    (click)="setOpen(true)"
+                    [ngClass]="{'hidden-button': requestStatus !== 'ACCEPTED' || !isGranted(['RECHAZAR_PRESUPUESTO'])}"
+                    >
+                    Rechazar presupuesto
+          </ion-button>
         </ion-col>
         <ion-col size="6">
           <ion-button type="submit"
@@ -205,6 +216,15 @@
                        (click)="aproveBudget()"
                        [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING'  }">
                        Aprobar solicitud
+          </ion-button>
+
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       (click)="aceptBudget()"
+                       [ngClass]="{'hidden-button':  requestStatus !== 'ACCEPTED' || !isGranted(['ACEPTAR_PRESUPUESTO'])  }">
+                       Aceptar presupuesto
           </ion-button>
         </ion-col>
 

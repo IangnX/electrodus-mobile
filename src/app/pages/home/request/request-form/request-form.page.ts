@@ -395,4 +395,9 @@ export class RequestFormPage implements OnInit {
     this.form.reset()
     this.router.navigate(['/request']);
   }
+
+  aceptBudget() {
+    console.log("ACEPTAR SOLICITUD");
+
+  }
 }
