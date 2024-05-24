@@ -24,7 +24,7 @@ export class RegistryPage  {
     private toastService: ToastService) {}
 
   goToLogin() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login'],{ replaceUrl: true })
   }
 
   registryUser(user: UserSave) {

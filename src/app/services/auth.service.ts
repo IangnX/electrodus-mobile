@@ -14,18 +14,23 @@ export class AuthService {
 
   private URLBACK : string =  environment.URLBACK;
 
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  });
+
 
   constructor(private http: HttpClient) { }
 
   saveUser(user:UserSave):Observable<ResponseApiMessage>{
-    return this.http.post<ResponseApiMessage>(this.URLBACK + '/users',user,{headers: this.headers})
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<ResponseApiMessage>(this.URLBACK + '/users',user,{headers})
   }
 
   login(credential: UserLogin):Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(this.URLBACK + '/auth/authenticate',credential,{headers: this.headers})
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<LoginResponse>(this.URLBACK + '/auth/authenticate',credential,{headers})
   }
 }

@@ -19,9 +19,6 @@ export class NotificationsService {
 
   private URLBACK : string =  environment.URLBACK;
 
-  headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
-  });
 
   constructor(private http: HttpClient) { }
 
@@ -130,6 +127,10 @@ export class NotificationsService {
       const tokenDTO = {
         "token": token
       }
-      return this.http.post<boolean>(this.URLBACK + '/notifications/save-token-notification', tokenDTO, {headers: this.headers});
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return this.http.post<boolean>(this.URLBACK + '/notifications/save-token-notification', tokenDTO, {headers: headers});
     }
 }

@@ -12,16 +12,18 @@ export class PromotionService {
 
   private URLBACK : string =  environment.URLBACK;
 
-  headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
-  });
+
   constructor(private http: HttpClient) { }
 
   getPromotionsByService(serviceIds:number[]):Observable<PromotionResponsePage> {
     const request ={
       ids : serviceIds
     }
-    return this.http.post<PromotionResponsePage>(this.URLBACK + '/promotion/by-service-in', request, {headers: this.headers});
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<PromotionResponsePage>(this.URLBACK + '/promotion/by-service-in', request, {headers: headers});
   }
 
 

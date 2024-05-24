@@ -14,15 +14,24 @@ export class EquipmentService {
 
   headers = new HttpHeaders({
     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+    'Access-Control-Allow-Origin': '*'
   });
 
   constructor(private http: HttpClient) { }
 
   public getEquipments(): Observable<Equipment[]>{
-    return this.http.get<Equipment[]>(`${this.URLBACK}/equipment/all`)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<Equipment[]>(`${this.URLBACK}/equipment/all`,{headers})
   }
 
   public getEquipmentsByTerm(term:string,pages:number,limit:number): Observable<Equipment[]>{
-    return this.http.get<Equipment[]>(`${this.URLBACK}/equipment?p=${pages}&limit=${limit}&term=${term}`)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<Equipment[]>(`${this.URLBACK}/equipment?p=${pages}&limit=${limit}&term=${term}`,{headers})
   }
 }

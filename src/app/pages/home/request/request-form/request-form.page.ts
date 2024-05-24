@@ -393,7 +393,7 @@ export class RequestFormPage implements OnInit {
     this.subTotal = 0
     this.discount = 0
     this.form.reset()
-    this.router.navigate(['/request']);
+    this.router.navigate(['/request'],{ replaceUrl: true });
   }
 
   aceptBudget() {

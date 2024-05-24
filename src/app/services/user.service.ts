@@ -14,18 +14,22 @@ export class UserService {
 
   private URLBACK : string =  environment.URLBACK;
 
-  headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
-  });
-
   constructor(private http: HttpClient) { }
 
   update(id: number,user:UserUpdate):Observable<ResponseApiMessage>{
-    return this.http.put<ResponseApiMessage>(this.URLBACK + `/users/${id}`,user,{headers: this.headers})
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.put<ResponseApiMessage>(this.URLBACK + `/users/${id}`,user,{headers})
   }
 
   updateImageProfile(formdata: FormData):Observable<ResponseApiMessage>{
-    return this.http.post<ResponseApiMessage>(this.URLBACK + `/users/profile/pic`,formdata,{headers: this.headers})
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<ResponseApiMessage>(this.URLBACK + `/users/profile/pic`,formdata,{headers})
   }
 
 }

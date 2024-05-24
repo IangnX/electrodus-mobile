@@ -12,16 +12,22 @@ export class ServicesService {
 
   private URLBACK : string =  environment.URLBACK;
 
-  headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
-  });
+
   constructor(private http: HttpClient) { }
 
   getDefaultServices(categoryId:number): Observable<ServicePreview[]>{
-    return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${100}`)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<ServicePreview[]>(`${this.URLBACK}/service/default/${categoryId}?p=${0}&limit=${100}`,{headers})
   }
 
   getServicesByCriteria(categoryId:number, term?:string):Observable<ServicePreviewPage>{
-    return this.http.get<ServicePreviewPage>(`${this.URLBACK}/service/all?p=${0}&limit=${100}&categoryId=${categoryId}&term=${term}`)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<ServicePreviewPage>(`${this.URLBACK}/service/all?p=${0}&limit=${100}&categoryId=${categoryId}&term=${term}`,{headers})
   }
 }

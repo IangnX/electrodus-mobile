@@ -49,7 +49,7 @@ export class UserProfilePage implements OnInit {
       this.user.birthday = user.birthday
       localStorage.setItem(USER,JSON.stringify(this.user))
       this.toastService.presentToast(resp.message,3000,'bottom','success')
-      this.router.navigate(['/home/configuration'])
+      this.router.navigate(['/home/configuration'],{ replaceUrl: true })
     })
   }
 

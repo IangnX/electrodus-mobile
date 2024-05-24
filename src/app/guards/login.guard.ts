@@ -10,7 +10,7 @@ export const LoginGuard = (): boolean => {
   try{
     const token = localStorage.getItem(TOKEN)
     if(token){
-      router.navigate(['/home'])
+      router.navigate(['/home'],{ replaceUrl: true })
     }
     return true
   }catch(e){

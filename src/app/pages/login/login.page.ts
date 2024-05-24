@@ -37,7 +37,7 @@ export class LoginPage {
                 ],
     });
   goToRegistry(){
-    this.router.navigate(['/crear-cuenta'])
+    this.router.navigate(['/crear-cuenta'],{ replaceUrl: true })
   }
 
   login() {
@@ -52,7 +52,7 @@ export class LoginPage {
       const listaDeStrings: string[] = resp.user.authorities.map((authority) => authority.authority);
       localStorage.setItem(AUTHORITIES,JSON.stringify(listaDeStrings))
       this.form.reset()
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home'],{ replaceUrl: true })
     },
     error => {
       this.presentToast(error.error.apiMessage,5000,'bottom')

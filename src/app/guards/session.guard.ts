@@ -10,7 +10,7 @@ export const SessionGuard = (): boolean => {
   try{
     const token = localStorage.getItem(TOKEN)
     if(!token){
-      router.navigate(['/login'])
+      router.navigate(['/login'],{ replaceUrl: true })
     }
     return true
   }catch(e){

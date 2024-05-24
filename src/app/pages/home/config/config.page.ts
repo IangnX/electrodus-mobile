@@ -37,7 +37,7 @@ export class ConfigPage implements OnInit {
       handler: () => {
         localStorage.clear()
         this.showLogoutModal = false
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login'],{ replaceUrl: true });
       },
     },
   ];
@@ -50,7 +50,7 @@ export class ConfigPage implements OnInit {
   }
 
   goToUserProfile() {
-    this.router.navigate(['user-profile']);
+    this.router.navigate(['user-profile'],{ replaceUrl: true });
   }
 
   confirmLogoutModal(){
