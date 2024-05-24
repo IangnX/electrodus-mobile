@@ -8,6 +8,10 @@ export function  getRequestStatus(estatusString: string): RequestStatus | undefi
     "ACCEPTED": RequestStatus.ACCEPTED,
     "REJECTED": RequestStatus.REJECTED,
     "IN_REVIEW": RequestStatus.IN_REVIEW,
+    "REVIEWED": RequestStatus.REVIEWED,
+    "RECHECKED": RequestStatus.RECHECKED,
+    "ABORTED": RequestStatus.ABORTED,
+    "UNPAID": RequestStatus.UNPAID,
     "FINISHED": RequestStatus.FINISHED,
 
   };
@@ -23,6 +27,10 @@ export function  getRequestStatusColor(estatusString: string): RequestStatusColo
     "ACCEPTED": RequestStatusColor.ACCEPTED,
     "REJECTED": RequestStatusColor.REJECTED,
     "IN_REVIEW": RequestStatusColor.IN_REVIEW,
+    "REVIEWED": RequestStatusColor.ACCEPTED,
+    "RECHECKED": RequestStatusColor.IN_PROCESS,
+    "ABORTED": RequestStatusColor.CANCELLED,
+    "UNPAID": RequestStatusColor.REJECTED,
     "FINISHED": RequestStatusColor.FINISHED,
 
   };

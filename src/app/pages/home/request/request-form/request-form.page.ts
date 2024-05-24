@@ -95,7 +95,7 @@ export class RequestFormPage implements OnInit {
       handler: () => {
         console.log('Continuar');
         this.isAlertOpen = false
-        this.cancelRequest()
+        this.updateRequestStatus('La solicitud ha sido cancelada!')
       },
     },
   ];
@@ -261,11 +261,11 @@ export class RequestFormPage implements OnInit {
     this.isAlertOpen = isOpen;
   }
 
-  cancelRequest() {
+  updateRequestStatus(message:string) {
     this.requestService.updateRequestStatus(this.idRequest,this.newStatusRequest).subscribe((resp:boolean)=> {
       console.log(resp);
       this.resetPage()
-      this.toastService.presentToast('La solicitud ha sido cancelada!',5000,'bottom')
+      this.toastService.presentToast(message,5000,'bottom')
     })
   }
 
@@ -366,7 +366,6 @@ export class RequestFormPage implements OnInit {
       this.toastService.presentToast('Por favor agregue al menos 1 servicio',5000,'bottom','warning')
       return
     }
-
     this.isAlertConfirmBudget = true
   }
 
@@ -386,18 +385,17 @@ export class RequestFormPage implements OnInit {
 
   resetPage(){
     this.idRequest = 0
-    this.form.reset()
     this.isBudgedActive = false
     this.servicesInRequest = []
     this.promotions = []
     this.subTotal = 0
     this.discount = 0
     this.form.reset()
-    this.router.navigate(['/request'],{ replaceUrl: true });
+    this.router.navigate(['/home/request'],{ replaceUrl: true });
   }
 
   aceptBudget() {
-    console.log("ACEPTAR SOLICITUD");
-
+    this.newStatusRequest = 'IN_PROCESS'
+    this.updateRequestStatus('Presupuesto aceptado');
   }
 }

@@ -165,7 +165,7 @@
 
   <ion-footer class="ion-no-border">
     <ion-grid>
-      <ion-row>
+      <ion-row >
         <ion-col size="6">
           <ion-button  type="submit"
                     id="open-modal"
@@ -173,7 +173,7 @@
                     color="danger"
                     class="btn-login"
                     (click)="setOpen(true)"
-                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED' || requestStatus === 'ACCEPTED'}"
+                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED' || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS'}"
                     >
                     {{bottonRedTitle}}
           </ion-button>
@@ -205,7 +205,7 @@
                        class="btn-login"
                        color="secondary"
                        (click)="createBudget()"
-                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || requestStatus === 'ACCEPTED' || !isGranted(['CREAR_PRESUPUESTO'])}">
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || !isGranted(['CREAR_PRESUPUESTO'])}">
                        Crear presupuesto
           </ion-button>
 
