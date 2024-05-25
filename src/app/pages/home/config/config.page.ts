@@ -54,6 +54,8 @@ export class ConfigPage implements OnInit {
   }
 
   confirmLogoutModal(){
+    console.log("click logout modal is",this.showLogoutModal);
+
     this.showLogoutModal = true
   }
 

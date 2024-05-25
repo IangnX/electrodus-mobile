@@ -1,5 +1,6 @@
 import { Promotion } from "./promotionResponsePage"
 import { ServicePreview } from "./servicePreview"
+import { User } from "./user"
 
 export interface RequestResponse {
   id: number,
@@ -16,4 +17,5 @@ export interface RequestResponse {
   equipmentName: string
   equipmentIdCategory: number
   services:ServicePreview[]
+  userTechnician: User
 }

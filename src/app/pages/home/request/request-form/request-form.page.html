@@ -105,7 +105,7 @@
           }
         </ion-list>
       </ion-card-content>
-      <div class="ion-text-end" [ngClass]="{'hidden-button': requestStatus === 'ACCEPTED'}" >
+      <div class="ion-text-end" *ngIf="requestStatus === 'PENDING'" >
         <ion-button  fill="clear" (click)="openModalServices()" >Agregar servicio</ion-button>
       </div>
 
@@ -163,7 +163,7 @@
     </ion-list>
 
     <!-- DETALLE DEL TECNICO ASOCIADO A LA SOLICITUD-->
-    <ion-card *ngIf="requestStatus === 'IN_PROCESS'">
+    <ion-card *ngIf="requestStatus === 'IN_PROCESS' || requestStatus === 'IN_REVIEW' ">
       <ion-card-header>
         <ion-card-title>Técnico encargado</ion-card-title>
       </ion-card-header>
@@ -174,8 +174,11 @@
               <img alt="Silhouette of a person's head" [src]="technicalAssign.urlImage" />
             </ion-avatar>
           </ion-item>
-          <ion-label>{{technicalAssign.name}} {{technicalAssign.lastName}}</ion-label>
-          <ion-button size="small" color="danger" (click)="removeTechnician()">
+          <section>
+            <ion-label>{{technicalAssign.name}} {{technicalAssign.lastName}}</ion-label>
+            <ion-text><ion-icon color="success" name="logo-whatsapp"></ion-icon> {{technicalAssign.phoneNumber}}</ion-text>
+          </section>
+          <ion-button size="small" color="danger" *ngIf="requestStatus !== 'IN_REVIEW'"  (click)="removeTechnician()">
             <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
           </ion-button>
         </ion-item>
@@ -185,7 +188,7 @@
         </ion-item>
 
       </ion-card-content>
-      <div class="ion-text-end" >
+      <div class="ion-text-end" *ngIf="requestStatus === 'IN_PROCESS'" >
         <ion-button  fill="clear" (click)="openModalTechnician()" >Seleccionar técnico</ion-button>
       </div>
 
@@ -282,6 +285,15 @@
                        (click)="assignRequest()"
                        [ngClass]="{'hidden-button':  requestStatus !== 'IN_PROCESS' || !isGranted(['INICIAR_REPARACION'])  }">
                        Asignar solicitud
+          </ion-button>
+
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       (click)="finishRepair()"
+                       [ngClass]="{'hidden-button':  requestStatus !== 'IN_REVIEW' || !isGranted(['EJECUTAR_REPARACION'])  }">
+                       Finalizar reparación
           </ion-button>
         </ion-col>
 

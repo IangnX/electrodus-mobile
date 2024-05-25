@@ -15,7 +15,7 @@ import { isGranted } from 'src/app/utils/securityUtils';
 import { ModalController } from '@ionic/angular/standalone';
 import { ChargeServiceFormComponent } from 'src/app/components/charge-service-form/charge-service-form.component';
 import { addIcons } from 'ionicons';
-import { removeCircleOutline, star } from 'ionicons/icons';
+import { logoWhatsapp, removeCircleOutline, star } from 'ionicons/icons';
 import { ServicesService } from 'src/app/services/services.service';
 import { ServicePreview, ServicePreviewPage } from 'src/app/interfaces/servicePreview';
 import { ListsServicesModalComponent } from 'src/app/components/list-services-modal/list-services-modal.component';
@@ -132,7 +132,7 @@ export class RequestFormPage implements OnInit {
     private route: ActivatedRoute,
     private servicesService: ServicesService,
     private promotionService: PromotionService) {
-      addIcons({ removeCircleOutline })
+      addIcons({ removeCircleOutline,logoWhatsapp })
       this.buildForm()
     }
 
@@ -176,6 +176,7 @@ export class RequestFormPage implements OnInit {
           this.subTotal += service.cost
           this.promotions = [...this.promotions,...service.promotions]
         })
+        this.technicalAssign = request.userTechnician
       })
   }
 
@@ -439,6 +440,11 @@ export class RequestFormPage implements OnInit {
       this.resetPage()
     })
 
+  }
+
+  finishRepair() {
+    this.newStatusRequest = 'UNPAID'
+    this.updateRequestStatus('Reparacion finalizada exitosamente')
   }
 
 

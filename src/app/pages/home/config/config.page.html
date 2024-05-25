@@ -41,8 +41,7 @@
 </ion-content>
 
 <ion-alert
-  *ngIf="showLogoutModal"
-  isOpen="true"
+  [isOpen]="showLogoutModal"
   header="Cerrar sesion"
   [message]="'¿Seguro que desea cerrar sesion?'"
   [buttons]="logoutButtons"
