@@ -64,4 +64,14 @@ export class RequestService {
     return this.http.post<ResponseApiMessage>(this.URLBACK + '/request/save/budget', budget, {headers: headers});
   }
 
+  assignTechnician(assignRequest:any){
+    this.requestChangedSource.next()
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<ResponseApiMessage>(this.URLBACK + '/request/create/ticket', assignRequest, {headers: headers});
+
+  }
+
 }

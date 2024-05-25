@@ -91,7 +91,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="isBudgedActive">
+    <ion-card *ngIf="showDetailRequest">
       <ion-card-header>
         <ion-card-title>Servicios</ion-card-title>
       </ion-card-header>
@@ -131,7 +131,7 @@
       </ion-modal>
     </ion-card>
 
-    <ion-card *ngIf="isBudgedActive && promotions.length > 0">
+    <ion-card *ngIf="showDetailRequest && promotions.length > 0">
       <ion-card-header>
         <ion-card-title>Promociones disponibles</ion-card-title>
       </ion-card-header>
@@ -147,7 +147,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-list [inset]="true" *ngIf="isBudgedActive && servicesInRequest.length > 0">
+    <ion-list [inset]="true" *ngIf="showDetailRequest && servicesInRequest.length > 0">
       <ion-item>
         <ion-label>Sub total</ion-label>
         <ion-badge slot="end" color="success" >$ {{subTotal}}</ion-badge>
@@ -161,12 +161,60 @@
         <ion-badge slot="end" color="success" >$ {{ subTotal - discount}}</ion-badge>
       </ion-item>
     </ion-list>
+
+    <!-- DETALLE DEL TECNICO ASOCIADO A LA SOLICITUD-->
+    <ion-card *ngIf="requestStatus === 'IN_PROCESS'">
+      <ion-card-header>
+        <ion-card-title>Técnico encargado</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item lines="none" *ngIf="technicalAssign">
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img alt="Silhouette of a person's head" [src]="technicalAssign.urlImage" />
+            </ion-avatar>
+          </ion-item>
+          <ion-label>{{technicalAssign.name}} {{technicalAssign.lastName}}</ion-label>
+          <ion-button size="small" color="danger" (click)="removeTechnician()">
+            <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-item *ngIf="!technicalAssign">
+          <ion-label>No ha seleccionado un técnico</ion-label>
+        </ion-item>
+
+      </ion-card-content>
+      <div class="ion-text-end" >
+        <ion-button  fill="clear" (click)="openModalTechnician()" >Seleccionar técnico</ion-button>
+      </div>
+
+      <ion-modal #modal expand="block" [isOpen]="isOpenModalTechnician">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Seleccione un técnico</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="closeModalTechnician()">Cancelar</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-list> <!-- TECNICOS PARA ASOCIAR A LA SOLICITUD-->
+              <app-list-technician (userSelectedChange)="changeTechnician($event)"></app-list-technician>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    </ion-card>
+
+
   </ion-content>
 
   <ion-footer class="ion-no-border">
     <ion-grid>
-      <ion-row >
-        <ion-col size="6">
+      <ion-row class="ion-justify-content-center" >
+        <ion-col >
           <ion-button  type="submit"
                     id="open-modal"
                     shape="round"
@@ -205,7 +253,7 @@
                        class="btn-login"
                        color="secondary"
                        (click)="createBudget()"
-                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || isBudgedActive || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || !isGranted(['CREAR_PRESUPUESTO'])}">
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || showDetailRequest || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || !isGranted(['CREAR_PRESUPUESTO'])}">
                        Crear presupuesto
           </ion-button>
 
@@ -214,7 +262,7 @@
                        shape="round"
                        class="btn-login"
                        (click)="aproveBudget()"
-                       [ngClass]="{'hidden-button': !isBudgedActive || requestStatus !== 'PENDING'  }">
+                       [ngClass]="{'hidden-button': !showDetailRequest || requestStatus !== 'PENDING'  }">
                        Aprobar solicitud
           </ion-button>
 
@@ -225,6 +273,15 @@
                        (click)="aceptBudget()"
                        [ngClass]="{'hidden-button':  requestStatus !== 'ACCEPTED' || !isGranted(['ACEPTAR_PRESUPUESTO'])  }">
                        Aceptar presupuesto
+          </ion-button>
+
+          <ion-button type="submit"
+                       id="open-modal"
+                       shape="round"
+                       class="btn-login"
+                       (click)="assignRequest()"
+                       [ngClass]="{'hidden-button':  requestStatus !== 'IN_PROCESS' || !isGranted(['INICIAR_REPARACION'])  }">
+                       Asignar solicitud
           </ion-button>
         </ion-col>
 

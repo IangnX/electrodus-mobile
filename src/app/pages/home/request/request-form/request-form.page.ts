@@ -23,6 +23,8 @@ import { PromotionService } from 'src/app/services/promotion.service';
 import { Promotion, PromotionResponsePage } from 'src/app/interfaces/promotionResponsePage';
 import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
 import { EquipmentCardImageComponent } from 'src/app/components/equipment-card-image/equipment-card-image.component';
+import { ListTechnicianComponent } from 'src/app/components/list-technician/list-technician.component';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-request-form',
@@ -30,13 +32,13 @@ import { EquipmentCardImageComponent } from 'src/app/components/equipment-card-i
   styleUrls: ['./request-form.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule,ChargeServiceFormComponent,
-    ListsServicesModalComponent, EquipmentCardImageComponent]
+    ListsServicesModalComponent, EquipmentCardImageComponent,ListTechnicianComponent]
 })
 export class RequestFormPage implements OnInit {
 
-
   requestCategoryId = 0;
   isOpenModalServices = false
+  isOpenModalTechnician = false
   presentingElement: Element | null = null;
   form!: FormGroup;
   equipments: Equipment[] = []
@@ -52,7 +54,7 @@ export class RequestFormPage implements OnInit {
   requestStatus = "";
   newStatusRequest = "";
   bottonRedTitle = "ERROR TEXT"
-  isBudgedActive = false;
+  showDetailRequest = false;
   servicesInRequest : ServicePreview[] = []
   promotions: Promotion[] = []
   totalToPay = 0
@@ -60,6 +62,7 @@ export class RequestFormPage implements OnInit {
   subTotal = 0
   isAlertConfirmBudget = false
   request!: RequestResponse;
+  technicalAssign!: User | undefined
   alertButtons = [
     {
       text: 'No',
@@ -165,7 +168,7 @@ export class RequestFormPage implements OnInit {
           this.isReparationInAddress = true
         }
         this.servicesInRequest = request.services
-        this.isBudgedActive = request.status === 'ACCEPTED'
+        this.showDetailRequest = request.status === 'ACCEPTED' ||  request.status === 'IN_PROCESS'
         this.servicesInRequest.forEach((service:ServicePreview)=> {
           service.promotions.forEach((promotion:Promotion)=> {
             this.discount += service.cost * (promotion.discount / 100)
@@ -307,7 +310,7 @@ export class RequestFormPage implements OnInit {
   }
 
   createBudget(){
-    this.isBudgedActive = true
+    this.showDetailRequest = true
     this.servicesService.getDefaultServices(this.requestCategoryId).subscribe((defaultServices:ServicePreview[]) =>{
       this.servicesInRequest = defaultServices
       this.subTotal = defaultServices.reduce((sum, service) => sum + Number(service.cost), 0);
@@ -328,12 +331,25 @@ export class RequestFormPage implements OnInit {
 
   openModalServices() {
     this.isOpenModalServices = true
-
   }
 
   closeModalServices(){
     this.isOpenModalServices = false
   }
+
+  openModalTechnician() {
+    if (this.technicalAssign) {
+      this.toastService.presentToast('Quite al tecnico seleccionado para poder agregar a otro',3000,'bottom','warning')
+      return
+    }
+    this.isOpenModalTechnician = true
+  }
+
+  closeModalTechnician(){
+    this.isOpenModalTechnician = false
+  }
+
+
 
   removeService(idService: number) {
    const serviceToRemove = this.servicesInRequest.find((service:ServicePreview)=> service.id == idService)
@@ -385,7 +401,7 @@ export class RequestFormPage implements OnInit {
 
   resetPage(){
     this.idRequest = 0
-    this.isBudgedActive = false
+    this.showDetailRequest = false
     this.servicesInRequest = []
     this.promotions = []
     this.subTotal = 0
@@ -398,4 +414,32 @@ export class RequestFormPage implements OnInit {
     this.newStatusRequest = 'IN_PROCESS'
     this.updateRequestStatus('Presupuesto aceptado');
   }
+
+  changeTechnician(user: User) {
+    this.technicalAssign = user
+    this.closeModalTechnician()
+  }
+
+  removeTechnician() {
+    this.technicalAssign = undefined
+  }
+
+  assignRequest() {
+    if (!this.technicalAssign) {
+      this.toastService.presentToast('Por favor seleccione 1 técnico',5000,'bottom','warning')
+      return
+    }
+
+    const assignRequest = {
+      technicianId: this.technicalAssign.id,
+      requestId: this.request.id
+    }
+    this.requestService.assignTechnician(assignRequest).subscribe((response:ResponseApiMessage)=> {
+      this.toastService.presentToast(response.message,5000,'bottom','success')
+      this.resetPage()
+    })
+
+  }
+
+
 }

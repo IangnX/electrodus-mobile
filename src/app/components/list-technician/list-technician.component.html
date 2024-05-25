@@ -1,0 +1,18 @@
+@for (user of users; track user.id) {
+  <ion-item lines="none">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img alt="imagen del técnico" [src]="user.urlImage" />
+      </ion-avatar>
+    </ion-item>
+    <ion-label>{{user.name}} {{user.lastName}}</ion-label>
+    <ion-checkbox (ionChange)="onServiceChange(user,$event)" ></ion-checkbox>
+  </ion-item>
+}
+<ion-col>
+  <div class="ion-text-center">
+    <ion-button (click)="emitUser()" [disabled]="userSelected.length === 0">
+      Continuar
+    </ion-button>
+  </div>
+</ion-col>

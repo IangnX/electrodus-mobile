@@ -32,4 +32,12 @@ export class UserService {
     return this.http.post<ResponseApiMessage>(this.URLBACK + `/users/profile/pic`,formdata,{headers})
   }
 
+  findByAuthority(authority:string):Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.get<any>(this.URLBACK + `/users/by-authority?authority=${authority}&page=0&size=1000&sort=asc`,{headers})
+  }
+
 }
