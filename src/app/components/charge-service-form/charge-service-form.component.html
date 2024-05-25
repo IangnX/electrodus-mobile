@@ -1,4 +1,4 @@
-<ion-item *ngIf="!isAddService">
+<ion-item lines="none" *ngIf="!isAddService">
   <ion-badge slot="start">$ {{servicePreview.cost}}</ion-badge>
   <ion-label>{{servicePreview.name}}</ion-label>
   <ion-button size="small" color="danger" *ngIf="showButton" (click)="removeService(servicePreview.id)">
@@ -6,7 +6,7 @@
   </ion-button>
 </ion-item>
 
-<ion-item *ngIf="isAddService && !isChecked(servicePreview)">
+<ion-item lines="none" *ngIf="isAddService && !isChecked(servicePreview)">
   <ion-badge slot="start">$ {{servicePreview.cost}}</ion-badge>
   <ion-label>{{servicePreview.name}}</ion-label>
   <ion-checkbox (ionChange)="onServiceChange(servicePreview,$event)"></ion-checkbox>

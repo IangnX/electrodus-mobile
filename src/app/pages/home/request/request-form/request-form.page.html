@@ -41,7 +41,7 @@
           </ion-list>
 
           <ion-list >
-            <ion-item >
+            <ion-item lines="none" >
               <ion-textarea
                 label="Descripción la falla que presenta el equipo"
                 labelPlacement="floating"
@@ -61,7 +61,7 @@
           </span>
 
           <ion-list>
-            <ion-item>
+            <ion-item lines="none">
               <ion-toggle [disabled]="viewMode" [enableOnOffLabels]="isReparationInAddress" [checked]="isReparationInAddress" (click)="changePlaceRepair()">
                 <ion-label>¿Reparación a domicilio?</ion-label>
               </ion-toggle>
@@ -69,7 +69,7 @@
           </ion-list>
 
           <ion-list *ngIf="isReparationInAddress" >
-            <ion-item >
+            <ion-item lines="none">
               <ion-textarea
                 label="Dirección de la reparación"
                 labelPlacement="floating"
@@ -138,7 +138,7 @@
       <ion-card-content>
         <ion-list> <!-- PROMOCIONES DE LOS SERVICIOS SELECCIONADOS-->
           @for (promotion of promotions; track promotion.id) {
-            <ion-item >
+            <ion-item lines="none" >
               <ion-badge slot="start" color="success" >{{promotion.discount}}%</ion-badge>
               <ion-label>{{promotion.description}}</ion-label>
             </ion-item>
@@ -148,15 +148,15 @@
     </ion-card>
 
     <ion-list [inset]="true" *ngIf="showDetailRequest && servicesInRequest.length > 0">
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>Sub total</ion-label>
         <ion-badge slot="end" color="success" >$ {{subTotal}}</ion-badge>
       </ion-item>
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>Descuento</ion-label>
         <ion-badge slot="end" color="success" >$ {{discount}}</ion-badge>
       </ion-item>
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>Total a pagar</ion-label>
         <ion-badge slot="end" color="success" >$ {{ subTotal - discount}}</ion-badge>
       </ion-item>
@@ -221,7 +221,7 @@
                     color="danger"
                     class="btn-login"
                     (click)="setOpen(true)"
-                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED' || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS'}"
+                    [ngClass]="{'hidden-button': !idRequest || !isGranted(['RECHAZAR_SOLICITUD','CANCELAR_SOLICITUD']) || requestStatus === 'CANCELLED' ||  requestStatus === 'REJECTED' || requestStatus === 'ABORTED' || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || requestStatus === 'IN_REVIEW'}"
                     >
                     {{bottonRedTitle}}
           </ion-button>
@@ -253,7 +253,7 @@
                        class="btn-login"
                        color="secondary"
                        (click)="createBudget()"
-                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || showDetailRequest || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || !isGranted(['CREAR_PRESUPUESTO'])}">
+                       [ngClass]="{'hidden-button': !idRequest || requestStatus === 'REJECTED' || requestStatus === 'CANCELLED'  || requestStatus === 'ABORTED' || showDetailRequest || requestStatus === 'ACCEPTED' || requestStatus ===  'IN_PROCESS' || !isGranted(['CREAR_PRESUPUESTO']) || requestStatus === 'IN_REVIEW'}">
                        Crear presupuesto
           </ion-button>
 

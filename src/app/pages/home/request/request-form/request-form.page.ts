@@ -168,7 +168,7 @@ export class RequestFormPage implements OnInit {
           this.isReparationInAddress = true
         }
         this.servicesInRequest = request.services
-        this.showDetailRequest = request.status === 'ACCEPTED' ||  request.status === 'IN_PROCESS'
+        this.showDetailRequest = request.status === 'ACCEPTED' ||  request.status === 'IN_PROCESS' || request.status === 'IN_REVIEW'
         this.servicesInRequest.forEach((service:ServicePreview)=> {
           service.promotions.forEach((promotion:Promotion)=> {
             this.discount += service.cost * (promotion.discount / 100)
