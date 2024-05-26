@@ -74,4 +74,12 @@ export class RequestService {
 
   }
 
+  uploadVoucherRequest(idRequest:number,formdata: FormData):Observable<ResponseApiMessage>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+      'Access-Control-Allow-Origin': '*'
+    });
+    return this.http.post<ResponseApiMessage>(this.URLBACK + `/request/upload-voucher/${idRequest}`,formdata,{headers})
+  }
+
 }

@@ -24,3 +24,25 @@ ion-textarea.custom {
 ion-note {
   display: block;
 }
+
+.comprobante-btn{
+  height: 60px;
+  width: 100%;
+  --background: #059eb5;
+  --background-hover: #9ce0be;
+  --background-activated: #08b75f;
+  --background-focused: #07502b;
+
+  --color: rgb(255, 255, 255);
+
+  --border-color: #b6b6b6;
+  --border-style: solid;
+  --border-width: 1px;
+
+  --box-shadow: 0 2px 6px 0 rgba(255, 255, 255, 0.415);
+
+  --ripple-color: rgb(251, 0, 159);
+
+}
+
+

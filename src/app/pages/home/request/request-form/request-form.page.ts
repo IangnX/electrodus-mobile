@@ -25,6 +25,8 @@ import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
 import { EquipmentCardImageComponent } from 'src/app/components/equipment-card-image/equipment-card-image.component';
 import { ListTechnicianComponent } from 'src/app/components/list-technician/list-technician.component';
 import { User } from 'src/app/interfaces/user';
+import { Capacitor } from '@capacitor/core';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-request-form',
@@ -36,10 +38,12 @@ import { User } from 'src/app/interfaces/user';
 })
 export class RequestFormPage implements OnInit {
 
+
   requestCategoryId = 0;
   isOpenModalServices = false
   isOpenModalTechnician = false
   presentingElement: Element | null = null;
+  presentingElementVoucher: Element | null = null;
   form!: FormGroup;
   equipments: Equipment[] = []
   searchedEquipment = false
@@ -63,6 +67,8 @@ export class RequestFormPage implements OnInit {
   isAlertConfirmBudget = false
   request!: RequestResponse;
   technicalAssign!: User | undefined
+  voucherImage = "https://firebasestorage.googleapis.com/v0/b/fioxin.appspot.com/o/comprobante_de_pagos%2Fcomprobante-electrodus.jpg?alt=media&token=3c1e5c03-5359-41ee-8104-51bd477597c6";
+
   alertButtons = [
     {
       text: 'No',
@@ -148,6 +154,7 @@ export class RequestFormPage implements OnInit {
       this.viewMode = false
     }
     this.presentingElement = document.querySelector('.ion-page');
+    this.presentingElementVoucher = document.querySelector('.ion-page');
   }
   getRequestById() {
     this.requestService.getRequestById(this.idRequest)
@@ -168,7 +175,7 @@ export class RequestFormPage implements OnInit {
           this.isReparationInAddress = true
         }
         this.servicesInRequest = request.services
-        this.showDetailRequest = request.status === 'ACCEPTED' ||  request.status === 'IN_PROCESS' || request.status === 'IN_REVIEW'
+        this.showDetailRequest = request.status === 'ACCEPTED' ||  request.status === 'IN_PROCESS' || request.status === 'IN_REVIEW' || request.status === 'UNPAID' || request.status === 'FINISHED'
         this.servicesInRequest.forEach((service:ServicePreview)=> {
           service.promotions.forEach((promotion:Promotion)=> {
             this.discount += service.cost * (promotion.discount / 100)
@@ -408,6 +415,7 @@ export class RequestFormPage implements OnInit {
     this.subTotal = 0
     this.discount = 0
     this.form.reset()
+    this.voucherImage = ''
     this.router.navigate(['/home/request'],{ replaceUrl: true });
   }
 
@@ -447,5 +455,42 @@ export class RequestFormPage implements OnInit {
     this.updateRequestStatus('Reparacion finalizada exitosamente')
   }
 
+  async uploadVoucher() {
+    try {
+      if(Capacitor.getPlatform() != 'web') await Camera.requestPermissions();
+      const image = await Camera.getPhoto({
+        quality: 90,
+        source: CameraSource.Prompt,
+        allowEditing: true,
+        resultType: CameraResultType.DataUrl
+      });
+      const blob = this.dataUrlToBlob(image.dataUrl);
+      const formData = new FormData();
+      formData.append('file', blob);
+      this.requestService.uploadVoucherRequest(this.request.id,formData).subscribe((resp:ResponseApiMessage)=>{
+        console.log(resp);
+        this.toastService.presentToast(resp.message,3000,'bottom','success')
+        this.resetPage()
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  dataUrlToBlob(dataUrl: any) {
+    let arr = dataUrl.split(',');
+    let mime = arr[0].match(/:(.*?);/)?.[1] ?? 'image/png';
+    let bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+  }
+
+  async canDismissVoucherModal(data?: any, role?: string) {
+    return role !== 'gesture';
+  }
 
 }
