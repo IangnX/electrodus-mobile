@@ -5,6 +5,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+   <!--REFRESHER-->
+   <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list *ngIf="isLoading">
     <ion-list-header>
       <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
@@ -29,36 +35,46 @@
 
 
   <ion-list *ngIf="!isLoading">
-    <ion-item [button]="true">
-      <ion-thumbnail slot="start">
-        <img alt="Silhouette of mountains" src="https://firebasestorage.googleapis.com/v0/b/fioxin.appspot.com/o/equipos%2Fcongeladores_neveras%2Fsamsung_RT29K571JS8.png?alt=media&token=5878b997-d569-46f5-8ec6-326d434acba4" />
-      </ion-thumbnail>
-      <ion-label>
-          <ion-text style="width: 100%;" color="secondary">
-           <h2>
-            Solicitud de presupuesto
-           </h2>
+    @for (notification of notifications; track notification.id) {
+      <ion-item [button]="true">
+        <ion-thumbnail slot="start">
+          <img alt="Silhouette of mountains" [src]="notification.urlImage" />
+        </ion-thumbnail>
+        <ion-label>
+            <ion-text style="width: 100%;" color="secondary">
+            <h2>
+             {{notification.notificationType}}
+            </h2>
+            </ion-text>
+          <p>
+            <ion-text color="light" style="width: 100%;">
+              <h3>{{notification.description}}</h3>
+            </ion-text>
+          </p>
+          <p>
+          <ion-text>
+            <h4>{{notification.createdAt}}</h4>
           </ion-text>
-        <p>
-          <ion-text color="light" style="width: 100%;">
-            <h3>Nevera Samsung RTX4090</h3>
-          </ion-text>
-        </p>
-        <p>
-         <ion-text>
-          <h4>15/05/2024</h4>
-         </ion-text>
-        </p>
+          </p>
 
-      </ion-label>
-      <p>
-        <ion-text>
-          <ion-icon *ngIf="true" color="warning" size="large" name="mail-unread-outline"></ion-icon>
-          <ion-icon *ngIf="true" color="success" size="large" name="mail-open-outline"></ion-icon>
-        </ion-text>
-      </p>
-    </ion-item>
+        </ion-label>
+        <p>
+          <ion-text>
+            <ion-icon *ngIf="notification.isRead" color="success" size="large" name="mail-unread-outline"></ion-icon>
+            <ion-icon *ngIf="!notification.isRead" color="warning" size="large" name="mail-open-outline"></ion-icon>
+          </ion-text>
+        </p>
+      </ion-item>
+    }
   </ion-list>
+
+  <!--INFINITE SCROLL-->
+  <ion-infinite-scroll [disabled]="!enableInfiniteScroll"
+                       threshold="150px"
+                       (ionInfinite)="getNotifications($event)">
+    <ion-infinite-scroll-content>
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
 

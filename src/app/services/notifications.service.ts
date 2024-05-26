@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {CancelOptions, Channel, LocalNotifications, ScheduleOptions} from '@capacitor/local-notifications'
 import {
   ActionPerformed,
@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TOKEN } from '../const/localStorageConst';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { NotificationPage } from '../interfaces/notificationPage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ import { Observable } from 'rxjs';
 export class NotificationsService {
 
   private URLBACK : string =  environment.URLBACK;
+  private router = inject(Router)
 
 
   constructor(private http: HttpClient) { }
@@ -51,6 +54,7 @@ export class NotificationsService {
   // Show us the notification payload if the app is open on our device
   PushNotifications.addListener('pushNotificationReceived',
     (notification: PushNotificationSchema) => {
+      console.log("Notificacion recibida en primer plano");
 
       const notificationPush = JSON.parse(JSON.stringify(notification)) as NotificationPush;
       let options: ScheduleOptions = {
@@ -70,7 +74,10 @@ export class NotificationsService {
   // Method called when tapping on a notification
   PushNotifications.addListener('pushNotificationActionPerformed',
     (notification: ActionPerformed) => {
+      console.log("Notificacion recibida en segundo plano");
+      alert(notification.notification.data.destinationUserId)
       alert('Push action performed: ' + JSON.stringify(notification));
+      this.router.navigate([notification.notification.data.redirectTo])
     }
   );
   }
@@ -132,5 +139,13 @@ export class NotificationsService {
         'Access-Control-Allow-Origin': '*'
       });
       return this.http.post<boolean>(this.URLBACK + '/notifications/save-token-notification', tokenDTO, {headers: headers});
+    }
+
+    getAllNotificationRequest(pageNumber:number): Observable<NotificationPage>{
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return this.http.get<NotificationPage>(`${this.URLBACK}/notifications/all-notifications-request?p=${pageNumber}&limit=10`,{headers})
     }
 }
