@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -11,6 +11,8 @@ import { NotificationPage } from 'src/app/interfaces/notificationPage';
 import { Notification as AppNotification } from 'src/app/interfaces/notificationPage';
 import { catchError, finalize } from 'rxjs';
 import { IonInfiniteScrollCustomEvent, IonRefresherCustomEvent, RefresherEventDetail } from '@ionic/core';
+import { Router } from '@angular/router';
+import { ResponseApiMessage } from 'src/app/interfaces/responseApiMessage';
 
 @Component({
   selector: 'app-notifications',
@@ -21,7 +23,7 @@ import { IonInfiniteScrollCustomEvent, IonRefresherCustomEvent, RefresherEventDe
 })
 export class NotificationsPage implements OnInit {
 
-
+  private router = inject(Router)
   isLoading = false
   error = null;
   notifications: AppNotification[] = []
@@ -87,6 +89,11 @@ export class NotificationsPage implements OnInit {
     this.getNotifications(event,true);
     this.enableInfiniteScroll = true;
     this.notifications = [];
+  }
+
+  redirectTo(requestId:number,notificationId:number) {
+    this.router.navigate([`/request-form/${requestId}`,{fromNotification:true}],{ replaceUrl: true })
+    this.notificationService.markAsRead(notificationId).subscribe((resp:ResponseApiMessage)=>console.log(resp))
   }
 
 }

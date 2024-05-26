@@ -35,5 +35,6 @@ export interface Notification {
   urlImage: string,
   createdAt: string,
   isRead: boolean,
-  notificationType: string
+  notificationType: string,
+  requestId: number
 }

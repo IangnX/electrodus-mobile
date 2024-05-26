@@ -130,6 +130,7 @@ export class RequestFormPage implements OnInit {
     },
   ];
   showVoucherModal= false
+  navigateTo = '/home/request';
 
 
   constructor(private equipmentService: EquipmentService,
@@ -147,6 +148,9 @@ export class RequestFormPage implements OnInit {
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params: Params) => {
         this.idRequest = params['id']
+        if (params['fromNotification']) {
+          this.navigateTo = '/home/notifications'
+        }
     })
 
     if(this.idRequest && this.idRequest !== 0){
@@ -418,7 +422,8 @@ export class RequestFormPage implements OnInit {
     this.discount = 0
     this.form.reset()
     this.voucherImage = ''
-    this.router.navigate(['/home/request'],{ replaceUrl: true });
+    this.router.navigate([this.navigateTo],{ replaceUrl: true });
+    this.navigateTo = '/home/request'
   }
 
   aceptBudget() {

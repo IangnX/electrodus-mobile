@@ -36,7 +36,7 @@
 
   <ion-list *ngIf="!isLoading">
     @for (notification of notifications; track notification.id) {
-      <ion-item [button]="true">
+      <ion-item [button]="true" (click)="redirectTo(notification.requestId,notification.id)">
         <ion-thumbnail slot="start">
           <img alt="Silhouette of mountains" [src]="notification.urlImage" />
         </ion-thumbnail>
@@ -60,8 +60,8 @@
         </ion-label>
         <p>
           <ion-text>
-            <ion-icon *ngIf="notification.isRead" color="success" size="large" name="mail-unread-outline"></ion-icon>
-            <ion-icon *ngIf="!notification.isRead" color="warning" size="large" name="mail-open-outline"></ion-icon>
+            <ion-icon *ngIf="!notification.isRead" color="success" size="large" name="mail-unread-outline"></ion-icon>
+            <ion-icon *ngIf="notification.isRead" color="warning" size="large" name="mail-open-outline"></ion-icon>
           </ion-text>
         </p>
       </ion-item>

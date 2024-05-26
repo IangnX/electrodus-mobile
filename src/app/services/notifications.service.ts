@@ -13,6 +13,8 @@ import { TOKEN } from '../const/localStorageConst';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationPage } from '../interfaces/notificationPage';
+import { ResponseApiMessage } from '../interfaces/responseApiMessage';
+import { isGranted } from '../utils/securityUtils';
 
 @Injectable({
   providedIn: 'root'
@@ -75,9 +77,11 @@ export class NotificationsService {
   PushNotifications.addListener('pushNotificationActionPerformed',
     (notification: ActionPerformed) => {
       console.log("Notificacion recibida en segundo plano");
-      alert(notification.notification.data.destinationUserId)
-      alert('Push action performed: ' + JSON.stringify(notification));
-      this.router.navigate([notification.notification.data.redirectTo])
+      //alert(notification.notification.data.destinationUserId)
+      //alert('Push action performed: ' + JSON.stringify(notification));
+      if (isGranted(['VER_NOTIFICACIONES_SOLICITUD'])) {
+        this.router.navigate([notification.notification.data.redirectTo],{ replaceUrl: true })
+      }
     }
   );
   }
@@ -147,5 +151,13 @@ export class NotificationsService {
         'Access-Control-Allow-Origin': '*'
       });
       return this.http.get<NotificationPage>(`${this.URLBACK}/notifications/all-notifications-request?p=${pageNumber}&limit=10`,{headers})
+    }
+
+    markAsRead(notificationId:number): Observable<ResponseApiMessage>{
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return this.http.put<ResponseApiMessage>(`${this.URLBACK}/notifications/mark-as-read/${notificationId}`,{},{headers})
     }
 }
