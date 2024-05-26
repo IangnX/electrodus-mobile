@@ -39,6 +39,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 export class RequestFormPage implements OnInit {
 
 
+
   requestCategoryId = 0;
   isOpenModalServices = false
   isOpenModalTechnician = false
@@ -128,6 +129,7 @@ export class RequestFormPage implements OnInit {
       },
     },
   ];
+  showVoucherModal= false
 
 
   constructor(private equipmentService: EquipmentService,
@@ -491,6 +493,10 @@ export class RequestFormPage implements OnInit {
 
   async canDismissVoucherModal(data?: any, role?: string) {
     return role !== 'gesture';
+  }
+
+  openVoucherModal() {
+    this.showVoucherModal = !this.showVoucherModal
   }
 
 }

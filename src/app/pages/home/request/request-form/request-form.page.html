@@ -221,19 +221,19 @@
       </ion-modal>
     </ion-card>
 
-    <ion-modal #modal trigger="open-voucher-modal" [canDismiss]="canDismissVoucherModal" [presentingElement]="presentingElementVoucher">
+    <ion-modal #modal [isOpen]="showVoucherModal"  [presentingElement]="presentingElementVoucher">
       <ng-template>
         <ion-header>
           <ion-toolbar>
             <ion-title>Comprobande de pago</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="modal.dismiss()">Close</ion-button>
+              <ion-button (click)="openVoucherModal()">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
           <ion-img
-            [src]="voucherImage"
+            [src]="request.voucherUrl"
             alt="Comprobante de pago"
           ></ion-img>
         </ion-content>
@@ -355,15 +355,14 @@
         </ion-col>
 
         <ion-col size="6" class="ion-text-center" *ngIf="idRequest && showDetailRequest && requestStatus === 'FINISHED' && isGranted(['CARGAR_COMPROBANTE_DE_PAGO'])">
-          <ion-button type="submit"
+          <ion-button
                        shape="round"
                        class="comprobante-btn"
-                       id="open-voucher-modal"
+                       (click)="openVoucherModal()"
                        expand="block">
                        Ver comprobante
           </ion-button>
         </ion-col>
-
       </ion-row>
     </ion-grid>
   </ion-footer>

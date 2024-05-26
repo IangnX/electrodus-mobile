@@ -18,4 +18,5 @@ export interface RequestResponse {
   equipmentIdCategory: number
   services:ServicePreview[]
   userTechnician: User
+  voucherUrl: string
 }
