@@ -57,32 +57,30 @@ export class NotificationsPage implements OnInit {
     }else{
       this.currentPage ++
     }
-
-    if (isGranted(['VER_NOTIFICACIONES_SOLICITUD'])) {
-      this.notificationService.getAllNotificationRequest(this.currentPage)
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        }),
-        catchError((err: any) => {
-          this.error = err.error.message;
-          return [];
-        })
-      )
-      .subscribe((resp:NotificationPage) => {
-        console.log(resp);
-        this.notifications.push(...resp.content)
-        if (!resp.last) {
-          this.currentPage++
-        }
-        if(event){
-          event.target.complete();
-          if(resp.content.length === 0 ){
-            this.enableInfiniteScroll = false;
-          }
-        }
+    this.notificationService.getAllNotificationRequest(this.currentPage)
+    .pipe(
+      finalize(() => {
+        this.isLoading = false;
+      }),
+      catchError((err: any) => {
+        this.error = err.error.message;
+        return [];
       })
-    }
+    )
+    .subscribe((resp:NotificationPage) => {
+      console.log(resp);
+      this.notifications.push(...resp.content)
+      if (!resp.last) {
+        this.currentPage++
+      }
+      if(event){
+        event.target.complete();
+        if(resp.content.length === 0 ){
+          this.enableInfiniteScroll = false;
+        }
+      }
+    })
+
   }
 
   reload(event: IonRefresherCustomEvent<RefresherEventDetail>) {

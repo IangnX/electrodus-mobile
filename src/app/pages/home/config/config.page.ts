@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { exitOutline, chevronForwardOutline} from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { UserProfilePage } from './user-profile/user-profile.page';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 
 
@@ -42,7 +43,8 @@ export class ConfigPage implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private notificationService:NotificationsService) {
     addIcons({ exitOutline, chevronForwardOutline });
   }
 
@@ -55,13 +57,12 @@ export class ConfigPage implements OnInit {
 
   confirmLogoutModal(){
     console.log("click logout modal is",this.showLogoutModal);
-
+    this.notificationService.unregister()
     this.showLogoutModal = true
   }
 
   logout() {
     console.log("logout");
-
   }
 
 }

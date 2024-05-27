@@ -27,6 +27,12 @@ export class NotificationsService {
 
   constructor(private http: HttpClient) { }
 
+  unregister(){
+    PushNotifications.unregister()
+    console.log("Unregister");
+    this.deleteTokenFirebase().subscribe(data => console.log(data))
+  }
+
   initListeners(){
     PushNotifications.requestPermissions().then((result:any) => {
       if (result.receive === 'granted') {
@@ -40,6 +46,10 @@ export class NotificationsService {
     //Obtener token del usuario
     PushNotifications.addListener('registration',
     (token: Token) => {
+      console.log("NUEVO TOKEN");
+      console.log(token);
+
+
       localStorage.setItem('firebase-token',token.value)
       this.saveToken(token.value).subscribe(resp => console.log(resp)
       )
@@ -79,9 +89,8 @@ export class NotificationsService {
       console.log("Notificacion recibida en segundo plano");
       //alert(notification.notification.data.destinationUserId)
       //alert('Push action performed: ' + JSON.stringify(notification));
-      if (isGranted(['VER_NOTIFICACIONES_SOLICITUD'])) {
-        this.router.navigate([notification.notification.data.redirectTo],{ replaceUrl: true })
-      }
+      this.router.navigate([notification.notification.data.redirectTo],{ replaceUrl: true })
+
     }
   );
   }
@@ -159,5 +168,13 @@ export class NotificationsService {
         'Access-Control-Allow-Origin': '*'
       });
       return this.http.put<ResponseApiMessage>(`${this.URLBACK}/notifications/mark-as-read/${notificationId}`,{},{headers})
+    }
+
+    deleteTokenFirebase():Observable<any>{
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem(TOKEN)}` ,
+        'Access-Control-Allow-Origin': '*'
+      });
+      return this.http.delete<any>(`${this.URLBACK}/notifications/delete`,{headers})
     }
 }
